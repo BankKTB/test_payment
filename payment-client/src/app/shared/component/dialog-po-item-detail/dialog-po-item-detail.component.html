@@ -1,0 +1,28 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragRootElement=".cdk-overlay-pane"><b>ข้อความเพิ่มเติม</b></h1>
+</div>
+<br />
+<div mat-dialog-content style="min-height: 10px;">
+  <form (keydown.enter)="$event.preventDefault()">
+    <div>
+      <div class="content-dialog" style="padding-left: 15px; padding-right: 15px;">
+        <div *ngIf="listDocument.length > 0 && listDocument !== null" class="overflow-y max-h-400">
+          <table class="table-normal">
+            <tr>
+              <!-- <th class="sort">ลำดับที่</th> -->
+              <th class="sort">ประเภทข้อความ</th>
+              <th class="sort">ข้อความเพิ่มเติม</th>
+            </tr>
+            <tr *ngFor="let document of listDocument; let i = index">
+              <!-- <td>{{ ((p - 1) * constant.PER_PAGINATION) + (i + 1) }}</td> -->
+              <td class="text-left">{{ document.typeTextName }}</td>
+              <!--                <td class="text-left">{{ convertDateFormat(document.additionalText) }}</td>-->
+              <td class="text-left">{{ document.additionalText }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

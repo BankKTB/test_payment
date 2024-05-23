@@ -1,0 +1,39 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragRootElement=".cdk-overlay-pane"><b>ระบุหักภาษี ณ ที่จ่าย / ค่าปรับ</b></h1>
+</div>
+<br />
+<div mat-dialog-content style="min-height: 10px;">
+  <form (keydown.enter)="$event.preventDefault()" [formGroup]="dialogTaxForm">
+    <div>
+      <div class="content-dialog">
+        <div class="row">
+          <div class="col-12 col-md-3">
+            <label class="text-black"> ประเภทภาษี </label>
+          </div>
+          <div class="col-12 col-md-9">
+            <select class="form-control" formControlName="typeTax">
+              <option *ngFor="let item of constant.LIST_TYPE_TAX" [ngValue]="item.id">{{
+                item.name
+              }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-3">
+            <label class="text-black"> มูลค่าภาษี </label>
+          </div>
+          <div class="col-12 col-md-9">
+            <input
+              appCurrency
+              class="form-control text-right"
+              formControlName="valueTax"
+              maxLength="15"
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

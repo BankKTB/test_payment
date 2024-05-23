@@ -1,0 +1,188 @@
+<div>
+  <ol class="breadcrumb">
+    <li class="current">
+      <em>{{ isMethodEdit ? 'ตั้งค่า' : 'แสดงค่าของระบบ' }}</em>
+    </li>
+  </ol>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="container-fluid">
+      <div class="submenu">
+        <div class="row">
+          <div class="col-xs-6 col-sm-6">
+            <h2>กำหนดวันหยุด</h2>
+          </div>
+          <div class="col-xs-6 col-sm-6">
+            <div class="d-flex justify-content-end" *ngIf="isMethodEdit">
+              <button
+                *ngIf="!isEdit"
+                (click)="isOpenManageForm = !isOpenManageForm"
+                class="btn btn-primary"
+                type="button"
+              >
+                เพิ่มตารางวันหยุด
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <mat-card>
+        <section class="px-5 py-2" *ngIf="isMethodEdit">
+          <ng-container *ngIf="isOpenManageForm">
+            <div class="panel panel-primary mt-3">
+              <div class="panel-heading">สร้าง / แก้ไข</div>
+              <div class="panel-body">
+                <form [formGroup]="myForm">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label class="text-underline-red input-head"> วัน </label>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="input-group datetime-input">
+                        <input
+                          [matDatepicker]="holidayDate"
+                          class="form-control"
+                          type="text"
+                          formControlName="holidayDate"
+                          appDateInput
+                        />
+                        <div class="datetime-input-append">
+                          <button
+                            (click)="holidayDate.open()"
+                            class="btn-calendar-icon"
+                            type="button"
+                          >
+                            <img src="assets/images/icon/calendar.svg" width="12px" />
+                            <mat-datepicker #holidayDate></mat-datepicker>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label class="text-underline-red input-head"> Description </label>
+                    </div>
+                    <div class="col-md-4">
+                      <input class="form-control" formControlName="description" type="text" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <mat-checkbox formControlName="isActive"> Active</mat-checkbox>
+                    </div>
+                  </div>
+
+                  <ng-container *ngIf="isEdit; else insertAction">
+                    <div class="row mt-5">
+                      <div class="col-12 offset-0 col-sm-1 offset-sm-2 col-md-1">
+                        <button class="btn btn-primary" type="button" (click)="onSubmitManage()">
+                          แก้ไข
+                        </button>
+                      </div>
+                      <div class="col-12 col-sm-1 col-md-1">
+                        <button class="btn btn-primary" type="button" (click)="onClearUpdate()">
+                          ยกเลิก
+                        </button>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-template #insertAction>
+                    <div class="row mt-5">
+                      <div class="col-12 offset-0 col-sm-10 offset-sm-2 col-md-6 p-0">
+                        <button class="btn btn-primary" type="button" (click)="onSubmitManage()">
+                          สร้าง
+                        </button>
+                      </div>
+                    </div>
+                  </ng-template>
+                </form>
+              </div>
+            </div>
+          </ng-container>
+        </section>
+        <section class="mt-3 px-5">
+          <form [formGroup]="myFormSearch" class="mb-4">
+            <div class="row justify-content-center">
+              <div class="col-3">
+                <input
+                  formControlName="fiscalYear"
+                  class="form-control"
+                  placeholder="ปี พศ."
+                  type="text"
+                />
+              </div>
+              <div class="col-3">
+                <div class="input-group datetime-input">
+                  <input
+                    [matDatepicker]="holidayDate"
+                    class="form-control"
+                    type="text"
+                    placeholder="วันหยุด"
+                    formControlName="searchDate"
+                    appDateInput
+                  />
+                  <div class="datetime-input-append">
+                    <button (click)="holidayDate.open()" class="btn-calendar-icon" type="button">
+                      <img src="assets/images/icon/calendar.svg" width="12px" />
+                      <mat-datepicker #holidayDate></mat-datepicker>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-2 d-flex align-content-center justify-content-end">
+                <button class="btn btn-primary h-100" type="button" (click)="loadHoliday()">
+                  ค้นหา
+                </button>
+                <button class="btn ml-2 btn-light px-4" type="button" (click)="clearSearch()">
+                  clear
+                </button>
+              </div>
+            </div>
+          </form>
+          <table mat-table [dataSource]="dataSource" matSort class="table-full-width">
+            <ng-container matColumnDef="holidayDate">
+              <th mat-header-cell *matHeaderCellDef width="40%">Payment Date</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.date | datePattern: 'full' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef width="40%">Payment Name</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.description }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="active">
+              <th mat-header-cell *matHeaderCellDef width="40%">Active</th>
+              <td mat-cell *matCellDef="let element">
+                <mat-checkbox [checked]="element.active" [disabled]="true"></mat-checkbox>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="action" *ngIf="isMethodEdit">
+              <th mat-header-cell *matHeaderCellDef width="20%"></th>
+              <td mat-cell *matCellDef="let element">
+                <div class="action__outer">
+                  <mat-icon class="play-icon" (click)="onEdit(element)">edit</mat-icon>
+                </div>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="setDisplayColumn()"></tr>
+            <tr mat-row *matRowDef="let row; columns: setDisplayColumn()"></tr>
+          </table>
+          <mat-paginator
+            class="d-flex justify-content-end"
+            (change)="clearSearch()"
+            [pageSizeOptions]="[5, 10, 20, 50, 100]"
+            showFirstLastButtons
+          >
+          </mat-paginator>
+        </section>
+      </mat-card>
+    </div>
+  </div>
+</div>

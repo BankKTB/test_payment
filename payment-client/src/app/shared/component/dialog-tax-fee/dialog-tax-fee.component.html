@@ -1,0 +1,189 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragRootElement=".cdk-overlay-pane"><b>ระบุหักภาษี ณ ที่จ่าย / ค่าปรับ</b></h1>
+</div>
+<div mat-dialog-content>
+  <form (keydown.enter)="$event.preventDefault()" [formGroup]="dialogTaxFeeForm">
+    <div>
+      <div class="content-dialog">
+        <table class="table-normal table-set-tax">
+          <thead>
+            <tr>
+              <th colspan="2" style="width: 50%;">ภาษีหัก ณ ที่จ่าย / ค่าปรับ</th>
+              <th style="width: 25%;">ฐานการคำนวณ</th>
+              <th style="width: 25%;">จำนวนเงินที่หักไว้</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="data.taxFee !== null">
+              <td><label class="text-underline-blue"> ภาษีเงินได้ </label></td>
+              <td *ngIf="data.taxFee.typeTax === '10' || data.taxFee.typeTax === '11'">
+                <div class="d-flex radio-inline">
+                  <div class="d-flex align-items-center">
+                    <input
+                      class="form-control"
+                      formControlName="typeTax"
+                      id="individual"
+                      name="typeTax"
+                      type="radio"
+                      value="11"
+                    />
+                    <span for="web_online">บุคคลธรรมดา </span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <input
+                      class="form-control"
+                      formControlName="typeTax"
+                      id="legalEntity"
+                      name="typeTax"
+                      type="radio"
+                      value="10"
+                    />
+                    <span for="legalEntity"> นิติบุคคล </span>
+                  </div>
+                </div>
+              </td>
+              <td *ngIf="data.taxFee.typeTax === '13' || data.taxFee.typeTax === '14'">
+                <div class="d-flex radio-inline">
+                  <div class="d-flex align-items-center">
+                    <input
+                      class="form-control"
+                      formControlName="typeTax"
+                      id="individual"
+                      name="typeTax"
+                      type="radio"
+                      value="13"
+                    />
+                    <span for="web_online">บุคคลธรรมดา </span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <input
+                      class="form-control"
+                      formControlName="typeTax"
+                      id="legalEntity"
+                      name="typeTax"
+                      type="radio"
+                      value="12"
+                    />
+                    <span for="legalEntity"> นิติบุคคล </span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <input
+                  appCurrency
+                  class="form-control mx-auto text-right"
+                  formControlName="taxBaseCalculate"
+                  type="text"
+                />
+              </td>
+
+              <td>
+                <input
+                  appCurrency
+                  class="form-control mx-auto text-right"
+                  formControlName="valueTax"
+                  type="text"
+                />
+              </td>
+            </tr>
+            <tr *ngIf="data.taxFee === null">
+              <td><label class="text-underline-blue"> ภาษีเงินได้ </label></td>
+              <td>
+                <div class="d-flex radio-inline">
+                  <div class="d-flex align-items-center">
+                    <input
+                      class="form-control"
+                      formControlName="typeTax"
+                      id="individual"
+                      name="typeTax"
+                      type="radio"
+                      value="11"
+                    />
+                    <span for="web_online">บุคคลธรรมดา </span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <input
+                      class="form-control"
+                      formControlName="typeTax"
+                      id="legalEntity"
+                      name="typeTax"
+                      type="radio"
+                      value="10"
+                    />
+                    <span for="legalEntity"> นิติบุคคล </span>
+                  </div>
+                </div>
+              </td>
+
+              <td>
+                <input
+                  appCurrency
+                  class="form-control mx-auto text-right"
+                  formControlName="taxBaseCalculate"
+                  type="text"
+                />
+              </td>
+
+              <td>
+                <input
+                  appCurrency
+                  class="form-control mx-auto text-right"
+                  formControlName="valueTax"
+                  type="text"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td><label class="text-underline-blue"> ค่าปรับ </label></td>
+              <td>
+                <div class="d-flex radio-inline">
+                  <div class="d-flex align-items-center">
+                    <input
+                      formControlName="typeFee"
+                      id="nationalIncome"
+                      name="typeFee"
+                      type="radio"
+                      value="01"
+                    />
+                    <span for="nationalIncome"> รายได้ของแผ่นดิน </span>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <input
+                      formControlName="typeFee"
+                      id="agencyRevenue"
+                      name="typeFee"
+                      type="radio"
+                      value="02"
+                    />
+                    <span for="agencyRevenue"> รายได้ของหน่วยงาน </span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <input
+                  appCurrency
+                  class="form-control mx-auto text-right"
+                  formControlName="feeBaseCalculate"
+                  type="text"
+                />
+              </td>
+
+              <td>
+                <input
+                  appCurrency
+                  class="form-control mx-auto text-right"
+                  formControlName="valueFee"
+                  type="text"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="mx-auto justify-content-end" mat-dialog-actions>
+  <button (click)="onNoClick()" class="btn btn-success">ตกลง</button>
+</div>

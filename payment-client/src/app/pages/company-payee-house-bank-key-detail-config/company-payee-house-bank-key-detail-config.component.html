@@ -1,0 +1,196 @@
+<ol class="breadcrumb">
+  <li><a [routerLink]="['/companyPayee']"> รหัสหน่วยงาน </a></li>
+  <li>
+    <a
+      [queryParams]="{ companyPayeeId: companyPayeeId }"
+      [routerLink]="['/companyPayeeHouseBankKeyConfig']"
+    >
+      ธนาคารตัวแทน
+    </a>
+  </li>
+  <li class="current">
+    <em> {{ houseBankKey }} </em>
+  </li>
+</ol>
+<div class="row">
+  <div class="col-md-12">
+    <div class="container-fluid">
+      <div class="submenu">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12">
+            <h2>รายละเอียด ธนาคารตัวแทน</h2>
+          </div>
+        </div>
+      </div>
+      <mat-card>
+        <form
+          (keydown.enter)="$event.preventDefault()"
+          [formGroup]="companyPayeeHouseBankKeyDetailConfigForm"
+        >
+          <div class="row mb-1">
+            <div class="col-12 col-md-4">
+              <label class="text-black input-head"><b>รหัสหน่วยงาน : </b></label>
+              <input
+                class="form-control"
+                disabled
+                formControlName="companyPayeeCode"
+                maxLength="5"
+                type="text"
+              />
+            </div>
+            <div class="col-12 col-md-4">
+              <label class="text-black input-head"><b>ธนาคารตัวแทน : </b></label>
+              <input
+                class="form-control"
+                disabled
+                formControlName="houseBankKey"
+                maxLength="5"
+                type="text"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <label class="text-black input-head"
+                ><b>ชื่อหน่วยงาน : {{ companyPayeeName }} </b></label
+              >
+            </div>
+            <div class="col-12 col-md-4">
+              <label class="text-black input-head"
+                ><b>ชื่อธนาคารตัวแทน : {{ bankBranchName }} </b></label
+              >
+            </div>
+          </div>
+          <br />
+          <div class="submenu-title">ข้อมูลธนาคารตัวแทน</div>
+          <div class="row mb-1">
+            <div class="col-12 col-md-4">
+              <label class="text-black input-head"><b>ประเทศธนาคาร : </b></label>
+              <input
+                class="form-control"
+                disabled
+                formControlName="country"
+                maxLength="3"
+                type="text"
+              />
+            </div>
+            <div class="col-12 col-md-4">
+              <label class="text-black input-head"><b>คีย์ธนาคาร : </b></label>
+              <input
+                class="form-control"
+                disabled
+                formControlName="bankBranch"
+                maxLength="3"
+                type="text"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <label class="text-black input-head"
+                ><b>ชื่อประเทศ : {{ countryNameEn }} </b></label
+              >
+            </div>
+          </div>
+          <br />
+          <div class="submenu-title">ที่อยู่</div>
+          <div class="row">
+            <div class="col-12 col-md-8">
+              <label class="text-black input-head"><b>ชื่อธนาคาร : </b></label>
+              <input
+                class="form-control"
+                disabled
+                formControlName="bankName"
+                maxLength="5"
+                type="text"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-8">
+              <label class="text-black input-head"><b>ภาค : </b></label>
+              <input
+                class="form-control"
+                disabled
+                formControlName="address1"
+                maxLength="3"
+                type="text"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-8">
+              <label class="text-black input-head"><b>ถนน : </b></label>
+              <input
+                class="form-control"
+                disabled
+                formControlName="address2"
+                maxLength="3"
+                type="text"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-8">
+              <label class="text-black input-head"><b>แผนงบประมาณ : </b></label>
+              <input
+                class="form-control"
+                disabled
+                formControlName="address3"
+                maxLength="3"
+                type="text"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-8">
+              <label class="text-black input-head"><b>สาขาธนาคาร : </b></label>
+              <input
+                class="form-control"
+                disabled
+                formControlName="address4"
+                maxLength="3"
+                type="text"
+              />
+            </div>
+          </div>
+          <br />
+          <div class="submenu-title">ข้อมูลควบคุม</div>
+          <div class="row">
+            <div class="col-12 col-md-2">
+              <label class="text-black input-head"><b>รหัส SWIFT : </b></label>
+              <input
+                class="form-control"
+                disabled
+                formControlName="swiftCode"
+                maxLength="5"
+                type="text"
+              />
+            </div>
+            <div class="col-12 col-md-3">
+              <label class="text-black input-head"><b>กลุ่มธนาคาร : </b></label>
+              <input
+                class="form-control"
+                disabled
+                formControlName="address5"
+                maxLength="3"
+                type="text"
+              />
+            </div>
+            <div class="col-12 col-md-3">
+              <label class="text-black input-head"><b>เลขที่ธนาคาร : </b></label>
+              <input
+                class="form-control"
+                disabled
+                formControlName="bankBranch"
+                maxLength="3"
+                type="text"
+              />
+            </div>
+          </div>
+          <br />
+        </form>
+      </mat-card>
+    </div>
+  </div>
+</div>

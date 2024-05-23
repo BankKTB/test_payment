@@ -1,0 +1,122 @@
+<div class="content-menu-top">
+  <app-head-content></app-head-content>
+  <div class="topic">
+    <h4>ประมวลผลจ่าย</h4>
+  </div>
+</div>
+<div class="body">
+  <div class="container-fluid home-page">
+    <form
+      (keydown.enter)="$event.preventDefault()"
+      [formGroup]="homeForm"
+      [ngClass]="{ 'submited-form': isSubmitedForm }"
+    >
+      <div class="row font-filter">
+        <div class="col-md-3 col-left">
+          <h3 class="text-black">วันที่ประมวลผล</h3>
+          <div class="input-group datetime-input">
+            <input
+              (dateChange)="onPaymentDate()"
+              [matDatepicker]="paymentDatePicker"
+              class="form-control"
+              formControlName="paymentDate"
+              type="text"
+              appDateInput
+            />
+            <div class="datetime-input-append">
+              <button (click)="paymentDatePicker.open()" class="btn-calendar-icon" type="button">
+                <img src="assets/images/icon/calendar.svg" width="12px" />
+                <mat-datepicker #paymentDatePicker></mat-datepicker>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <h3 class="text-black">การกำหนด</h3>
+          <div class="input-group">
+            <input
+              #paymentInput
+              (keydown)="onChangePaymentName($event)"
+              (blur)="onBlurPaymentName()"
+              (keydown.enter)="onBlurPaymentName($event.target.value)"
+              [ngClass]="{ active: homeForm.controls.paymentName.value }"
+              class="form-control"
+              formControlName="paymentName"
+              maxLength="5"
+              type="text"
+              appUpperCaseDirective
+            />
+            <!-- <span class="clear-input-icon" (click)="clearInput('reference')"> x </span> -->
+            <div class="input-group-append">
+              <button
+                (click)="openDialogSearchParameterComponent()"
+                class="btn btn-default"
+                type="button"
+              >
+                <img src="assets/images/icon/menu.svg" width="12px" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 forclear-parameter">
+          <span>เคลียร์ พารามิเตอร์ : </span>&nbsp;
+          <span class="fill-remaining-space">
+            <button (click)="clearInputAll()" class="btn_menu1 btn-refresh" mat-icon-button>
+              <!-- <i class="material-icons"> refresh </i> -->
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </span>
+        </div>
+      </div>
+      <br />
+      <!-- Material Tab -->
+      <div [ngClass]="{ 'readonly-input': isDisabledCopy }" class="row">
+        <div class="col-md-12">
+          <mat-card>
+            <mat-card-content>
+              <mat-tab-group
+                #tabRef
+                (selectedTabChange)="tabChanged($event)"
+                [(selectedIndex)]="tabSelectedIndex"
+              >
+                <mat-tab label="สถานะ">
+                  <app-tab-status (actionFromStatus)="receiveActionFromStatus()"></app-tab-status>
+                </mat-tab>
+                <mat-tab [disabled]="isDisabledTab" label="พารามิเตอร์">
+                  <app-tab-parameter
+                    [statusIden]="tabStatusComponent.proposalStatus"
+                    (messageFromParameter)="receiveObjectFromParameter($event)"
+                    [homeFormValue]="homeForm.getRawValue()"
+                    [parameter]="listObjectParameterTab"
+                  ></app-tab-parameter>
+                  <!-- <app-tab-parameter></app-tab-parameter> -->
+                </mat-tab>
+                <mat-tab [disabled]="isDisabledTab" label="การเลือกอิสระ">
+                  <app-tab-independent
+                    (messageFromIndependent)="receiveObjectFromIndependent($event)"
+                    [independent]="listObjectIndependentTab"
+                  ></app-tab-independent>
+                </mat-tab>
+                <mat-tab [disabled]="isDisabledTab" label="log เพิ่มเติม">
+                  <app-tab-additional-log
+                    [statusIden]="tabStatusComponent.proposalStatus"
+                    [homeFormValue]="homeForm.getRawValue()"
+                    (messageFromAdditionLog)="receiveObjectFromAdditionLog($event)"
+                    [additionLog]="listObjectAdditionLogTab"
+                  ></app-tab-additional-log>
+                </mat-tab>
+                <!--mat-tab label="รายงาน/สื่อกลางข้อมูล">
+                </!--mat-tab-->
+              </mat-tab-group>
+            </mat-card-content>
+            <ul class="warning-box">
+              <li *ngFor="let c of listValidate">{{ c }}</li>
+            </ul>
+          </mat-card>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane"><b>รายละเอียดเอกสาร</b></h1>
+</div>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-md-12 table-responsive long-data-table">
+      <table border="1">
+        <!-- Row A -->
+        <tr class="theadinfo">
+          <td colspan="14">Message</td>
+        </tr>
+        <tr class="theadinfo">
+          <td colspan="2" style="width: 100px;">Comp</td>
+          <td colspan="2" style="width: 100px;">Year</td>
+          <td colspan="2" style="width: 150px;">Doc.Number</td>
+          <td colspan="2" style="width: 150px;">Vendor</td>
+          <td colspan="2" style="width: 100px;">InvoiceDoc</td>
+          <td colspan="2" style="width: 100px;">Year</td>
+          <td colspan="2" style="width: 300px;">Message</td>
+        </tr>
+        <tr class="none-border-bottom">
+          <td colspan="2" style="width: 100px;">{{ document.compCode }}</td>
+          <td colspan="2" style="width: 100px;">{{ document.fiscalYear }}</td>
+          <td colspan="2" style="width: 300px;">{{ document.accDocNo }}</td>
+          <td colspan="2" style="width: 100px;">{{ document.vendor }}</td>
+          <td colspan="2" style="width: 150px;"></td>
+          <td colspan="2" style="width: 100px;"></td>
+          <td colspan="2" style="width: 150px;">โอนการเปลี่ยนแปลงข้อความแล้ว</td>
+        </tr>
+        <tr class="none-border-bottom">
+          <td colspan="2" style="width: 100px;">{{ document.compCode }}</td>
+          <td colspan="2" style="width: 100px;">{{ document.fiscalYear }}</td>
+          <td colspan="2" style="width: 300px;">{{ document.accDocNo }}</td>
+          <td colspan="2" style="width: 100px;">{{ document.vendor }}</td>
+          <td colspan="2" style="width: 150px;"></td>
+          <td colspan="2" style="width: 100px;"></td>
+          <td colspan="2" style="width: 150px;">เก็บบันทึกการเปลี่ยนแปลงแล้ว</td>
+        </tr>
+        <ng-container>
+          <tr *ngFor="let item of listDocument" class="none-border-bottom">
+            <td colspan="2" style="width: 100px;">{{ document.compCode }}</td>
+            <td colspan="2" style="width: 100px;">{{ document.fiscalYear }}</td>
+            <td colspan="2" style="width: 300px;">{{ document.accDocNo }}</td>
+            <td colspan="2" style="width: 100px;">{{ document.vendor }}</td>
+            <td colspan="2" style="width: 150px;"></td>
+            <td colspan="2" style="width: 100px;"></td>
+            <td colspan="2" style="width: 150px;">
+              เอกสาร {{ item.revAccDocNo }} ได้ผ่านรายการในรหัสบริษัท {{ item.compCode }}
+            </td>
+          </tr>
+        </ng-container>
+      </table>
+    </div>
+  </div>
+</div>

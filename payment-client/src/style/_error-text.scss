@@ -1,0 +1,73 @@
+@import '../variables.scss';
+
+form {
+  &.submited-form {
+    input {
+
+      &.ng-invalid,
+      &.error-input {
+        border: 2px solid $color-red;
+      }
+
+      &.ng-valid {
+        border: 1px solid initial;
+      }
+    }
+
+    textarea {
+
+      &.ng-invalid,
+      &.error-input {
+        border: 2px solid $color-red;
+      }
+
+      &.ng-valid {
+        border: 1px solid initial;
+      }
+    }
+
+    select {
+
+      &.ng-invalid,
+      &.error-input {
+        border: 2px solid $color-red;
+      }
+
+      &.ng-valid {
+        border: 1px solid initial;
+      }
+    }
+
+    input.ng-valid ~ .alert {
+      display: none;
+    }
+
+    .alert {
+      display: block;
+      width: 100%;
+    }
+
+    span.required-icon {
+      color: $color-red;
+    }
+  }
+
+  &:not(.submited-form) {
+    .alert {
+      display: none;
+    }
+
+    span.required-icon {
+      display: none;
+    }
+  }
+}
+
+span.error-icon {
+  color: $color-red;
+}
+
+.warning-box {
+  color: $color-red;
+  font-size: $font-base;
+}

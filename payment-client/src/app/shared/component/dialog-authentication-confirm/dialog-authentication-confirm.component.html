@@ -1,0 +1,39 @@
+<div mat-dialog-title>
+  <button (click)="clickCancel()" class="close" mat-button>X</button>
+  <h1><b>ผู้ใช้</b></h1>
+</div>
+<div mat-dialog-content>
+  <form [formGroup]="authenticateForm">
+    <div class="row">
+      <div class="col-12 col-sm-3"><label> ผู้ใช้ </label></div>
+      <div class="col-12 col-sm-9">
+        <input type="text" class="form-control" formControlName="username" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-sm-3"><label> รหัสผ่าน </label></div>
+      <div class="col-12 col-sm-9">
+        <input type="password" class="form-control" formControlName="password" />
+      </div>
+    </div>
+    <div class="row" *ngIf="listValidate.length > 0">
+      <div class="col-12 col-sm-9">
+        <ul class="warning-box">
+          <li *ngFor="let c of listValidate">{{ c }}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="d-flex">
+          <button (click)="clickConfirm()" class="btn btn-success btn-lg" type="button">
+            ใช่
+          </button>
+          <button (click)="clickCancel()" class="btn btn-danger btn-lg" type="button">
+            ไม่ใช่
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,437 @@
+<div class="content-menu-top">
+  <app-head-content></app-head-content>
+  <div class="topic">
+    <h4>รายละเอียดการอนุมัติเอกสารภายในวัน B เป็น E</h4>
+  </div>
+</div>
+<div class="body">
+  <div class="container-fluid">
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="omForm" [ngClass]="{ 'submited-form': isSubmitedForm }">
+          <div class="panel panel-primary">
+            <div (click)="panelExpanded = !panelExpanded" class="panel-heading pointer">
+              <h3 class="panel-head">
+                Selection Criteria
+                <span class="float-right"
+                  ><i *ngIf="!panelExpanded" class="material-icons">add</i></span
+                >
+                <span class="float-right"
+                  ><i *ngIf="panelExpanded" class="material-icons">remove</i></span
+                >
+              </h3>
+            </div>
+            <div *ngIf="panelExpanded" class="panel-body">
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-underline-red input-head"> วันที่โปรแกรมประมวลผล </label>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group datetime-input">
+                    <div class="box-instead-input">
+                      <input
+                        [matDatepicker]="paymentDatePicker"
+                        [ngClass]="{ active: omForm.controls.paymentDate.value }"
+                        class="form-control"
+                        formControlName="paymentDate"
+                        type="text"
+                        appDateInput
+                      />
+                    </div>
+                    <div class="datetime-input-append">
+                      <button
+                        (click)="paymentDatePicker.open()"
+                        class="btn-calendar-icon"
+                        type="button"
+                      >
+                        <img src="assets/images/icon/calendar.svg" width="12px" />
+                        <mat-datepicker #paymentDatePicker></mat-datepicker>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-underline-red input-head"> คุณลักษณะการกำหนด </label>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <input
+                      [ngClass]="{ active: omForm.controls.paymentName.value }"
+                      class="form-control"
+                      formControlName="paymentName"
+                      maxLength="5"
+                      type="text"
+                    />
+                    <!-- <span class="clear-input-icon" (click)="clearInput('reference')"> x </span> -->
+                    <div class="input-group-append">
+                    <button
+                      (click)="openDialogCopyParameterComponent('search')"
+                      class="btn btn-default"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/menu.svg" width="12px" />
+                    </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div [ngClass]="{ show: isOpenCollapseDetail }" class="collapse-detail">
+            <div class="panel panel-primary">
+              <div (click)="panelExpanded1 = !panelExpanded1" class="panel-heading pointer">
+                <h3 class="panel-head">
+                  การเลือกรหัสบริษัท
+                  <span class="float-right"
+                    ><i *ngIf="!panelExpanded1" class="material-icons">add</i></span
+                  >
+                  <span class="float-right"
+                    ><i *ngIf="panelExpanded1" class="material-icons">remove</i></span
+                  >
+                </h3>
+              </div>
+              <div *ngIf="panelExpanded1" class="panel-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> รหัสบริษัทที่ชำระเงิน </label>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        formControlName="departmentPayFrom"
+                        maxLength="5"
+                        type="text"
+                      />
+                      <div class="input-group-append button-group-search">
+                        <button
+                          (click)="openDialogSearchMaster('departmentPayFrom')"
+                          class="btn btn-default"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/fa-search.svg" width="12px" />
+                        </button>
+                      </div>
+                    </div>
+                    <!--                  {{departmentCodeFromBindingName}}-->
+                  </div>
+                  <label class="input-head pt-15">ถึง </label>
+                  <div class="col-12 col-md-4">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        formControlName="departmentPayTo"
+                        maxLength="5"
+                        type="text"
+                      />
+                      <div class="input-group-append button-group-search">
+                        <button
+                          (click)="openDialogSearchMaster('departmentPayTo')"
+                          class="btn btn-default"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/fa-search.svg" width="12px" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> รหัสบริษัทที่ส่ง </label>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        formControlName="departmentSendFrom"
+                        maxLength="5"
+                        type="text"
+                      />
+                      <div class="input-group-append button-group-search">
+                        <button
+                          (click)="openDialogSearchMaster('departmentSendFrom')"
+                          class="btn btn-default"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/fa-search.svg" width="12px" />
+                        </button>
+                      </div>
+                    </div>
+                    <!--                  {{departmentCodeFromBindingName}}-->
+                  </div>
+                  <label class="input-head pt-15">ถึง </label>
+                  <div class="col-12 col-md-4">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        formControlName="departmentSendTo"
+                        maxLength="5"
+                        type="text"
+                      />
+                      <div class="input-group-append button-group-search">
+                        <button
+                          (click)="openDialogSearchMaster('departmentSendTo')"
+                          class="btn btn-default"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/fa-search.svg" width="12px" />
+                        </button>
+                      </div>
+                    </div>
+                    <!--                  {{departmentCodeToBindingName}}-->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div [ngClass]="{ show: isOpenCollapseDetail }" class="collapse-detail">
+            <div class="panel panel-primary">
+              <div (click)="panelExpanded2 = !panelExpanded2" class="panel-heading pointer">
+                <h3 class="panel-head">
+                  การเลือกโปรแกรม
+                  <span class="float-right"
+                    ><i *ngIf="!panelExpanded2" class="material-icons">add</i></span
+                  >
+                  <span class="float-right"
+                    ><i *ngIf="panelExpanded2" class="material-icons">remove</i></span
+                  >
+                </h3>
+              </div>
+              <div *ngIf="panelExpanded2" class="panel-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> จังหวัด </label>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        formControlName="provinceCodeFrom"
+                        maxLength="5"
+                        type="text"
+                      />
+                      <div class="input-group-append button-group-search">
+                        <button
+                          (click)="openDialogSearchMaster('provinceCodeFrom')"
+                          class="btn btn-default"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/fa-search.svg" width="12px" />
+                        </button>
+                      </div>
+                    </div>
+                    <!--                  {{departmentCodeFromBindingName}}-->
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> สถานะรายการ </label>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        formControlName="statusDocumentFrom"
+                        maxLength="5"
+                        type="text"
+                      />
+                      <div class="input-group-append button-group-search">
+                        <button
+                          (click)="openDialogSearchMaster('statusDocumentFrom')"
+                          class="btn btn-default"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/fa-search.svg" width="12px" />
+                        </button>
+                      </div>
+                    </div>
+                    <!--                  {{departmentCodeFromBindingName}}-->
+                  </div>
+                  <label class="input-head pt-15">ถึง </label>
+                  <div class="col-12 col-md-4">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        formControlName="statusDocumentTo"
+                        maxLength="5"
+                        type="text"
+                      />
+                      <div class="input-group-append button-group-search">
+                        <button
+                          (click)="openDialogSearchMaster('statusDocumentTo')"
+                          class="btn btn-default"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/fa-search.svg" width="12px" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> คีย์การระงับการชำระเงิน </label>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        formControlName="keyBlockPaymentFrom"
+                        maxLength="5"
+                        type="text"
+                      />
+                      <div class="input-group-append button-group-search">
+                        <button
+                          (click)="openDialogSearchMaster('keyBlockPaymentFrom')"
+                          class="btn btn-default"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/fa-search.svg" width="12px" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <label class="input-head pt-15">ถึง </label>
+                  <div class="col-12 col-md-4">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        formControlName="keyBlockPaymentTo"
+                        maxLength="5"
+                        type="text"
+                      />
+                      <div class="input-group-append button-group-search">
+                        <button
+                          (click)="openDialogSearchMaster('keyBlockPaymentTo')"
+                          class="btn btn-default"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/fa-search.svg" width="12px" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mx-auto mt-3 border-t-black mb-2">
+            <div class="mx-auto d-flex">
+              <button (click)="onSearch()" class="btn-light" type="button">ค้นหา</button>
+            </div>
+          </div>
+        </form>
+        <ul class="warning-box">
+          <li *ngFor="let c of listSearchValidate">{{ c }}</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+
+    <div *ngIf="report != null">
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black">วันที่อนุมัติ/ยกเลิก :</label>
+        </div>
+        <div class="col-md-2">
+          <label *ngIf="this.omForm.controls.unblockDate.value" class="text-black">
+            {{ this.omForm.controls.unblockDate.value | thaidate }}
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black">ปรับสถานะเอกสารจาก :</label>
+        </div>
+        <div class="col-md-2">
+          <label class="text-black">B เป็น E</label>
+        </div>
+      </div>
+
+      <div>
+        <div class="row">
+          <div class="col-md-12 table-responsive long-data-table">
+            <table border="1">
+              <!-- Row A -->
+              <tr class="theadinfo">
+                <td colspan="34">ประมวลผลวันที่ : {{ currentDate | thaidate }}</td>
+              </tr>
+              <tr class="theadinfo">
+                <td colspan="34">ประมวลผลโดย : {{ userProfile.userdata.username }}</td>
+              </tr>
+              <tr class="theadinfo">
+                <td colspan="2" style="width: 100px;">รหัส</td>
+                <td colspan="2" style="width: 100px;">จาก</td>
+                <td colspan="2" style="width: 150px;">ว/ท อนุมัติ</td>
+                <td colspan="2" style="width: 150px;">เวลาปรับ</td>
+                <td colspan="2" style="width: 100px;">หน.</td>
+                <td colspan="2" style="width: 100px;">จว.</td>
+                <td colspan="2" style="width: 300px;">หน่วยเบิกจ่าย</td>
+                <td colspan="2" style="width: 100px;">ปภ</td>
+                <td colspan="2" style="width: 150px;">ปี</td>
+                <td colspan="2" style="width: 300px;">เลขเอกสาร</td>
+                <td colspan="2" style="width: 150px;">ว/ทผ่านบ/ช</td>
+                <td colspan="2" style="width: 100px;">PM</td>
+                <td colspan="2" style="width: 300px;">จำนวนขอเบิก</td>
+                <td colspan="2" style="width: 300px;">หักภาษี/ค่าปรับ</td>
+                <td colspan="2" style="width: 300px;">ยอดสุทธิ</td>
+                <td colspan="2" style="width: 200px;">รหัสผู้ขาย</td>
+                <td colspan="2" style="width: 300px;">ผู้ขายหรือหน่วยงาน</td>
+              </tr>
+              <ng-container *ngFor="let item of report.items">
+                <tr class="highlight-company">
+                  <td colspan="34">หน่วยงาน {{ item.companyName }}</td>
+                </tr>
+                <tr *ngFor="let detail of item.detail" class="none-border-bottom">
+                  <td colspan="2" style="width: 100px;"></td>
+                  <td colspan="2" style="width: 100px;">{{ detail.status }}</td>
+                  <td colspan="2" style="width: 150px;">{{ detail.unblockDate | thaidate }}</td>
+                  <td colspan="2" style="width: 150px;">
+                    {{ detail.unblockDate | date: 'HH:mm:ss' }}
+                  </td>
+                  <td colspan="2" style="width: 100px;">{{ detail.companyCode }}</td>
+                  <td colspan="2" style="width: 100px;">{{ detail.area }}</td>
+                  <td colspan="2" style="width: 300px;">{{ detail.paymentCenter }}</td>
+                  <td colspan="2" style="width: 100px;">{{ detail.docType }}</td>
+                  <td colspan="2" style="width: 150px;">{{ detail.fiscalYear }}</td>
+                  <td
+                    colspan="2"
+                    style="width: 300px;"
+                    (click)="viewDocument(detail)"
+                    class="td-click"
+                  >
+                    {{ detail.accDocNo }}
+                  </td>
+                  <td colspan="2" style="width: 150px;">{{ detail.postDate | thaidate }}</td>
+                  <td colspan="2" style="width: 100px;">{{ detail.paymentMethod }}</td>
+                  <td colspan="2" style="width: 300px;">{{ detail.amount | bigdecimal }}</td>
+                  <td colspan="2" style="width: 300px;">{{ detail.taxFee | bigdecimal }}</td>
+                  <td colspan="2" style="width: 300px;">{{ detail.netPrice | bigdecimal }}</td>
+                  <td colspan="2" style="width: 200px;">{{ detail.vendor }}</td>
+                  <td colspan="2" style="width: 300px;">{{ detail.vendorName }}</td>
+                </tr>
+                <tr class="summary">
+                  <td colspan="24">สรุปยอดตามหน่วยงาน {{ item.companyName }}</td>
+                  <td colspan="2" style="width: 300px;">{{ item.sumAmount | bigdecimal }}</td>
+                  <td colspan="2" style="width: 300px;">{{ item.sumTaxFee | bigdecimal }}</td>
+                  <td colspan="2" style="width: 300px;">{{ item.sumNetPrice | bigdecimal }}</td>
+                  <td colspan="4" style="width: 500px;"></td>
+                </tr>
+              </ng-container>
+              <tr class="summary-total">
+                <td colspan="24">รวมทั้งหมด</td>
+                <td colspan="2" style="width: 300px;">{{ report.totalAmount | bigdecimal }}</td>
+                <td colspan="2" style="width: 300px;">{{ report.totalTaxFee | bigdecimal }}</td>
+                <td colspan="2" style="width: 300px;">{{ report.totalNetPrice | bigdecimal }}</td>
+                <td colspan="4" style="width: 500px;"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

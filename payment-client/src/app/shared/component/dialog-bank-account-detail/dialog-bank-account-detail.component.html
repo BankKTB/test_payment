@@ -1,0 +1,57 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane">
+    <b>ข้อมูลเลขที่บัญชีเงินฝากธนาคาร</b>
+  </h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="mt-2">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="overflow-auto">
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <label class="text-black"> รหัสธนาคาร : {{ data.payload.bankKey }} </label>
+            </div>
+            <div class="col-12 col-sm-6">
+              <label class="text-black"> ชื่อบัญชีธนาคาร : {{ data.payload.bankName }} </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <label class="text-black"> รหัสสาขา : {{ data.payload.routingNo }} </label>
+            </div>
+            <div class="col-12 col-sm-6">
+              <label class="text-black"> ชื่อสาขา : {{ data.payload.bankBranchName }} </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <label class="text-black"> เลขที่บัญชีธนาคาร : {{ data.payload.accountNo }} </label>
+            </div>
+            <div class="col-12 col-sm-6">
+              <label class="text-black">
+                ชื่อเจ้าของบัญชี : {{ data.payload.accountHolderName }}
+              </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-6">
+              <label class="text-black">
+                สถานะบัญชี :
+                <span *ngIf="data.payload.active"> ปกติ</span>
+                <span *ngIf="!data.payload.active"> บล็อค</span>
+              </label>
+            </div>
+            <div class="col-12 col-sm-6">
+              <label class="text-black">
+                รายละเอียดอ้างอิง : {{ data.payload.referenceDetail }}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

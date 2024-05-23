@@ -1,0 +1,8 @@
+<div class="wrapper-back-to-top">
+  <button mat-mini-fab color="primary" class="mb-3" (click)="scrollToTop()" [ngClass]="{'hide': isHideToTop}">
+    <mat-icon>arrow_upward</mat-icon>
+  </button>
+  <button mat-mini-fab color="primary"  (click)="scrollToBottom()" [ngClass]="{'hide': isHideToBottom}">
+    <mat-icon>arrow_downward</mat-icon>
+  </button>
+</div>

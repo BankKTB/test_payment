@@ -1,0 +1,39 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane"><b>รายละเอียดเอกสาร</b></h1>
+</div>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-md-12 table-responsive long-data-table">
+      <table border="1">
+        <!-- Row A -->
+        <tr class="theadinfo">
+          <td colspan="14">
+            เลขที่เอกสาร
+            {{
+              listDocument && listDocument.length > 0 ? listDocument[0].originalCompanyCode : '-'
+            }}
+            {{ listDocument && listDocument.length > 0 ? listDocument[0].originalDocumentNo : '-' }}
+            {{ listDocument && listDocument.length > 0 ? listDocument[0].originalFiscalYear : '-' }}
+          </td>
+        </tr>
+        <tr class="theadinfo">
+          <!--          <td colspan="2" style="width: 100px;">คำอธิบาย</td>-->
+          <!--          <td colspan="2" style="width: 100px;">บรรทัดรายการ</td>-->
+          <td colspan="4" style="width: 150px;">ข้อความ</td>
+          <td colspan="2" style="width: 150px;">วันที่ / เวลา</td>
+        </tr>
+        <ng-container>
+          <tr *ngFor="let item of listDocument" class="none-border-bottom">
+            <!--            <td colspan="2" style="width: 100px;">{{ item.errorCode }}</td>-->
+            <!--            <td colspan="2" style="width: 100px;">{{ item.line }}</td>-->
+            <td colspan="4" style="width: 300px;">{{ item.text }}</td>
+            <td colspan="2" style="width: 300px;">
+              {{ item.dateTime | thaidate }} เวลา {{ item.dateTime | date: 'HH:mm:ss' }}
+            </td>
+          </tr>
+        </ng-container>
+      </table>
+    </div>
+  </div>
+</div>

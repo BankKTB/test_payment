@@ -1,0 +1,116 @@
+<div mat-dialog-title>
+  <button (click)="closeDialog()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane"><b>ตารางแสดงผล</b></h1>
+</div>
+
+<div mat-dialog-content>
+  <div cdkDropListGroup class="row sorting-dialog mb-4">
+    <div class="col-md-5">
+      <div class="row">
+        <h2 class="col-6 submenu">แสดงในตาราง</h2>
+      </div>
+      <div class="sorting-box">
+        <table>
+          <tr>
+            <th class="th-width-10">เลือก</th>
+            <th>ชื่อคอลัมน์</th>
+            <th class="th-width-10">Pos.</th>
+            <!--            <th class="th-width-10">ยาว</th>-->
+          </tr>
+          <tr *ngFor="let data of items">
+            <td>
+              <mat-checkbox
+                (change)="$event ? selectionForNotShow.toggle(data) : null"
+                [aria-label]="checkboxLabelForNotShow(data)"
+                [checked]="selectionForNotShow.isSelected(data)"
+              >
+              </mat-checkbox>
+            </td>
+            <td>{{ data.columnName }}</td>
+            <td>{{ data.seq }}</td>
+            <!--            <td>10</td>-->
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="col-md-2 sorting-btn-box">
+      <div class="sorting-btn-group">
+        <button (click)="up()" class="btn btn-success btn-sorting" type="button">
+          <i class="material-icons">keyboard_arrow_up</i>
+        </button>
+        <button (click)="notShowAll()" class="btn btn-success btn-sorting" type="button">
+          <i class="material-icons">arrow_right</i>
+          <i class="material-icons btn-sorting-double">arrow_right</i>
+        </button>
+        <button (click)="notShowSelected()" class="btn btn-success btn-sorting" type="button">
+          <i class="material-icons">arrow_right</i>
+        </button>
+      </div>
+
+      <div class="sorting-btn-group">
+        <button (click)="showAll()" class="btn btn-success btn-sorting" type="button">
+          <i class="material-icons">arrow_left</i>
+          <i class="material-icons btn-sorting-double">arrow_left</i>
+        </button>
+        <button (click)="showSelected()" class="btn btn-success btn-sorting" type="button">
+          <i class="material-icons">arrow_left</i>
+        </button>
+        <button (click)="down()" class="btn btn-success btn-sorting" type="button">
+          <i class="material-icons">keyboard_arrow_down</i>
+        </button>
+      </div>
+    </div>
+
+    <div class="col-md-5">
+      <div class="row">
+        <h2 class="col-6 submenu"><span class="text-underline-red">ไม่</span> แสดงในตาราง</h2>
+        <!--        <div class="col-6 row justify-content-end mb-0">-->
+        <!--          <button class="btn btn-primary btn-filter-list" type="button">-->
+        <!--            <i class="material-icons">filter_list</i>-->
+        <!--          </button>-->
+        <!--          <button class="btn btn-primary btn-filter-list" type="button">-->
+        <!--            <i class="material-icons rotate-180">filter_list</i>-->
+        <!--          </button>-->
+        <!--        </div>-->
+      </div>
+
+      <div class="sorting-box">
+        <table>
+          <tr>
+            <th class="th-width-10">เลือก</th>
+            <th>ชื่อคอลัมน์</th>
+            <!--            <th class="th-width-10">Pos.</th>-->
+            <!--            <th class="th-width-10">ยาว</th>-->
+          </tr>
+          <tr *ngFor="let data of basket">
+            <td>
+              <mat-checkbox
+                (change)="$event ? selectionForShow.toggle(data) : null"
+                [aria-label]="checkboxLabelForShow(data)"
+                [checked]="selectionForShow.isSelected(data)"
+              >
+              </mat-checkbox>
+            </td>
+            <td>{{ data.columnName }}</td>
+            <!--            <td>{{data.seq}}</td>-->
+            <!--            <td>10</td>-->
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <button (click)="clickSave()" class="btn btn-success btn-lg" type="button">
+        <i class="material-icons">done</i>
+      </button>
+    </div>
+    <div class="col-md-6">
+      <button (click)="closeDialog()" class="btn btn-danger btn-lg" type="button">
+        <i class="material-icons">clear</i>
+      </button>
+    </div>
+  </div>
+</div>

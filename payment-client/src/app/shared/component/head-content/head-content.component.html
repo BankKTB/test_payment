@@ -1,0 +1,12 @@
+<div *ngIf="userProfile !== null && userProfile !== undefined" class="detail-user">
+  <label> ชื่อผู้ใช้ : </label>
+  <span class="pr-3">
+    {{ userProfile?.userdata?.firstname }} {{ userProfile?.userdata?.lastname }}
+  </span>
+
+  <label> ตำแหน่ง : </label>
+  <span class="pr-3"> {{ userProfile?.userdata?.position }} </span>
+
+  <label> สังกัด : </label>
+  <span>{{ userProfile?.userdata?.departmentName }} </span>
+</div>

@@ -1,0 +1,150 @@
+<div class="content-menu-top">
+  <app-head-content></app-head-content>
+  <div class="topic">
+    <h4>Report duplicate pay - แสดงรายการจ่ายซ้ำ</h4>
+  </div>
+</div>
+<div class="body">
+  <div class="container-fluid">
+    <form [formGroup]="formGroup" [hidden]="!isSearch">
+      <!--      วันที่ประมวลผล-->
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-red input-head"> วันที่ประมวลผล </label>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group datetime-input">
+            <input
+              [matDatepicker]="paymentDateFrom"
+              class="form-control"
+              formControlName="paymentDateFrom"
+              type="text"
+              appDateInput
+            />
+            <!--            <span (click)="openDialogDateParameter('paymentDate')" class="clear-input-icon">-->
+            <!--              <img src="assets/images/icon/menu.svg" width="12px" />-->
+            <!--            </span>-->
+            <div class="datetime-input-append">
+              <button (click)="paymentDateFrom.open()" class="btn-calendar-icon" type="button">
+                <img src="assets/images/icon/calendar.svg" width="12px" />
+                <mat-datepicker #paymentDateFrom></mat-datepicker>
+              </button>
+            </div>
+          </div>
+        </div>
+        <label class="input-head pt-15">ถึง </label>
+        <div class="col-12 col-md-4">
+          <div class="input-group datetime-input">
+            <input
+              [matDatepicker]="paymentDateTo"
+              class="form-control"
+              formControlName="paymentDateTo"
+              type="text"
+              appDateInput
+            />
+            <div class="datetime-input-append">
+              <button (click)="paymentDateTo.open()" class="btn-calendar-icon" type="button">
+                <img src="assets/images/icon/calendar.svg" width="12px" />
+                <mat-datepicker #paymentDateTo></mat-datepicker>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--     CompCode-->
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-green input-head"> รหัสหน่วยงาน </label>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group">
+            <input class="form-control" formControlName="companyCode" type="text" maxlength="5" />
+            <div class="input-group-append button-group-search">
+              <button
+                (click)="openDialogSearchMaster('companyCode')"
+                class="btn btn-default"
+                type="button"
+              >
+                <img src="assets/images/icon/fa-search.svg" width="12px" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mx-auto mt-3 border-t-black mb-2">
+        <div class="mx-auto d-flex">
+          <button (click)="onSearch()" class="btn-light" type="button">ค้นหา</button>
+        </div>
+      </div>
+      <ul class="warning-box">
+        <li *ngFor="let c of listValidate">{{ c }}</li>
+      </ul>
+    </form>
+
+    <div [hidden]="isSearch && !(dataSource.data.length > 0)">
+      <button (click)="back()" type="button" class="btn-light">กลับ</button>
+
+      <table mat-table [dataSource]="dataSource" matSort class="table-full-width mt-4">
+        <ng-container matColumnDef="originalCompCode">
+          <th mat-header-cell class="text-center" *matHeaderCellDef width="10%">
+            รหัสหน่วยงานตั้งเบิก
+          </th>
+          <td mat-cell class="text-center" *matCellDef="let element">
+            {{ element.originalCompCode }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="originalDocNo">
+          <th mat-header-cell class="text-center" *matHeaderCellDef width="10%">
+            เลขที่เอกสารตั้งเบิก
+          </th>
+          <td mat-cell class="text-center" *matCellDef="let element">
+            {{ element.originalDocNo }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="originalFiscalYear">
+          <th mat-header-cell class="text-center" *matHeaderCellDef width="10%">
+            ปีบัญชีเอกสารตั้งเบิก
+          </th>
+          <td mat-cell class="text-center" *matCellDef="let element">
+            {{ element.originalFiscalYear }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentDocument">
+          <th mat-header-cell class="text-center" *matHeaderCellDef width="10%">
+            เลขที่เอกสารจ่าย
+          </th>
+          <td mat-cell class="text-center" *matCellDef="let element">
+            {{ element.paymentDocument }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell class="text-right" *matHeaderCellDef width="10%">จำนวนเงิน</th>
+          <td mat-cell class="text-right" *matCellDef="let element">
+            {{ element.amount | bigdecimal }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentName">
+          <th mat-header-cell class="text-center" *matHeaderCellDef width="10%">การกำหนด</th>
+          <td mat-cell class="text-center" *matCellDef="let element">
+            {{ element.paymentName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentDate">
+          <th mat-header-cell class="text-center" *matHeaderCellDef width="10%">วันที่จ่าย</th>
+          <td mat-cell class="text-center" *matCellDef="let element">
+            {{ element.paymentDate | thaidate }}
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      <mat-paginator
+        [pageSizeOptions]="[10, 20, 50]"
+        showFirstLastButtons
+        aria-label="Select page of periodic elements"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>

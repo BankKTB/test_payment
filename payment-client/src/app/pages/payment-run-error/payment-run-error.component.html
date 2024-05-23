@@ -1,0 +1,113 @@
+<div class="content-menu-top">
+  <app-head-content></app-head-content>
+  <div class="topic">
+    <h4>Log Payment Run Error</h4>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="container-fluid">
+      <div class="submenu">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12">
+            <h2>รายงานการชำระเงินไม่สำเร็จ</h2>
+          </div>
+        </div>
+      </div>
+      <mat-card>
+        <!--        <form [formGroup]="omFormCreate"   [ngClass]="{ 'submited-form': isSubmitedForm }">-->
+        <div class="row">
+          <div class="col-12 long-data-table fix-table mt-4">
+            <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
+              <ng-container matColumnDef="docType">
+                <th *matHeaderCellDef class="info" mat-header-cell>ประเภทเอกสาร</th>
+                <td *matCellDef="let element" mat-cell>
+                  {{ element.docType }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="compCode">
+                <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+                  รหัสหน่วยงาน
+                </th>
+                <td *matCellDef="let element" mat-cell>
+                  {{ element.compCode }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="accDocNo">
+                <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+                  เลขที่เอกสาร
+                </th>
+                <td
+                  (click)="openDialogPaymentRunErrorDetail(element)"
+                  *matCellDef="let element"
+                  mat-cell
+                >
+                  {{ element.accDocNo }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="fiscalYear">
+                <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ปีบัญชี</th>
+                <td *matCellDef="let element" mat-cell>
+                  {{ element.fiscalYear }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="valueOld">
+                <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ค่าเก่า</th>
+                <td *matCellDef="let element" mat-cell>
+                  {{ element.valueOld }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="valueNew">
+                <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ค่าใหม่</th>
+                <td *matCellDef="let element" mat-cell>
+                  {{ element.valueNew }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="reason">
+                <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>เหตุผล</th>
+                <td *matCellDef="let element" mat-cell>
+                  {{ element.reason }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="postDate">
+                <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+                  วันที่ผ่านรายการ
+                </th>
+                <td *matCellDef="let element" mat-cell>
+                  {{ element.postDate | thaidate }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="userPost">
+                <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>userPost</th>
+                <td *matCellDef="let element" mat-cell>
+                  {{ element.userPost }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="username">
+                <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>username</th>
+                <td *matCellDef="let element" mat-cell>
+                  {{ element.username }}
+                </td>
+              </ng-container>
+
+              <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+              <tr
+                (click)="row.highlighted = !row.highlighted"
+                (mouseout)="row.hovered = false"
+                (mouseover)="row.hovered = true"
+                *matRowDef="let row; columns: displayedColumns"
+                [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                mat-row
+              ></tr>
+            </table>
+          </div>
+        </div>
+        <!--        </form>-->
+      </mat-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+.head-description-ju {
+  font-size: 12.5px;
+  .box-detail {
+    position: relative;
+    height: 60px;
+    .box-left {
+      width: 25vw;
+      position: absolute;
+      left: 0;
+    }
+    .box-right {
+      width: 25vw;
+      position: absolute;
+      right: 0;
+    }
+  }
+}

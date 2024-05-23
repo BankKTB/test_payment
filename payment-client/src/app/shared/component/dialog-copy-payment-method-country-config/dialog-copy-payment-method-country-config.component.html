@@ -1,0 +1,59 @@
+<div mat-dialog-title>
+  <button (click)="clickCancel()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane"><b>คัดลอก</b></h1>
+</div>
+<div mat-dialog-content>
+  <form (keydown.enter)="$event.preventDefault()" [formGroup]="copyPaymentMethodCountryConfigForm">
+
+    <div class="row margin-tb-size ">
+      <div class="col-md-12 text-left">
+      </div>
+    </div>
+    <div class="row margin-tb-size ">
+      <div class="col-md-12 text-left">
+        <label class="text-black input-head">ประเทศ</label>
+      </div>
+      <div class="col-md-12">
+        <div class="input-group">
+          <input class="form-control" formControlName="country" maxLength="5" readonly type="text">
+          <div class="input-group-append button-group-search">
+            <button (click)="openDialogSearchMaster('country')" class="btn btn-default"
+                    type="button">
+              <img src="assets/images/icon/fa-search.svg" width="12px"/>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row margin-tb-size ">
+      <div class="col-md-12 text-left">
+        <label class="text-black input-head">วิธีชำระเงิน</label>
+      </div>
+      <div class="col-md-12">
+        <div class="input-group">
+          <input class="form-control" formControlName="payMethod" maxLength="5" readonly type="text">
+          <div class="input-group-append button-group-search">
+            <button (click)="openDialogSearchMaster('paymentMethod')" class="btn btn-default"
+                    type="button">
+              <img src="assets/images/icon/fa-search.svg" width="12px"/>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <hr class="under-title">
+    <div class="row">
+      <div class="col-md-6">
+        <button (click)="clickSave()" class="btn btn-success btn-lg" type="button">
+          <i class="material-icons">done</i>
+        </button>
+      </div>
+      <div class="col-md-6">
+        <button (click)="clickCancel()" class="btn btn-danger btn-lg" type="button">
+          <i class="material-icons">clear</i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

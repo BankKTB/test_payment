@@ -1,0 +1,91 @@
+version: "3"
+services:
+  web:
+    container_name: payment_client
+    restart: always
+    build: ./payment-client
+    image: ${NEWGF_CENTRAL_REGISTRY}/${NEWGF_CENTRAL_PACKAGE_NAME}_web:latest
+    ports:
+      - "4200:80"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      API_URL: "http://10.220.40.163:8084/payment-service/api"
+      PORTAL_URL: "https://portal-dev.in.gfmis.go.th/"
+      PORTALAPI_URL: "https://portal-dev.in.gfmis.go.th/iam-api/getUserProfile"
+      PORTALMATRIX_URL: "https://portal-dev.in.gfmis.go.th/iam-api/getUserPrivileges"
+      PORTALAUTH_URL: "https://portal-dev.in.gfmis.go.th/iam-api/getTokenByAuthCode"
+      SFTP_URL: "sftp://payment@10.220.56.100:8822"
+      PATH_URI: "./INCOMING/DEV"
+    networks:
+      - nginx-network
+
+  api:
+    container_name: payment_service
+    restart: always
+    image: ${NEWGF_CENTRAL_REGISTRY}/${NEWGF_CENTRAL_PACKAGE_NAME}_api:latest
+    build: ./payment-service
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /home/agency/sftp-key:/app/sftp-key
+    ports:
+      - "8084:8080"
+    environment:
+      PAYMENT.DATASOURCE.URL: "jdbc:oracle:thin:@drdevagc-scan.in.gfmis.go.th:1521/agcdev01"
+      PAYMENT.DATASOURCE.JDBC-URL: "jdbc:oracle:thin:@drdevagc-scan.in.gfmis.go.th:1521/agcdev01"
+      PAYMENT.DATASOURCE.USERNAME: "cen_payment"
+      PAYMENT.DATASOURCE.PASSWORD: "cen_payment"
+      PAYMENT.DATASOURCE.HIKARI.JDBC-URL: "jdbc:oracle:thin:@drdevagc-scan.in.gfmis.go.th:1521/agcdev01"
+      PAY.DATASOURCE.URL: "jdbc:oracle:thin:@drdevagc-scan.in.gfmis.go.th:1521/agcdev01"
+      PAY.DATASOURCE.JDBC-URL: "jdbc:oracle:thin:@drdevagc-scan.in.gfmis.go.th:1521/agcdev01"
+      PAY.DATASOURCE.USERNAME: "cen_payment"
+      PAY.DATASOURCE.PASSWORD: "cen_payment"
+      PAY.DATASOURCE.HIKARI.JDBC-URL: "jdbc:oracle:thin:@drdevagc-scan.in.gfmis.go.th:1521/agcdev01"
+      IDEM.DATASOURCE.URL: "jdbc:oracle:thin:@drdevagc-scan.in.gfmis.go.th:1521/agcdev01"
+      IDEM.DATASOURCE.JDBC-URL: "jdbc:oracle:thin:@drdevagc-scan.in.gfmis.go.th:1521/agcdev01"
+      IDEM.DATASOURCE.USERNAME: "newdev99999"
+      IDEM.DATASOURCE.PASSWORD: "newdev99999"
+      IDEM.DATASOURCE.HIKARI.JDBC-URL: "jdbc:oracle:thin:@drdevagc-scan.in.gfmis.go.th:1521/agcdev01"
+      IDEM.DATASOURCE.TYPE: "com.zaxxer.hikari.HikariDataSource"
+      IDEM.DATASOURCE.DRIVER-CLASS-NAME: "oracle.jdbc.driver.OracleDriver"
+      IDEMPIERE.DATASOURCE.URL: "jdbc:oracle:thin:@drdevagc-scan.in.gfmis.go.th:1521/agcdev01"
+      IDEMPIERE.DATASOURCE.JDBC-URL: "jdbc:oracle:thin:@drdevagc-scan.in.gfmis.go.th:1521/agcdev01"
+      IDEMPIERE.DATASOURCE.USERNAME: "newdev99999"
+      IDEMPIERE.DATASOURCE.PASSWORD: "newdev99999"
+      IDEMPIERE.DATASOURCE.HIKARI.JDBC-URL: "jdbc:oracle:thin:@drdevagc-scan.in.gfmis.go.th:1521/agcdev01"
+      IDEMPIERE.DATASOURCE.TYPE: "com.zaxxer.hikari.HikariDataSource"
+      IDEMPIERE.DATASOURCE.DRIVER-CLASS-NAME: "oracle.jdbc.driver.OracleDriver"
+      spring.activemq.broker-url: "tcp://activemq-dev.in.gfmis.go.th:61616"
+      SERVER_PORT: 8080
+      TZ: Asia/Bangkok
+      SPRING_DATASOURCE_URL: "jdbc:oracle:thin:@drdevagc-scan.in.gfmis.go.th:1521/agcdev01"
+      SPRING_DATASOURCE_USERNAME: "cen_payment"
+      SPRING_DATASOURCE_PASSWORD: "cen_payment"
+      SERVICE_IDEMPIERE_CENTRAL_CLEARING_URL: "https://dev9999.nerves-cloud.com"
+      SERVICE_IDEMPIERE_OWN_AGENCY_URL: "https://dev12.nerves-cloud.com"
+      PAYMENT.DBLINK.SCHEMA: "NEWDEV99999"
+      PAYMENT.DBLINK.USER: "DBLINK_AGC99999"
+      WSO2.OAUTH2.CLIENT.PROVIDER.JWK-SET-URI: "https://uam-wso2-uat.gfmis.go.th/oauth2/jwks"
+      SFTP.PRIVATE.KEY: "file:/app/sftp-key/id_rsa"
+      SFTP.PATH.OUTGOING: "./PAYMENT/DEV/OUTGOING/"
+      SFTP.PATH.INCOMING: "./PAYMENT/DEV/INCOMING/"
+      SFTP.HOST: "10.220.56.100"
+      SFTP.PORT: "8822"
+      SFTP.USERNAME: "centralagc01"
+      # Redis connection settings for Functional Control
+      SPRING.REDIS.FC.HOST: 10.220.40.163
+      SPRING.REDIS.FC.PORT: 6379
+      SPRING.REDIS.FC.TIMEOUT: 0
+      SPRING.REDIS.FC.DATABASE: 0
+      # Redis connection settings for Portal log-in status
+      SPRING.REDIS.PORTAL.HOST: 10.220.4.40
+      SPRING.REDIS.PORTAL.PORT: 46379
+      SPRING.REDIS.PORTAL.TIMEOUT: 0
+      SPRING.REDIS.PORTAL.DATABASE: 0
+
+    networks:
+      - nginx-network
+
+networks:
+  nginx-network:
+    driver: bridge

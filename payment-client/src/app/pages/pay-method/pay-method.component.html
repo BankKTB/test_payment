@@ -1,0 +1,129 @@
+<div>
+  <ol class="breadcrumb">
+    <li class="current"><em>ตั้งค่า</em></li>
+  </ol>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <form (keydown.enter)="$event.preventDefault()" [formGroup]="payMethodForm">
+      <div class="container-fluid">
+        <div class="submenu">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12">
+              <h2>วิธีชำระเงิน/ประเทศ</h2>
+            </div>
+          </div>
+        </div>
+        <mat-card>
+          <div class="row mat-card-add">
+            <label class="text-black input-head pt-15"><b>ประเทศ</b></label>
+            <div class="col-12 col-md-3">
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  formControlName="country"
+                  maxLength="5"
+                  readonly
+                  type="text"
+                />
+                <div class="input-group-append button-group-search">
+                  <button
+                    (click)="openDialogSearchMaster('country')"
+                    class="btn btn-default"
+                    type="button"
+                  >
+                    <img src="assets/images/icon/fa-search.svg" width="12px" />
+                  </button>
+                </div>
+              </div>
+            </div>
+            <label class="text-black input-head pt-15"><b>วิธีการชำระเงิน</b></label>
+            <div class="col-12 col-md-4">
+              <div class="input-group">
+                <input class="form-control" formControlName="payMethod" readonly type="text" />
+                <div class="input-group-append button-group-search">
+                  <button
+                    (click)="openDialogSearchMaster('paymentMethod')"
+                    class="btn btn-default"
+                    type="button"
+                  >
+                    <img src="assets/images/icon/fa-search.svg" width="12px" />
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-1">
+              <button
+                (click)="insertInputPayMethod(payMethodForm.value)"
+                class="btn btn-primary"
+                type="button"
+              >
+                เพิ่มวิธีชำระเงิน
+              </button>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col-12 col-md-12">
+              <div class="example-item">
+                <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table>
+                  <ng-container matColumnDef="country">
+                    <th *matHeaderCellDef class="info th-width-10" mat-header-cell>ประเทศ</th>
+                    <td *matCellDef="let element" mat-cell>{{ element.country }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="payMethod">
+                    <th *matHeaderCellDef class="info th-width-10" mat-header-cell>
+                      วิธีการชำระเงิน
+                    </th>
+                    <td *matCellDef="let element" mat-cell>{{ element.payMethod }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="payMethodName">
+                    <th *matHeaderCellDef class="info th-width-40" mat-header-cell>
+                      ชื่อวิธีการชำระเงิน
+                    </th>
+                    <td *matCellDef="let element" mat-cell>{{ element.payMethodName }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="edit">
+                    <th *matHeaderCellDef class="info" mat-header-cell></th>
+                    <td *matCellDef="let element" mat-cell>
+                      <div class="no-wrap">
+                        <button
+                          (click)="openDialogPayMethodConfig(element)"
+                          class="btn btn-success"
+                          type="button"
+                        >
+                          <i class="material-icons">edit</i>
+                        </button>
+                        <button
+                          (click)="deleteInputPayMethod(element)"
+                          class="btn btn-danger"
+                          type="button"
+                        >
+                          <i class="material-icons">clear</i>
+                        </button>
+                        <button (click)="copy(element)" class="btn btn-secondary" type="button">
+                          <i class="material-icons">file_copy</i>
+                        </button>
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+                  <tr
+                    (click)="row.highlighted = !row.highlighted"
+                    (mouseout)="row.hovered = false"
+                    (mouseover)="row.hovered = true"
+                    *matRowDef="let row; columns: displayedColumns"
+                    [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                    mat-row
+                  ></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,114 @@
+<ol class="breadcrumb">
+  <li><a [routerLink]="['/companyPaying']"> รหัสบริษัทที่ชำระเงิน </a></li>
+  <!-- <li><a [routerLink]="['/companyPayeeHouseBankKeyConfig']" [queryParams]="{companyPayingId: companyPayingId}"> ธนาคารตัวแทน </a></li> -->
+  <li class="current"><em> รหัสบริษัทที่ชำระเงิน </em></li>
+</ol>
+<div class="row">
+  <div class="col-md-12">
+    <form (keydown.enter)="$event.preventDefault()" [formGroup]="companyPayingPayMethodForm">
+      <div class="container-fluid">
+        <div class="submenu">
+          <div class="row">
+            <div class="col-12">
+              <h2>รหัสบริษัทที่ชำระเงิน</h2>
+            </div>
+          </div>
+        </div>
+        <mat-card>
+          <div class="row">
+            <div class="col-12 col-md-1"></div>
+            <div class="col-12 col-md-12">
+              <label class="text-black input-head"><b>บริษัทชำระ : </b></label>
+              <input
+                class="form-control"
+                disabled
+                formControlName="companyPayingCode"
+                maxLength="5"
+                type="text"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-1"></div>
+            <div class="col-12 col-md-12">
+              <label class="text-black input-head"
+                ><b>ชื่อบริษัทชำระ : {{ companyPayingName }} </b></label
+              >
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-1"></div>
+            <div class="col-12 col-md-12">
+              <button
+                (click)="openDialogSearchMaster('paymentMethod')"
+                class="btn btn-primary"
+                type="button"
+                type="button"
+              >
+                สร้างวิธีชำระเงิน
+              </button>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col-12 col-md-12">
+              <div class="example-item">
+                <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table>
+                  <ng-container matColumnDef="payMethod">
+                    <th *matHeaderCellDef class="info" mat-header-cell>วิธีการชำระเงิน</th>
+                    <td *matCellDef="let element" mat-cell>{{ element.payMethod }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="payMethodName">
+                    <th *matHeaderCellDef class="info th-width-40" mat-header-cell>
+                      ชื่อวิธีการชำระเงิน
+                    </th>
+                    <td *matCellDef="let element" mat-cell>{{ element.payMethodName }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="edit">
+                    <th *matHeaderCellDef class="info" mat-header-cell></th>
+                    <td *matCellDef="let element" mat-cell>
+                      <div class="d-flex">
+                        <button
+                          (click)="routeToCompanyPayingPayMethodConfig(element)"
+                          class="btn btn-primary d-flex-center"
+                          type="button"
+                        >
+                          รายละเอียด
+                        </button>
+
+                        <button
+                          (click)="deleteInputCompanyCode(element)"
+                          class="btn btn-danger"
+                          type="button"
+                        >
+                          <i class="material-icons">clear</i>
+                        </button>
+                        <button
+                          (click)="copy(element)"
+                          class="btn btn-secondary d-flex"
+                          type="button"
+                        >
+                          <i class="material-icons">file_copy</i>
+                        </button>
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+                  <tr
+                    (click)="row.highlighted = !row.highlighted"
+                    (mouseout)="row.hovered = false"
+                    (mouseover)="row.hovered = true"
+                    *matRowDef="let row; columns: displayedColumns"
+                    [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                    mat-row
+                  ></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </form>
+  </div>
+</div>

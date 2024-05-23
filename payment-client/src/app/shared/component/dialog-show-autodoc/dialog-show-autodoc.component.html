@@ -1,0 +1,68 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane"><b>รายละเอียดเอกสาร</b></h1>
+</div>
+<div mat-dialog-content>
+  <div class="content-box">
+    <div class="mt-4" class="long-data-table">
+      <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
+        <ng-container matColumnDef="list">
+          <th *matHeaderCellDef class="info" mat-header-cell>เลือก</th>
+          <td (click)="viewDocument(element)" *matCellDef="let element; let i = index" mat-cell>
+            <mat-icon class="icon pointer">folder_open</mat-icon>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="compCode">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>รหัสหน่วยงาน</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.compCode }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="docType">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ประเภทเอกสาร</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.docType }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="accDocNo">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>เลขที่เอกสาร</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.accDocNo }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="revDocType">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+            ประเภทเอกสารกลับรายการ
+          </th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.revDocType }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="revAccDocNo">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+            เลขที่เอกสารกลับรายการ
+          </th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.revAccDocNo }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fiscalYear">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ปี</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.fiscalYear | thaiyear }}
+          </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+        <tr
+          (click)="row.highlighted = !row.highlighted"
+          (mouseout)="row.hovered = false"
+          (mouseover)="row.hovered = true"
+          *matRowDef="let row; columns: displayedColumns"
+          [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+          mat-row
+        ></tr>
+      </table>
+    </div>
+  </div>
+</div>

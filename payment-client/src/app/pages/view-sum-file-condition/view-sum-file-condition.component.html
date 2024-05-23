@@ -1,0 +1,157 @@
+<div>
+  <ol class="breadcrumb">
+    <li class="current"><em>แสดงค่าของระบบ</em></li>
+  </ol>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="container-fluid">
+      <div class="submenu">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12">
+            <h2>ตารางกำหนดเงื่อนไขการรวมยอด</h2>
+          </div>
+        </div>
+      </div>
+      <mat-card>
+        <div class="row d-flex-center">
+          <!--          <div class="col-12 col-md-2 mb-4">-->
+          <!--            <button-->
+          <!--              (click)="openDialogSaveSumFileCondition()"-->
+          <!--              class="btn btn-primary"-->
+          <!--              type="button"-->
+          <!--              type="button"-->
+          <!--            >-->
+          <!--              สร้าง-->
+          <!--            </button>-->
+          <!--          </div>-->
+          <!--          <div class="col-12 col-md-2 mb-4">-->
+          <!--            <button-->
+          <!--              (click)="exportExcel()"-->
+          <!--              class="btn btn-primary"-->
+          <!--              type="button"-->
+          <!--              type="button"-->
+          <!--            >-->
+          <!--              Export excel-->
+          <!--            </button>-->
+          <!--          </div>-->
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="example-item">
+              <table [dataSource]="dataSource" id="excel-table" class="mat-elevation-z8" mat-table>
+                <ng-container matColumnDef="paymentMethod">
+                  <th *matHeaderCellDef class="info no-wrap th-bg-blue" mat-header-cell>
+                    วิธีชำระเงิน
+                  </th>
+                  <td class="td-bg-blue" *matCellDef="let element" mat-cell>
+                    {{ element.paymentMethod }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="vendorFrom">
+                  <th *matHeaderCellDef class="info no-wrap th-bg-blue" mat-header-cell>
+                    ผู้ขายจาก
+                  </th>
+                  <td class="td-bg-blue" *matCellDef="let element" mat-cell>
+                    {{ element.vendorFrom }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="validFrom">
+                  <th *matHeaderCellDef class="info th-bg-blue" mat-header-cell>
+                    มีผลจาก
+                  </th>
+                  <td class="td-bg-blue no-wrap" *matCellDef="let element" mat-cell>
+                    {{ element.validFrom | thaidate }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="vendorTo">
+                  <th *matHeaderCellDef class="info no-wrap" mat-header-cell>ผู้ขายถึง</th>
+                  <td class="no-wrap" *matCellDef="let element" mat-cell>{{ element.vendorTo }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="validTo">
+                  <th *matHeaderCellDef class="info" mat-header-cell>มีผลถึง</th>
+                  <td class="no-wrap" *matCellDef="let element" mat-cell>
+                    {{ element.validTo | thaidate }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="timeCreate">
+                  <th *matHeaderCellDef class="info" mat-header-cell>เวลา</th>
+                  <td class="no-wrap" *matCellDef="let element" mat-cell>
+                    {{ element.created | date: 'HH:mm:ss' }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="created">
+                  <th *matHeaderCellDef class="info" mat-header-cell>วัน</th>
+                  <td class="no-wrap" *matCellDef="let element" mat-cell>
+                    {{ element.created | thaidate }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="createdBy">
+                  <th *matHeaderCellDef class="info" mat-header-cell>ชื่อผู้ใช้</th>
+                  <td *matCellDef="let element" mat-cell>{{ element.createdBy }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="timeUpdate">
+                  <th *matHeaderCellDef class="info" mat-header-cell>เวลาอัพเดท</th>
+                  <td class="no-wrap" *matCellDef="let element" mat-cell>
+                    {{ element.updated | date: 'HH:mm:ss' }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="updated">
+                  <th *matHeaderCellDef class="info" mat-header-cell>วันอัพเดท</th>
+                  <td class="no-wrap" *matCellDef="let element" mat-cell>
+                    {{ element.updated | thaidate }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="updatedBy">
+                  <th *matHeaderCellDef class="info" mat-header-cell>ชื่อผู้อัพเดท</th>
+                  <td *matCellDef="let element" mat-cell>{{ element.updatedBy }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="active">
+                  <th *matHeaderCellDef class="info" mat-header-cell>สถานะ</th>
+                  <td *matCellDef="let element" mat-cell>
+                    <p class="close-btn-center" *ngIf="element.active"></p>
+                    <p *ngIf="!element.active">X</p>
+                  </td>
+                </ng-container>
+                <!--                <ng-container matColumnDef="edit">-->
+                <!--                  <th *matHeaderCellDef class="info" mat-header-cell></th>-->
+                <!--                  <td *matCellDef="let element" mat-cell>-->
+                <!--                    <div class="no-wrap">-->
+                <!--                      <button-->
+                <!--                        (click)="openDialogEditSumFileCondition(element)"-->
+                <!--                        class="btn btn-success"-->
+                <!--                        type="button"-->
+                <!--                      >-->
+                <!--                        <i class="material-icons">edit</i>-->
+                <!--                      </button>-->
+                <!--                      <button (click)="copy(element)" class="btn btn-secondary" type="button">-->
+                <!--                        <i class="material-icons">file_copy</i>-->
+                <!--                      </button>-->
+                <!--                      &lt;!&ndash;                      <button (click)="deleteInput(element)" class="btn btn-danger" type="button">&ndash;&gt;-->
+                <!--                      &lt;!&ndash;                        <i class="material-icons">clear</i>&ndash;&gt;-->
+                <!--                      &lt;!&ndash;                      </button>&ndash;&gt;-->
+                <!--                    </div>-->
+                <!--                  </td>-->
+                <!--                </ng-container>-->
+
+                <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+                <tr
+                  (click)="row.highlighted = !row.highlighted"
+                  (mouseout)="row.hovered = false"
+                  (mouseover)="row.hovered = true"
+                  *matRowDef="let row; columns: displayedColumns"
+                  [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                  mat-row
+                ></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<div mat-dialog-title>
+  <button (click)="closeDialog()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane"><b>วิธีการชำระเงิน</b></h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="panel-body">
+    <div class="row">
+      <div *ngFor="let item of constant.PAYMENT_METHOD" class="col-12 col-md-4">
+        <mat-checkbox
+          #checkBoxPaymentMethod
+          [checked]="item.selected"
+          [value]="item.valueCode"
+          class="checkbox-longText"
+          >{{ item.valueCode }} - {{ item.name }}</mat-checkbox
+        >
+      </div>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+      <div class="col-md-6">
+        <button
+          (click)="confirmSelect()"
+          class="btn btn-success"
+          style="width: 100%;"
+          type="button"
+        >
+          <i class="material-icons">done</i>
+        </button>
+      </div>
+      <div class="col-md-6">
+        <button (click)="closeDialog()" class="btn btn-danger" style="width: 100%;" type="button">
+          <i class="material-icons">clear</i>
+        </button>
+      </div>
+  </div>
+</div>

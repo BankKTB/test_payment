@@ -1,0 +1,18 @@
+<div class="header">
+  <span (click)="mainPage()" class="link">
+    <div class="head-left">
+      <div class="head-logo"></div>
+    </div>
+  </span>
+  <div class="head-right">
+    <span class="head-right__thai">ระบบบริหารการเงินการคลังภาครัฐแบบอิเล็กทรอนิกส์ใหม่</span>
+    <span class="head-right__eng">NEW GOVERNMENT FISCAL MANAGEMENT INFORMATION SYSTEM</span>
+  </div>
+</div>
+<div (click)="toggleMenu()" class="btn-toggle-mobile">
+  <div [ngClass]="menuClassActive" id="menuToggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>

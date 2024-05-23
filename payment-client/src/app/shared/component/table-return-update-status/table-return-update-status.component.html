@@ -1,0 +1,276 @@
+<div [hidden]="currentPageType !== nameComponent">
+  <ng-container>
+    <div class="alv-tool box-button-action">
+      <ng-container>
+        <div>
+          <button
+            (click)="openDialogReportSortColumn()"
+            class="btn btn-icon-white"
+            matTooltip="จัดการโครงร่าง"
+            type="button"
+          >
+            <mat-icon>filter_list</mat-icon>
+            <!-- จัดการโครงร่าง -->
+          </button>
+          <button
+            (click)="openDialogReportFilterColumn()"
+            class="btn btn-icon-white"
+            matTooltip="จัดการเกณฑ์ฟิลเตอร์"
+            type="button"
+          >
+            <mat-icon>filter_alt</mat-icon>
+            <!-- จัดการเกณฑ์ฟิลเตอร์ -->
+          </button>
+          <button
+            (click)="openDialogReportArrangeColumn()"
+            class="btn btn-icon-white"
+            matTooltip="เปลี่ยนแปลงโครงร่าง"
+            type="button"
+          >
+            <mat-icon>view_quilt</mat-icon>
+            <!-- เปลี่ยนแปลงโครงร่าง -->
+          </button>
+          <button
+            (click)="openDialogReportDisplayArrangeColumn()"
+            class="btn btn-icon-white"
+            matTooltip="เลือกโครงร่าง"
+            type="button"
+          >
+            <mat-icon>ballot</mat-icon>
+            <!-- เลือกโครงร่าง -->
+          </button>
+          <button
+            (click)="openDialogReportSaveArrangeColumn()"
+            class="btn btn-icon-white"
+            matTooltip="บันทึกโครงร่าง"
+            type="button"
+          >
+            <mat-icon>save_alt</mat-icon>
+            <!-- บันทึกโครงร่าง -->
+          </button>
+          <button
+            (click)="openDialogReportUpdateArrangeColumn()"
+            class="btn btn-icon-white"
+            matTooltip="แก้ไขโครงร่าง"
+            type="button"
+            *ngIf="arrangeId"
+          >
+            <mat-icon>edit</mat-icon>
+            <!-- แก้ไขโครงร่าง -->
+          </button>
+          <button
+            (click)="exportExcel()"
+            class="btn btn-icon-white"
+            matTooltip="Export Excel"
+            type="button"
+          >
+            <mat-icon>explicit</mat-icon>
+            <!-- แก้ไขโครงร่าง -->
+          </button>
+        </div>
+      </ng-container>
+    </div>
+    <div class="row return-description">
+      <div class="col-12 col-md-4 d-flex align-items-center justify-content-center">
+        <span class="status-return-complete">เรียบร้อยแล้ว</span>
+      </div>
+      <div class="col-12 col-md-4 d-flex align-items-center justify-content-center">
+        <span class="status-return-return">คืนกลับ</span>
+      </div>
+      <div class="col-12 col-md-4 d-flex align-items-center justify-content-center">
+        <span class="status-return-not-assign">รอการดำเนิน</span>
+      </div>
+    </div>
+    <div class="long-data-table hide-scroll">
+      <table [dataSource]="dataSource" id="excel-table" class="mat-elevation-z8" mat-table>
+        <ng-container matColumnDef="id">
+          <th *matHeaderCellDef mat-header-cell class=""></th>
+          <td *matCellDef="let element; let i = index" mat-cell class=""></td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="isComplete">
+          <th *matHeaderCellDef mat-header-cell>
+            <mat-checkbox
+              (change)="selectAll('C')"
+              [checked]="isSelectedCompleteAll"
+            ></mat-checkbox>
+            สมบูรณ์
+          </th>
+          <td *matCellDef="let element; let i = index" mat-cell class="text-center">
+            <mat-checkbox
+              (change)="changeFileStatus(i, 'C', element)"
+              [checked]="selectionComplete.isSelected(element)"
+            >
+            </mat-checkbox>
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="isReturn">
+          <th *matHeaderCellDef mat-header-cell>
+            <mat-checkbox (change)="selectAll('R')" [checked]="isSelectedReturnAll"></mat-checkbox>
+            คืนกลับ
+          </th>
+          <td *matCellDef="let element; let i = index" mat-cell class="text-center">
+            <mat-checkbox
+              (change)="changeFileStatus(i, 'R', element)"
+              [checked]="selectionReturn.isSelected(element)"
+            >
+            </mat-checkbox>
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="fileStatus">
+          <th *matHeaderCellDef mat-header-cell>สถานะ</th>
+          <td *matCellDef="let element" mat-cell class="text-center">
+            <div [ngClass]="checkStatus(element.id)"><span style="display: none;">{{ checkStatusText(element.id) }}</span></div>
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="refRunning">
+          <th *matHeaderCellDef mat-header-cell>Ref Number Index</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.refRunning }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="refLine">
+          <th *matHeaderCellDef mat-header-cell>บรรทัดอ้าง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.refLine | numberSequence: 6 }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="paymentDate">
+          <th *matHeaderCellDef mat-header-cell>วันที่ประมวลผล</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.paymentDate }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="paymentName">
+          <th *matHeaderCellDef mat-header-cell>การกำหนด</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.paymentName }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="accountNoFrom">
+          <th *matHeaderCellDef mat-header-cell>บ/ช ต้นทาง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.accountNoFrom }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="accountNoTo">
+          <th *matHeaderCellDef mat-header-cell>บ/ช ปลายทาง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.accountNoTo }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="fileType">
+          <th *matHeaderCellDef mat-header-cell>ประเภทไฟล์</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.fileType }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="fileName">
+          <th *matHeaderCellDef mat-header-cell>ชื่อไฟล์</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.fileName }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="transferDate">
+          <th *matHeaderCellDef mat-header-cell>วันที่สั่ง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.transferDate }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="vendor">
+          <th *matHeaderCellDef mat-header-cell>ผู้ขาย</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.vendor }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="bankKey">
+          <th *matHeaderCellDef mat-header-cell>คีย์ธนาคาร</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.bankKey }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="vendorBankAccount">
+          <th *matHeaderCellDef mat-header-cell>เลชที่บัญชีธนาคาร</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.vendorBankAccount }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="transferLevel">
+          <th *matHeaderCellDef mat-header-cell>ระดับคำสั่ง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.transferLevel }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="payAccount">
+          <th *matHeaderCellDef mat-header-cell>บัญชีจ่าย</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.payAccount }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="paymentCompCode">
+          <th *matHeaderCellDef mat-header-cell>รหัสหน่วยงาน</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.paymentCompCode }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+        <ng-container matColumnDef="paymentDocument">
+          <th *matHeaderCellDef mat-header-cell>เลขเอกสาร</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.paymentDocument }}
+          </td>
+          <td mat-footer-cell *matFooterCellDef>รวมทั้งหมด</td>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+          <th *matHeaderCellDef mat-header-cell>จำนวนเงินใน LC</th>
+          <td *matCellDef="let element" class="text-right" mat-cell>
+            {{ element.amount | bigdecimal }}
+          </td>
+          <td
+            style="text-decoration: underline; font-weight: bold;"
+            mat-footer-cell
+            *matFooterCellDef
+          >
+            {{ getTotalSum() | bigdecimal }}
+          </td>
+        </ng-container>
+        <tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: getDisplayedColumns()" mat-row></tr>
+        <tr mat-footer-row *matFooterRowDef="getDisplayedColumns()"></tr>
+      </table>
+    </div>
+    <div>
+      <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
+      รายการทั้งหมด {{ dataSource.filteredData.length }} รายการ
+    </div>
+    <div class="mx-auto mt-3 border-t-black mb-2 pt-5">
+      <div class="d-flex justify-content-center">
+        <button (click)="onSubmit()" class="btn-light" type="button">บันทึก</button>
+        <button (click)="onBack()" class="btn-light" type="button">กลับ</button>
+      </div>
+      <div class="d-flex"></div>
+    </div>
+  </ng-container>
+  <ng-template #notFound>
+    <div class="box-not-found">
+      <h3 *ngIf="!this.loaderService.isLoading">ไม่พบเอกสาร</h3>
+    </div>
+  </ng-template>
+</div>

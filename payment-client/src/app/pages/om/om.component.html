@@ -1,0 +1,1040 @@
+<div class="content-menu-top">
+  <app-head-content></app-head-content>
+  <div class="topic">
+    <h4>อนุมัติเอกสารขอเบิก</h4>
+  </div>
+</div>
+<div class="body">
+  <div class="container-fluid">
+    <span class="fill-remaining-space">
+      <button (click)="openDialogOmSearchCriteria()" class="btn btn-info" mat-icon-button>
+        <mat-icon>description</mat-icon>
+        <span>ตัวเลือก</span>
+      </button>
+      &nbsp;
+    </span>
+    <span class="fill-remaining-space">
+      <span>{{ role }}</span>
+
+      &nbsp;
+    </span>
+    <span class="fill-remaining-space">
+      <button (click)="changeRole('USER_PTO')" class="btn btn-info" mat-icon-button>
+        <mat-icon>description</mat-icon>
+        <span>USER_PTO</span>
+      </button>
+      &nbsp;
+    </span>
+    <span class="fill-remaining-space">
+      <button (click)="changeRole('USER_CGD')" class="btn btn-info" mat-icon-button>
+        <mat-icon>description</mat-icon>
+        <span>USER_CGD</span>
+      </button>
+      &nbsp;
+    </span>
+    <span class="fill-remaining-space">
+      <button (click)="changeRole('USER_PTO_H')" class="btn btn-info" mat-icon-button>
+        <mat-icon>description</mat-icon>
+        <span>USER_PTO_H</span>
+      </button>
+      &nbsp;
+    </span>
+    <span class="fill-remaining-space">
+      <button (click)="clearInputByRole()" class="btn btn-info" mat-icon-button>
+        <mat-icon>refresh</mat-icon>
+        <span>เคลียร์ พารามิเตอร์</span>
+      </button>
+    </span>
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="omFormCreate" [ngClass]="{ 'submited-form': isSubmitedForm }">
+          <div class="panel panel-primary">
+            <div (click)="panelExpanded = !panelExpanded" class="panel-heading pointer">
+              <h3 class="panel-head">
+                Selection Criteria
+                <span class="float-right"
+                  ><i *ngIf="!panelExpanded" class="material-icons">add</i></span
+                >
+                <span class="float-right"
+                  ><i *ngIf="panelExpanded" class="material-icons">remove</i></span
+                >
+              </h3>
+            </div>
+            <div *ngIf="panelExpanded" class="panel-body">
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> รหัสหน่วยงาน </label>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      formControlName="departmentCodeFrom"
+                      maxLength="5"
+                      type="text"
+                    />
+                    <div class="input-group-append button-group-search">
+                      <button
+                        (click)="openDialogSearchMaster('departmentCodeFrom')"
+                        class="btn btn-default"
+                        type="button"
+                      >
+                        <img src="assets/images/icon/fa-search.svg" width="12px" />
+                      </button>
+                    </div>
+                  </div>
+                  <!--                  {{departmentCodeFromBindingName}}-->
+                </div>
+                <label class="input-head pt-15">ถึง </label>
+                <div class="col-12 col-md-4">
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      formControlName="departmentCodeTo"
+                      maxLength="5"
+                      type="text"
+                    />
+                    <div class="input-group-append button-group-search">
+                      <button
+                        (click)="openDialogSearchMaster('departmentCodeTo')"
+                        class="btn btn-default"
+                        type="button"
+                      >
+                        <img src="assets/images/icon/fa-search.svg" width="12px" />
+                      </button>
+                    </div>
+                  </div>
+                  <!--                  {{departmentCodeToBindingName}}-->
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> รหัสจังหวัด </label>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      formControlName="provinceCodeFrom"
+                      maxLength="4"
+                      type="text"
+                    />
+                    <div class="input-group-append button-group-search">
+                      <button
+                        (click)="openDialogSearchMaster('provinceCodeFrom')"
+                        class="btn btn-default"
+                        type="button"
+                      >
+                        <img src="assets/images/icon/fa-search.svg" width="12px" />
+                      </button>
+                    </div>
+                  </div>
+                  <!--                  {{provinceCodeFromBindingName}}-->
+                </div>
+                <label class="input-head pt-15">ถึง </label>
+                <div class="col-12 col-md-4">
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      formControlName="provinceCodeTo"
+                      maxLength="4"
+                      type="text"
+                    />
+                    <div class="input-group-append button-group-search">
+                      <button
+                        (click)="openDialogSearchMaster('provinceCodeTo')"
+                        class="btn btn-default"
+                        type="button"
+                      >
+                        <img src="assets/images/icon/fa-search.svg" width="12px" />
+                      </button>
+                    </div>
+                  </div>
+                  <!--                  {{provinceCodeToBindingName}}-->
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> ปีบัญชี </label>
+                </div>
+                <div class="col-md-4">
+                  <input
+                    class="form-control"
+                    formControlName="yearAccount"
+                    maxLength="4"
+                    type="text"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> วันผ่านรายการ </label>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group datetime-input">
+                    <div class="box-instead-input">
+                      <input
+                        [matDatepicker]="postDateFrom"
+                        class="form-control"
+                        formControlName="postDateFrom"
+                        type="text"
+                        appDateInput
+                      />
+                    </div>
+                    <div class="datetime-input-append">
+                      <button (click)="postDateFrom.open()" class="btn-calendar-icon" type="button">
+                        <img src="assets/images/icon/calendar.svg" width="12px" />
+                        <mat-datepicker #postDateFrom></mat-datepicker>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <label class="input-head pt-15">ถึง </label>
+                <div class="col-12 col-md-4">
+                  <div class="input-group datetime-input">
+                    <div class="box-instead-input">
+                      <input
+                        [matDatepicker]="postDateto"
+                        class="form-control"
+                        formControlName="postDateTo"
+                        type="text"
+                        appDateInput
+                      />
+                    </div>
+                    <div class="datetime-input-append">
+                      <button (click)="postDateto.open()" class="btn-calendar-icon" type="button">
+                        <img src="assets/images/icon/calendar.svg" width="12px" />
+                        <mat-datepicker #postDateto></mat-datepicker>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> ผู้ขาย </label>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      formControlName="vendorTaxIdFrom"
+                      maxLength="13"
+                      type="text"
+                    />
+                    <div class="input-group-append button-group-search">
+                      <button
+                        (click)="openDialogSearchMaster('vendorTaxIdFrom')"
+                        class="btn btn-default"
+                        type="button"
+                      >
+                        <img src="assets/images/icon/fa-search.svg" width="12px" />
+                      </button>
+                    </div>
+                  </div>
+                  <!--                  {{vendorTaxIdFromBindingName}}-->
+                </div>
+                <label class="input-head pt-15">ถึง </label>
+                <div class="col-12 col-md-4">
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      formControlName="vendorTaxIdTo"
+                      maxLength="13"
+                      type="text"
+                    />
+                    <div class="input-group-append button-group-search">
+                      <button
+                        (click)="openDialogSearchMaster('vendorTaxIdTo')"
+                        class="btn btn-default"
+                        type="button"
+                      >
+                        <img src="assets/images/icon/fa-search.svg" width="12px" />
+                      </button>
+                    </div>
+                  </div>
+                  <!--                  {{vendorTaxIdToBindingName}}-->
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> หน่วยเบิกจ่าย </label>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      formControlName="disbursementCodeFrom"
+                      maxLength="10"
+                      type="text"
+                    />
+                    <div class="input-group-append button-group-search">
+                      <button
+                        (click)="openDialogSearchMaster('disbursementCodeFrom')"
+                        class="btn btn-default"
+                        type="button"
+                      >
+                        <img src="assets/images/icon/fa-search.svg" width="12px" />
+                      </button>
+                    </div>
+                  </div>
+                  <!--                  {{disbursementCodeFromBindingName}}-->
+                </div>
+                <label class="input-head pt-15">ถึง </label>
+                <div class="col-12 col-md-4">
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      formControlName="disbursementCodeTo"
+                      maxLength="10"
+                      type="text"
+                    />
+                    <div class="input-group-append button-group-search">
+                      <button
+                        (click)="openDialogSearchMaster('disbursementCodeTo')"
+                        class="btn btn-default"
+                        type="button"
+                      >
+                        <img src="assets/images/icon/fa-search.svg" width="12px" />
+                      </button>
+                    </div>
+                  </div>
+                  <!--                  {{disbursementCodeToBindingName}}-->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div [ngClass]="{ show: isOpenCollapseDetail }" class="collapse-detail">
+            <div class="panel panel-primary">
+              <div (click)="panelExpanded1 = !panelExpanded1" class="panel-heading pointer">
+                <h3 class="panel-head">
+                  Addition Selection
+                  <span class="float-right"
+                    ><i *ngIf="!panelExpanded1" class="material-icons">add</i></span
+                  >
+                  <span class="float-right"
+                    ><i *ngIf="panelExpanded1" class="material-icons">remove</i></span
+                  >
+                </h3>
+              </div>
+              <div *ngIf="panelExpanded1" class="panel-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> ประเภทเอกสาร </label>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        formControlName="docTypeFrom"
+                        maxLength="2"
+                        type="text"
+                      />
+                      <!--                      <div class="input-group-append button-group-search">-->
+                      <!--                        <button-->
+                      <!--                          (click)="openDialogSearchMaster('docTypeFrom')"-->
+                      <!--                          class="btn btn-default"-->
+                      <!--                          type="button"-->
+                      <!--                        >-->
+                      <!--                          <img src="assets/images/icon/fa-search.svg" width="12px"/>-->
+                      <!--                        </button>-->
+                      <!--                      </div>-->
+                    </div>
+                  </div>
+                  <label class="input-head pt-15">ถึง </label>
+                  <div class="col-12 col-md-4">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        formControlName="docTypeTo"
+                        maxLength="2"
+                        type="text"
+                      />
+                      <!--                      <div class="input-group-append button-group-search">-->
+                      <!--                        <button-->
+                      <!--                          (click)="openDialogSearchMaster('docTypeTo')"-->
+                      <!--                          class="btn btn-default"-->
+                      <!--                          type="button"-->
+                      <!--                        >-->
+                      <!--                          <img src="assets/images/icon/fa-search.svg" width="12px"/>-->
+                      <!--                        </button>-->
+                      <!--                      </div>-->
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> วิธีการชำระเงิน </label>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="input-group">
+                      <input
+                        [formControl]="payMethodFromControl"
+                        [matAutocomplete]="auto1"
+                        [readonly]="isDisablePayMethod"
+                        class="form-control"
+                        formControlName="payMethodFrom"
+                        maxLength="1"
+                        type="text"
+                      />
+                      <div
+                        *ngIf="!isDisablePayMethod"
+                        class="input-group-append button-group-search"
+                      >
+                        <button
+                          (click)="openDialogSearchMaster('payMethodFrom')"
+                          class="btn btn-default"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/fa-search.svg" width="12px" />
+                        </button>
+                      </div>
+                      <mat-autocomplete #auto1="matAutocomplete">
+                        <mat-option
+                          *ngFor="let option of filteredOptionsPaymentFrom | async"
+                          [value]="option.valueCode"
+                        >
+                          {{ option.valueCode }} - {{ option.name }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </div>
+                  </div>
+                  <label class="input-head pt-15">ถึง </label>
+                  <div class="col-12 col-md-4">
+                    <div class="input-group">
+                      <input
+                        [formControl]="payMethodToControl"
+                        [matAutocomplete]="auto2"
+                        [readonly]="isDisablePayMethod"
+                        class="form-control"
+                        formControlName="payMethodTo"
+                        maxLength="1"
+                        type="text"
+                      />
+                      <div
+                        *ngIf="!isDisablePayMethod"
+                        class="input-group-append button-group-search"
+                      >
+                        <button
+                          (click)="openDialogSearchMaster('payMethodTo')"
+                          class="btn btn-default"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/fa-search.svg" width="12px" />
+                        </button>
+                      </div>
+                      <mat-autocomplete #auto2="matAutocomplete">
+                        <mat-option
+                          *ngFor="let option of filteredOptionsPaymentTo | async"
+                          [value]="option.valueCode"
+                        >
+                          {{ option.valueCode }} - {{ option.name }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> วันที่เอกสาร</label>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="input-group datetime-input">
+                      <div class="box-instead-input">
+                        <input
+                          [matDatepicker]="documentDateFrom"
+                          class="form-control"
+                          formControlName="documentDateFrom"
+                          type="text"
+                          appDateInput
+                        />
+                      </div>
+                      <div class="datetime-input-append">
+                        <button
+                          (click)="documentDateFrom.open()"
+                          class="btn-calendar-icon"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/calendar.svg" width="12px" />
+                          <mat-datepicker #documentDateFrom></mat-datepicker>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <label class="input-head pt-15">ถึง </label>
+                  <div class="col-12 col-md-4">
+                    <div class="input-group datetime-input">
+                      <div class="box-instead-input">
+                        <input
+                          [matDatepicker]="documentDateTo"
+                          class="form-control"
+                          formControlName="documentDateTo"
+                          type="text"
+                          appDateInput
+                        />
+                      </div>
+                      <div class="datetime-input-append">
+                        <button
+                          (click)="documentDateTo.open()"
+                          class="btn-calendar-icon"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/calendar.svg" width="12px" />
+                          <mat-datepicker #documentDateTo></mat-datepicker>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> วันที่บันทึก</label>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="input-group datetime-input">
+                      <div class="box-instead-input">
+                        <input
+                          [matDatepicker]="documentCreateDateFrom"
+                          class="form-control"
+                          formControlName="documentCreateDateFrom"
+                          type="text"
+                          appDateInput
+                        />
+                      </div>
+                      <div class="datetime-input-append">
+                        <button
+                          (click)="documentCreateDateFrom.open()"
+                          class="btn-calendar-icon"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/calendar.svg" width="12px" />
+                          <mat-datepicker #documentCreateDateFrom></mat-datepicker>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <label class="input-head pt-15">ถึง </label>
+                  <div class="col-12 col-md-4">
+                    <div class="input-group datetime-input">
+                      <div class="box-instead-input">
+                        <input
+                          [matDatepicker]="documentCreateDateTo"
+                          class="form-control"
+                          formControlName="documentCreateDateTo"
+                          type="text"
+                          appDateInput
+                        />
+                      </div>
+                      <div class="datetime-input-append">
+                        <button
+                          (click)="documentCreateDateTo.open()"
+                          class="btn-calendar-icon"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/calendar.svg" width="12px" />
+                          <mat-datepicker #documentCreateDateTo></mat-datepicker>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> แยกประเภทพิเศษ </label>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="input-group">
+                      <input
+                        [matAutocomplete]="auto3"
+                        class="form-control"
+                        formControlName="specialTypeFrom"
+                        maxLength="1"
+                        type="text"
+                      />
+                      <div class="input-group-append button-group-search">
+                        <button
+                          (click)="openDialogSearchMaster('specialTypeFrom')"
+                          class="btn btn-default"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/fa-search.svg" width="12px" />
+                        </button>
+                      </div>
+                      <mat-autocomplete #auto3="matAutocomplete">
+                        <mat-option
+                          *ngFor="let option of filteredOptionsSpecialFrom | async"
+                          [value]="option.valueCode"
+                        >
+                          {{ option.valueCode }} - {{ option.name }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </div>
+                  </div>
+                  <label class="input-head pt-15">ถึง </label>
+                  <div class="col-12 col-md-4">
+                    <div class="input-group">
+                      <input
+                        [matAutocomplete]="auto4"
+                        class="form-control"
+                        formControlName="specialTypeTo"
+                        maxLength="1"
+                        type="text"
+                      />
+                      <div class="input-group-append button-group-search">
+                        <button
+                          (click)="openDialogSearchMaster('specialTypeTo')"
+                          class="btn btn-default"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/fa-search.svg" width="12px" />
+                        </button>
+                      </div>
+                      <mat-autocomplete #auto4="matAutocomplete">
+                        <mat-option
+                          *ngFor="let option of filteredOptionsSpecialTo | async"
+                          [value]="option.valueCode"
+                        >
+                          {{ option.valueCode }} - {{ option.name }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div [ngClass]="{ show: isOpenCollapseDetail }" class="collapse-detail">
+            <div class="panel panel-primary">
+              <div (click)="panelExpanded2 = !panelExpanded2" class="panel-heading pointer">
+                <h3 class="panel-head">
+                  โครงร่างรายงาน
+                  <span class="float-right"
+                    ><i *ngIf="!panelExpanded2" class="material-icons">add</i></span
+                  >
+                  <span class="float-right"
+                    ><i *ngIf="panelExpanded2" class="material-icons">remove</i></span
+                  >
+                </h3>
+              </div>
+              <div *ngIf="panelExpanded2" class="panel-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> โครงร่าง </label>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="input-group">
+                      <input
+                        class="form-control"
+                        formControlName="outline"
+                        maxLength="5"
+                        type="text"
+                      />
+                      <div class="input-group-append button-group-search">
+                        <button
+                          (click)="openDialogOmSearchColumn()"
+                          class="btn btn-default"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/fa-search.svg" width="12px" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mx-auto mt-3 border-t-black mb-2">
+            <div class="mx-auto d-flex">
+              <button (click)="onSearch()" class="btn-light" type="button">ค้นหา</button>
+              <button (click)="openDialogOmSaveSearchCriteria()" class="btn-light" type="button">
+                บันทึกเงื่อนไขการค้นหา
+              </button>
+            </div>
+          </div>
+          <!--          <div class="collapse-detail" [ngClass]="{ show: isOpenCollapseDetail }">-->
+          <!--            <div class="panel panel-primary">-->
+          <!--              <div class="panel-heading pointer" (click)="panelExpanded3 = !panelExpanded3">-->
+          <!--                <h3>ฟิลด์ที่ซ่อนไว้-->
+          <!--                  <span class="float-right"><i class="material-icons" *ngIf="!panelExpanded3">add</i></span>-->
+          <!--                  <span class="float-right"><i class="material-icons" *ngIf="panelExpanded3">remove</i></span>-->
+          <!--                </h3>-->
+          <!--              </div>-->
+          <!--              <div class="panel-body" *ngIf="panelExpanded3">-->
+          <!--                <div class="row">-->
+          <!--                  <div class="col-12 col-md-12">-->
+          <!--                    <form [formGroup]="form">-->
+          <!--                      <mat-checkbox *ngFor="let cd of columnDefinitions" [formControlName]="cd.def">{{cd.columnName}}-->
+          <!--                      </mat-checkbox>-->
+          <!--                    </form>-->
+          <!--                  </div>-->
+          <!--                </div>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </div>-->
+        </form>
+
+        <ul class="warning-box">
+          <li *ngFor="let c of listSearchValidate">{{ c }}</li>
+        </ul>
+        <!-- Table -->
+        <div [hidden]="isShowSearchData" class="long-data-table">
+          <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
+            <ng-container matColumnDef="list">
+              <th *matHeaderCellDef class="info" mat-header-cell>รายการ</th>
+              <td *matCellDef="let element; let i = index" mat-cell>
+                {{ i + 1 }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="docType">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ประเภทเอกสาร</th>
+              <td *matCellDef="let element" mat-cell>{{ element.docType }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="dateDoc">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>วันที่เอกสาร</th>
+              <td *matCellDef="let element" mat-cell>{{ element.dateDoc | thaidate }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="dateAcct">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+                วันที่ผ่านรายการ
+              </th>
+              <!--              <td mat-cell *matCellDef="let element"> {{element.dateAcct | date: 'dd.MM.yyyy'}} </td>-->
+              <td *matCellDef="let element" mat-cell>{{ element.dateAcct | thaidate }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="amount">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>จำนวนเงิน</th>
+              <td *matCellDef="let element" mat-cell>{{ element.amount | bigdecimal }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="invDocNo">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+                ใบกำกับสินค้าอ้างอิง
+              </th>
+              <td *matCellDef="let element" mat-cell>{{ element.invDocNo }}</td>
+            </ng-container>
+            <ng-container matColumnDef="accDocNo">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>เลขที่เอกสาร</th>
+              <td (click)="openDialogDetailDocument(element)" *matCellDef="let element" mat-cell>
+                {{ element.accDocNo }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fiscalYear">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ปีบัญชี</th>
+              <td *matCellDef="let element" mat-cell>{{ element.fiscalYear }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="paymentMethod">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>วิธีชำระเงิน</th>
+              <td *matCellDef="let element" mat-cell>{{ element.paymentMethod }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="hdReference">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>การอ้างอิง</th>
+              <td *matCellDef="let element" mat-cell>{{ element.hdReference }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="userPost">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ผู้ใช้</th>
+              <td *matCellDef="let element" mat-cell>{{ element.userPost }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="fiArea">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>รหัสจังหวัด</th>
+              <td *matCellDef="let element" mat-cell>{{ element.fiArea }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="costCenter">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ศูนย์ต้นทุน</th>
+              <td *matCellDef="let element" mat-cell>{{ element.costCenter }}</td>
+            </ng-container>
+            <ng-container matColumnDef="fundSource">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>แหล่งของเงิน</th>
+              <td *matCellDef="let element" mat-cell>{{ element.fundSource }}</td>
+            </ng-container>
+            <ng-container matColumnDef="bgCode">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>รหัสงบประมาณ</th>
+              <td *matCellDef="let element" mat-cell>{{ element.bgCode }}</td>
+            </ng-container>
+            <ng-container matColumnDef="assignment">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>การกำหนด</th>
+              <td *matCellDef="let element" mat-cell>{{ element.assignment }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="brLine">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>บรรทัดรายการ</th>
+              <!--              <td *matCellDef="let element" mat-cell>{{ element.brLine }}</td>-->
+              <td *matCellDef="let element" mat-cell>001</td>
+            </ng-container>
+
+            <ng-container matColumnDef="subAccount">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>บัญชีย่อย</th>
+              <td *matCellDef="let element" mat-cell>{{ element.subAccount }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="subAccountOwner">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+                เจ้าของบัญชีย่อย
+              </th>
+              <td *matCellDef="let element" mat-cell>{{ element.subAccountOwner }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="depositAccount">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>บัญชีเงินฝาก</th>
+              <td *matCellDef="let element" mat-cell>{{ element.depositAccount }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="depositAccountOwner">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+                เจ้าของบัญชีเงินฝาก
+              </th>
+              <td *matCellDef="let element" mat-cell>{{ element.depositAccountOwner }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="lineItemText">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ข้อความ</th>
+              <td *matCellDef="let element" mat-cell>{{ element.lineItemText }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="specialGL">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>แยกประเภทพิเศษ</th>
+              <td *matCellDef="let element" mat-cell>{{ element.specialGL }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="dateBaseLine">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+                วันที่เป็นฐานการจ่าย
+              </th>
+              <td *matCellDef="let element" class="text-nowrap" mat-cell>
+                {{ element.dateBaseLine | thaidate }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="reference2">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>คีย์อ้างอิง 2</th>
+              <td *matCellDef="let element" mat-cell>{{ element.reference2 }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="poDocumentNo">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+                เอกสารการจัดซื้อ
+              </th>
+              <td *matCellDef="let element" mat-cell>{{ element.poDocNo }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="vendorName">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ชื่อ 1</th>
+              <td *matCellDef="let element" mat-cell>{{ element.vendorName }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="vendorCode">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ผู้ขาย</th>
+              <td *matCellDef="let element" mat-cell>{{ element.vendor }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="bankKey">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+                คีย์ธนาคาร
+              </th>
+              <td *matCellDef="let element" mat-cell>{{ element.bankKey }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="bankAccountNo">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+                เลขที่บัญชีธนาคาร
+              </th>
+              <td *matCellDef="let element" mat-cell>{{ element.bankAccountNo }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="accountHolder">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ผู้ถือบัญชี</th>
+              <td *matCellDef="let element" mat-cell>{{ element.bankAccountHolderName }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="fundType">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ประเภทกองทุน</th>
+              <td *matCellDef="let element" mat-cell>{{ element.fundType }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="approve">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>อนุมัติ</th>
+              <td *matCellDef="let row; let i = index" mat-cell>
+                <mat-checkbox
+                  (change)="$event ? selectionApprove.toggle(row) : null"
+                  (click)="onClickCheckedDocument($event, 'approve', row, i)"
+                  [aria-label]="checkboxLabelApproved(row)"
+                  [checked]="selectionApprove.isSelected(row)"
+                >
+                </mat-checkbox>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="notApprove">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ไม่อนุมัติ</th>
+              <td *matCellDef="let row; let i = index" mat-cell>
+                <mat-checkbox
+                  (change)="$event ? selectionNotApprove.toggle(row) : null"
+                  (click)="onClickCheckedDocument($event, 'notApprove', row, i)"
+                  [aria-label]="checkboxLabelNotApproved(row)"
+                  [checked]="selectionNotApprove.isSelected(row)"
+                >
+                </mat-checkbox>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="reason">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>เหตุผล</th>
+              <td *matCellDef="let element; let i = index" mat-cell>
+                {{ element.info }}
+                <textarea
+                  #reasonInput
+                  (blur)="setReason(element, i)"
+                  [disabled]="!selectionNotApprove.isSelected(element)"
+                  [value]="element.reason"
+                  class="form-control"
+                ></textarea>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="frStatus">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>FR Status</th>
+              <td *matCellDef="let element" mat-cell>
+                <img
+                  *ngIf="element.docType === 'SA' || element.docType === 'SB'"
+                  src="assets/images/icon/iconFrAB.png"
+                />
+                <img *ngIf="element.docType === 'K2'" src="assets/images/icon/iconFrK2.png" />
+                <img *ngIf="element.docType === 'K7'" src="assets/images/icon/iconFrK7.png" />
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="iconStatus">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>สถานะ</th>
+              <td *matCellDef="let element" mat-cell>
+                <img
+                  *ngIf="element.iconStatus === '1'"
+                  class="icon-status-om"
+                  src="assets/images/icon/timeAlert.png"
+                />
+                <img
+                  *ngIf="element.iconStatus === '2'"
+                  class="icon-status-om"
+                  src="assets/images/icon/timeDelay.png"
+                />
+                <img
+                  *ngIf="element.iconStatus === '3'"
+                  class="icon-status-om"
+                  src="assets/images/icon/time.png"
+                />
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="bot">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>BOT</th>
+              <td *matCellDef="let element" mat-cell>
+                <img *ngIf="element.bot" class="icon-status-om" src="assets/images/icon/BOT.png" />
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="confirmSeller">
+              <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+                การยืนยันผู้ขาย
+              </th>
+
+              <td *matCellDef="let element" mat-cell>
+                <img
+                  *ngIf="!element.confirmVendor"
+                  class="icon-status-om"
+                  src="assets/images/icon/alert.png"
+                />
+              </td>
+            </ng-container>
+
+            <tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+            <tr
+              (click)="row.highlighted = !row.highlighted"
+              (mouseout)="row.hovered = false"
+              (mouseover)="row.hovered = true"
+              *matRowDef="let row; columns: getDisplayedColumns()"
+              [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+              mat-row
+            ></tr>
+          </table>
+        </div>
+        <div [hidden]="isShowSearchData">
+          <div class="tooltip-container">
+            <img src="assets/images/icon/question.png" />
+            <div class="tooltip-detail-content">
+              <div class="detail-content">
+                <span>สถานะ</span>
+                <img class="icon-status-om" src="assets/images/icon/timeAlert.png" />:
+                ถึงกำหนดชำระ<br />
+                <img class="icon-status-om" src="assets/images/icon/timeDelay.png" />:
+                เกินกำหนดชำระ<br />
+                <img class="icon-status-om" src="assets/images/icon/time.png" />: ยังไม่ถึงกำหนดชำระ
+              </div>
+              <div class="detail-content">
+                <span>ประเภทเอกสาร</span>
+                <img class="icon-status-om" src="assets/images/icon/iconFrAB.png" />: เอกสาร SA หรือ
+                SB<br />
+                <img class="icon-status-om" src="assets/images/icon/iconFRK2.png" />: เอกสาร K2<br />
+                <img class="icon-status-om" src="assets/images/icon/iconFRK7.png" />: เอกสาร K7
+              </div>
+            </div>
+          </div>
+          <mat-paginator
+            [hidden]="isShowSearchData"
+            [pageSizeOptions]="[5, 10, 20, 50, 100]"
+            showFirstLastButtons
+          >
+          </mat-paginator>
+        </div>
+      </mat-card-content>
+      <div [hidden]="isShowSearchData" class="row mx-auto mt-3 border-t-black">
+        <div class="mx-auto d-flex">
+          <button (click)="selectAllApproved()" class="btn-light" type="button">
+            อนุมัติทุกรายการ
+          </button>
+          <button (click)="unselectAllApproved()" class="btn-light" type="button">
+            ยกเลิกอนุมัติทุกรายการ
+          </button>
+          <button (click)="selectAllNotApproved()" class="btn-light" type="button">
+            ยกเลิกไม่อนุมัติทุกรายการ
+          </button>
+        </div>
+      </div>
+      <!--      <div [hidden]="isShowSearchData" class="w-100 mx-auto text-center mt-4">-->
+      <!--        <button type="button" class="btn-light" (click)="selectAllApproved()">อนุมัติทุกรายการ</button>-->
+      <!--        <button type="button" class="btn-light" (click)="unselectAllApproved()">ยกเลิกอนุมัติทุกรายการ</button>-->
+      <!--        <button type="button" class="btn-light" (click)="selectAllNotApproved()">ยกเลิกไม่อนุมัติทุกรายการ</button>-->
+      <!--      </div>-->
+      <div [hidden]="isShowSearchData" class="row mx-auto mt-3 border-t-black">
+        <div class="mx-auto d-flex">
+          <button (click)="onPreSave()" class="btn-light" type="button">ยืนยัน</button>
+        </div>
+      </div>
+      <ul class="warning-box">
+        <li *ngFor="let c of listValidate">{{ c }}</li>
+      </ul>
+      <div [hidden]="isShowSearchData" class="row mx-auto mt-3 border-t-black">
+        <div class="mx-auto d-flex">
+          <button (click)="openDialogOmSearchColumn()" class="btn-light" type="button">
+            ตัวเลือก
+          </button>
+          <button (click)="defaultColumnTableForm()" class="btn-light" type="button">
+            ตั้งค่าเริ่มต้น
+          </button>
+          <button (click)="openDialogOmColumnTable()" class="btn-light" type="button">table</button>
+          <button (click)="openDialogOmSaveColumnTable()" class="btn-light" type="button">
+            create
+          </button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

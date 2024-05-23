@@ -1,0 +1,99 @@
+.panel {
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgb(0 0 0 / 5%);
+  box-shadow: 0 1px 1px rgb(0 0 0 / 5%);
+
+  .panel-heading {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+
+  .panel-body {
+    padding: 15px;
+  }
+}
+
+.input-group-append.button-group-search {
+  .btn.btn-default {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 15px;
+    }
+  }
+}
+
+.input-group {
+  input:disabled + .datetime-input-append .btn-calendar-icon,
+  input:disabled + span.clear-input-icon {
+    background-color: #e9ecef;
+    pointer-events: none;
+    cursor: none;
+  }
+}
+
+.holiday-tab {
+  .mat-tab-label-active {
+    background: transparent;
+  }
+
+  .mat-tab-header,
+  .mat-tab-nav-bar {
+    border: none;
+  }
+}
+
+.generate-file-result-dialog {
+  padding: 15px;
+
+  .mat-dialog-container {
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+  }
+
+  button.close {
+    position: absolute;
+    top: -30px;
+    right: 20px;
+    z-index: 1001;
+  }
+}
+
+.om-summary-table-search div {
+  display: flex;
+  max-width: 35%;
+  @media screen and (max-width: $break-large) {
+    max-width: 45%;
+  }
+  @media screen and (max-width: $break-ipad) {
+    max-width: 60%;
+  }
+  @media screen and (max-width: $break-small) {
+    max-width: 100%;
+  }
+  * {
+    flex: 1;
+  }
+
+  span {
+    &:first-child {
+      flex: 2;
+    }
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+
+  p {
+    margin: 0;
+    text-align: right;
+  }
+
+  //}
+}

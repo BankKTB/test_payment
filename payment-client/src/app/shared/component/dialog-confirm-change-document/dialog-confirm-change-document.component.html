@@ -1,0 +1,198 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane">
+    <b>ยืนยันการเปลี่ยนแปลงเอกสาร</b>
+  </h1>
+</div>
+
+<div mat-dialog-content [hidden]="isClose">
+  <div class="content-box mt-5">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="overflow-auto">
+          <b>ค่าเอกสารเก่า</b>
+          <table class="header-primary mt-3">
+            <tr class="theadinfo">
+              <td colspan="2" class="text-center" width="10%">หน่วยงาน</td>
+              <td colspan="2" class="text-center" width="10%">ปีบัญชี</td>
+              <td colspan="2" class="text-center" width="10%">เลขที่เอกสาร</td>
+              <td colspan="2" class="text-center" width="25%">วันที่เป็นฐาน</td>
+              <td colspan="2" class="text-center" width="25%">Pmnt block</td>
+              <td colspan="2" class="text-center" width="10%">การกำหนด</td>
+              <td colspan="2" class="text-center" width="20%">ข้อความ</td>
+              <td colspan="2" class="text-center" width="10%">คีย์อ้างอิง1</td>
+              <td colspan="2" class="text-center" width="10%">เลขที่บัญชี</td>
+            </tr>
+            <tbody>
+              <tr>
+                <td colspan="2" class="text-center" width="10%">{{ data.payload.compCode }}</td>
+                <td colspan="2" class="text-center" width="10%">
+                  {{ data.payload.fiscalYear | thaiyear }}
+                </td>
+                <td colspan="2" class="text-center" width="10%">{{ data.payload.accountDocNo }}</td>
+                <td colspan="2" class="text-center" width="25%">{{ data.oldValueTemp?.dateBaseLine | thaidate }}</td>
+                <td colspan="2" class="text-center" width="25%">
+                  {{ data.oldValueTemp?.paymentBlock | detailPaymentBlock }}
+                </td>
+                <td colspan="2" class="text-center" width="10%">
+                  {{ data.oldValueTemp?.assignment }}
+                </td>
+                <td colspan="2" class="text-center" width="20%">
+                  {{ data.oldValueTemp?.lineDesc }}
+                </td>
+                <td colspan="2" class="text-center" width="10%">
+                  {{ data.oldValueTemp?.reference1 }}
+                </td>
+                <td colspan="2" class="text-center" width="10%">
+                  {{ data.oldValueTemp?.bankAccountNo }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <b>ค่าเอกสารใหม่</b>
+          <table class="header-primary mt-3">
+            <tr class="theadinfo">
+              <td colspan="2" class="text-center" width="10%">หน่วยงาน</td>
+              <td colspan="2" class="text-center" width="10%">ปีบัญชี</td>
+              <td colspan="2" class="text-center" width="10%">เลขที่เอกสาร</td>
+              <td colspan="2" class="text-center" width="25%">วันที่เป็นฐาน</td>
+              <td colspan="2" class="text-center" width="25%">Pmnt block</td>
+              <td colspan="2" class="text-center" width="10%">การกำหนด</td>
+              <td colspan="2" class="text-center" width="20%">ข้อความ</td>
+              <td colspan="2" class="text-center" width="10%">คีย์อ้างอิง1</td>
+              <td colspan="2" class="text-center" width="10%">เลขที่บัญชี</td>
+            </tr>
+
+            <tr class="none-border-bottom">
+              <td colspan="2" class="text-center" width="10%">{{ data.payload.compCode }}</td>
+              <td colspan="2" class="text-center" width="10%">
+                {{ data.payload.fiscalYear | thaiyear }}
+              </td>
+
+              <td colspan="2" class="text-center" width="10%">{{ data.payload.accountDocNo }}</td>
+              <td colspan="2" class="text-center" width="25%">
+                <span
+                  [ngClass]="{
+                    'text-red': data.oldValueTemp?.dateBaseLine !== data.payload.dateBaseLine
+                  }"
+                >
+                  {{ data.payload.dateBaseLine | thaidate }}
+                </span>
+              </td>
+              <td colspan="2" class="text-center" width="25%">
+                <span
+                  [ngClass]="{
+                    'text-red': data.oldValueTemp?.paymentBlock !== data.payload.paymentBlock
+                  }"
+                >
+                  {{ data.payload.paymentBlock | detailPaymentBlock }}
+                </span>
+              </td>
+              <td colspan="2" class="text-center" width="10%">
+                <span
+                  [ngClass]="{
+                    'text-red': data.oldValueTemp?.assignment !== data.payload.assignment
+                  }"
+                >
+                  {{ data.payload.assignment }}
+                </span>
+              </td>
+              <td colspan="2" class="text-center" width="20%">
+                <span
+                  [ngClass]="{
+                    'text-red': data.oldValueTemp?.lineDesc !== data.payload.lineDesc
+                  }"
+                >
+                  {{ data.payload.lineDesc }}
+                </span>
+              </td>
+              <td colspan="2" class="text-center" width="10%">
+                <span
+                  [ngClass]="{
+                    'text-red': data.oldValueTemp?.reference1 !== data.payload.reference1
+                  }"
+                >
+                  {{ data.payload.reference1 }}
+                </span>
+              </td>
+              <td colspan="2" class="text-center" width="10%">
+                <span
+                  [ngClass]="{
+                    'text-red': data.oldValueTemp?.bankAccountNo !== data.payload.bankAccNo
+                  }"
+                >
+                  {{ data.payload.bankAccNo }}
+                </span>
+              </td>
+
+              <!--              <td colspan="2" class="text-center" width="10%"> <span [ngClass]="{ 'text-red': isUpdateValueByOldTemp('paymentBlock') }"> {{ data.payload.paymentBlock }} </span> </td>-->
+              <!--              <td colspan="2" width="10%"> <span [ngClass]="{ 'text-red': isUpdateValueByOldTemp('assignment') }"> {{ data.payload.assignment }} </span> </td>-->
+              <!--              <td colspan="2" width="10%"> <span [ngClass]="{ 'text-red': isUpdateValueByOldTemp('lineDesc') }"> {{ data.payload.lineDesc }} </span> </td>-->
+              <!--              <td colspan="2" width="10%"> <span [ngClass]="{ 'text-red': isUpdateValueByOldTemp('reference1') }"> {{ data.payload.reference1 }} </span> </td>-->
+              <!--              <td colspan="2" width="10%"> <span [ngClass]="{ 'text-red': isUpdateValueByOldTemp('bankAccNo') }"> {{ data.payload.bankAccNo }} </span> </td>-->
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="mx-auto d-flex justify-content-center dialog-footer">
+      <button
+        (click)="clickConfirm()"
+        type="button"
+        class="btn-gradient btn-bg-primary d-flex mb-5 mr-5"
+        mat-icon-button
+      >
+        <mat-icon class="font-22 d-flex align-items-center">check_circle_outline_outlined</mat-icon>
+        <span class="pl-4">ยืนยัน</span>
+      </button>
+      <button
+        (click)="clickCancel()"
+        type="button"
+        class="btn-gradient btn-bg-alert d-flex mb-5"
+        mat-icon-button
+      >
+        <span>ยกเลิก</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-content [hidden]="!isClose">
+  <div class="content-box">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="overflow-auto">
+          <div class="panel panel-primary">
+            <div class="panel-heading pointer">
+              <h3 class="panel-head">
+                Log Error
+              </h3>
+            </div>
+
+            <div>
+              <p
+                style="margin-left: 10px; margin-top: 10px;"
+                class="warning-box"
+                *ngFor="let c of listValidate"
+              >
+                {{ c.code }} {{ c.text }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mx-auto d-flex justify-content-center dialog-footer">
+      <button
+        (click)="onNoClick()"
+        type="button"
+        class="btn-gradient btn-bg-alert d-flex mb-5"
+        mat-icon-button
+      >
+        <span>ปิด</span>
+      </button>
+    </div>
+  </div>
+</div>

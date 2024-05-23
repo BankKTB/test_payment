@@ -1,0 +1,115 @@
+.icon-status {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: 0px;
+  right: -18px;
+}
+
+.icon-statusVendor {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: 0px;
+  right: 100px;
+}
+
+.icon-in-table-st14 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.icon-in-table-bs {
+  top: 6px;
+  left: 50%;
+  transform: translate(-50%, 0px);
+}
+
+.icon-in-table {
+  top: 5px;
+  left: 50%;
+  transform: translate(-50%, 0px);
+}
+
+.apply-icon-unsuccess {
+  background: url('assets/images/icon/apply2_disable.gif');
+  background-size: contain;
+}
+
+.apply-icon-success {
+  background: url('assets/images/icon/apply2.gif');
+  background-size: contain;
+}
+
+.search-detail {
+  background: url('assets/images/icon/search.png');
+  background-size: contain;
+  min-width: 15px;
+  min-height: 15px;
+  background-repeat: no-repeat;
+  background-position: top;
+  cursor: pointer;
+}
+
+.search-detail-disabled {
+  background: url('assets/images/icon/searchDisabled.png');
+  background-size: contain;
+  min-width: 15px;
+  min-height: 15px;
+  background-repeat: no-repeat;
+  background-position: top;
+  // cursor: pointer;
+}
+
+.icon-in-input {
+  top: 25%;
+  right: 13%;
+}
+
+.apply-icon-clear {
+  background: url('assets/images/icon/clear.png');
+  background-size: contain;
+}
+
+.icon-collpse-open {
+  background: url('assets/images/icon/plus.png');
+  width: 15px;
+  height: 15px;
+  color: white;
+  background-size: contain;
+  margin-left: 10px;
+  margin-top: 3px;
+}
+
+.icon-collpse-close {
+  background: url('assets/images/icon/minus.png');
+  width: 15px;
+  height: 15px;
+  color: white;
+  background-size: contain;
+  margin-left: 10px;
+  margin-top: 3px;
+}
+.icon-return-not-assign {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 10px solid #F4D03F;
+  margin: 0 auto;
+}
+.icon-return-complete {
+  width: 10px;
+  height: 10px;
+  background: greenyellow;
+  margin: 0 auto;
+}
+.icon-return-return {
+  width: 10px;
+  height: 10px;
+  background: red;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+

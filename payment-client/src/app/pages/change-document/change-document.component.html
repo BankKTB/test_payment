@@ -1,0 +1,679 @@
+<div class="content-menu-top">
+  <app-head-content></app-head-content>
+  <div class="topic">
+    <h4>เปลี่ยนแปลงเอกสาร</h4>
+  </div>
+</div>
+<div class="body">
+  <div class="container-fluid">
+    <div class="template-btn text-right mb-2">
+      <button class="text-white" type="button">
+        <div class="d-flex-center">
+          <i class="material-icons mr-2">file_download</i>
+          <a download href="../../../assets/spreadsheet/payment/template-การเปลี่ยนแปลงเอกสาร.xlsx">
+            Download template file
+          </a>
+        </div>
+      </button>
+      <button (click)="openDialogUploadFile()" class="text-white" type="button">
+        <div class="d-flex-center">
+          <i class="material-icons mr-2">file_upload</i>
+          Upload file
+        </div>
+      </button>
+    </div>
+    <form [formGroup]="changeDocumentForm" [ngClass]="{ 'submited-form': isSubmitedForm }">
+      <div class="row">
+        <div class="col">
+          <h3 class="mb-5 f-s-17">คีย์สำหรับการบัญชีการเงิน</h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-underline-red input-head"> เลขที่เอกสาร </label>
+        </div>
+        <div class="col-md-4">
+          <input
+            class="form-control"
+            formControlName="documentNo"
+            maxLength="10"
+            type="text"
+            appNumberOnly
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-underline-red input-head"> รหัสหน่วยงาน </label>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group">
+            <input
+              class="form-control"
+              formControlName="departmentCodeFrom"
+              maxLength="5"
+              type="text"
+            />
+
+            <div class="input-group-append button-group-search">
+              <button
+                (click)="openDialogSearchMaster('departmentCodeFrom')"
+                class="btn btn-default"
+                type="button"
+              >
+                <img src="assets/images/icon/fa-search.svg" width="12px" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-underline-blue input-head"> ปีบัญชี </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control" formControlName="fiscalYear" maxLength="4" type="text" />
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+          <button
+            (click)="searchDetailDocument()"
+            class="btn-gradient btn-bg-primary d-flex mb-5"
+            mat-icon-button
+          >
+            <mat-icon>search</mat-icon>
+            <span>ค้นหาเอกสาร</span>
+          </button>
+        </div>
+      </div>
+      <ul class="warning-box">
+        <li *ngFor="let c of listValidate">{{ c }}</li>
+      </ul>
+
+      <mat-tab-group
+        [hidden]="listDocument.length === 0"
+        #tabRef
+        (selectedTabChange)="tabChanged($event)"
+        [(selectedIndex)]="tabSelectedIndex"
+        class="tap-group"
+      >
+        <mat-tab label="เปลี่ยนแปลงเอกสาร">
+          <div class="panel panel-primary">
+            <div class="panel-heading pointer">
+              <h3 class="panel-head">
+                เปลี่ยนแปลงสถานะเอกสาร
+              </h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-2">
+                  <label
+                    *ngIf="docType === 'K3' && specialGL === '3'"
+                    class="text-black input-head"
+                  >
+                    วันที่ครบกำหนด
+                  </label>
+                  <label *ngIf="specialGL !== '3'" class="text-black input-head">
+                    วันที่เป็นฐาน
+                  </label>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="input-group datetime-input">
+                    <!--                    <div class="box-instead-input">-->
+                    <input
+                      [matDatepicker]="dateBaseLine"
+                      class="form-control"
+                      formControlName="dateBaseLine"
+                      type="text"
+                      appDateInput
+                    />
+                    <!--                    </div>-->
+                    <div class="datetime-input-append">
+                      <button (click)="dateBaseLine.open()" class="btn-calendar-icon" type="button">
+                        <img src="assets/images/icon/calendar.svg" width="12px" />
+                        <mat-datepicker #dateBaseLine></mat-datepicker>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> Pmnt Block </label>
+                </div>
+                <div class="col-md-4">
+                  <select class="form-control" formControlName="paymentBlock" name="paymentBlock">
+                    <option *ngFor="let item of constant.LIST_PAYMENT_BLOCK" [ngValue]="item.id"
+                      >{{ item.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> วิธีชำระเงิน </label>
+                </div>
+                <div class="col-md-4">
+                  <select class="form-control" formControlName="paymentMethod" name="paymentMethod">
+                    <option *ngFor="let item of constant.PAYMENT_METHOD" [ngValue]="item.valueCode"
+                      >{{ item.valueCode }} - {{ item.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> การกำหนด </label>
+                </div>
+                <div class="col-md-4">
+                  <input class="form-control" formControlName="define" maxLength="" type="text" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> ข้อความ </label>
+                </div>
+                <div class="col-md-4">
+                  <input class="form-control" formControlName="text" maxLength="" type="text" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-primary">
+            <div class="panel-heading pointer">
+              <h3 class="panel-head">
+                เปลี่ยนแปลงคีย์อ้างอิง
+              </h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> คีย์อ้างอิง 1 </label>
+                </div>
+                <div class="col-md-4">
+                  <select class="form-control" formControlName="reference1" name="reference1">
+                    <option *ngFor="let item of constant.LIST_REFERENCE1" [ngValue]="item"
+                      >{{ item }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-primary">
+            <div class="panel-heading pointer">
+              <h3 class="panel-head">
+                เปลี่ยนแปลงเลขที่บัญชีธนาคาร
+              </h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> เลขที่บัญชีธนาคาร </label>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <!-- set input disable for disable button search -->
+                    <input
+                      class="form-control input-none-border input-readonly-with-search"
+                      formControlName="bankAccountNo"
+                      maxLength="20"
+                      type="text"
+                    />
+                    <div class="input-group-append button-group-search">
+                      <button
+                        [hidden]="changeDocumentForm.controls.bankAccountNo.disabled"
+                        (click)="openDialogSearchMaster('bankAccountNo')"
+                        class="btn-default d-flex align-items-center"
+                        style="border-radius: 5px;"
+                      >
+                        <mat-icon>search</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="ข้อมูลทั่วไป">
+          <div class="panel panel-primary">
+            <div class="panel-heading pointer">
+              <h3 class="panel-head">
+                รายละเอียดเอกสาร
+              </h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> รหัสหน่วยงาน </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 text-thin">
+                  <div class="text-black">{{ companyCode }} - {{ companyName }}</div>
+                </div>
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> วันที่เอกสาร </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 text-thin">
+                  {{ documentDate | thaidate }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> รหัสหน่วยเบิกจ่าย </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  <div class="text-black">{{ paymentCenter }} - {{ paymentCenterName }}</div>
+                </div>
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> วันที่ผ่านรายการ </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  {{ postDate | thaidate }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> รหัสพื้นที่ </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  {{ areaCode }} - {{ areaName }}
+                  <!--                    1000 - ส่วนกลาง-->
+                  <!--                    <p>ส่วนกลาง</p>-->
+                  <div class="text-black"></div>
+                  <span class="text-green font-14"></span>
+                </div>
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> งวด </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  {{ period }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> ประเภทเอกสาร </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  {{ docType }} - {{ docTypeName }}
+                </div>
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> การอ้างอิง </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  {{ headerReference }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> เลขที่ใบสั่งซื้อสั่งจ้างระบบ GFMIS </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">{{ poDocNo }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-primary">
+            <div class="panel-heading pointer">
+              <h3 class="panel-head">
+                ข้อมูลผู้รับเงิน
+              </h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black">
+                    เลขประจำตัวบัตรประชาชน / <br />
+                    เลขประจำตัวผู้เสียภาษี
+                  </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">{{ vendorTaxId }}</div>
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> เลขที่บัญชีเงินฝากธนาคาร </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  {{ bankAccountNo }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black">
+                    ชื่อผู้ขาย
+                  </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">{{ vendorName }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-primary">
+            <div class="panel-heading pointer">
+              <h3 class="panel-head">
+                ข้อมูลผู้รับเงิน
+              </h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black">
+                    เลขประจำตัวบัตรประชาชน / <br />
+                    เลขประจำตัวผู้เสียภาษี (โอนสิทธิ)
+                  </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">{{ payeeTaxId }}</div>
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> รหัสผู้ขาย (โอนสิทธิ) </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  {{ payeeCode }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black">
+                    ชื่อผู้ขาย (โอนสิทธิ)
+                  </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">{{ payeeName }}</div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="รายการบัญชี">
+          <div class="panel panel-primary">
+            <div class="panel-heading pointer">
+              <h3 class="panel-head">
+                รายการบัญชี
+              </h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label> ลำดับที่ {{ line }}</label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  <div class="d-flex">
+                    <label class="text-black mr-2"> PK </label>
+                    {{ postingKey | posting }}
+                  </div>
+                </div>
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> เอกสารสำรองเงิน</label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  {{ brDocNo }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> รหัสบัญชีแยกประเภท </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  <div class="input-group">{{ glAccount }} - {{ glAccountName }}</div>
+                </div>
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> รหัสศูนย์ต้นทุน </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  <div class="input-group">{{ costCenter }} - {{ costCenterName }}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> รหัสแหล่งของเงิน </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  <div class="input-group">{{ fundSource }} - {{ fundSourceName }}</div>
+                </div>
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> รหัสงบประมาณ </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  <div class="input-group">{{ bgCode }} - {{ bgCodeName }}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> รหัสกิจกรรมหลัก </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  <div class="input-group">{{ bgActivity }} - {{ bgActivityName }}</div>
+                </div>
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> รหัสกิจกรรมย่อย </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  <div class="input-group">{{ costActivity }} - {{ costActivityName }}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> รหัสหน่วยงานคู่ค้า<br />(Trading Partner) </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  <div class="input-group">{{ tradingPartner }} - {{ trandingPartnerName }}</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> รหัส GPSC </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  <div class="input-group">{{ gpsc }} - {{ gpscName }}</div>
+                </div>
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> รหัสหมวดพัสดุ </label>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group text-thin">{{ gpscGroup }} - {{ gpscGroupName }}</div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> รหัสบัญชีเงินฝากคลัง</label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  <div class="input-group">{{ depositAccount }} - {{ depositAccountName }}</div>
+                </div>
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> รหัสเจ้าของบัญชีเงินฝากคลัง </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  <div class="input-group">
+                    {{ depositAccountOwner }} - {{ depositAccountOwnerName }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> รหัสบัญชีย่อย </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  <div class="input-group">{{ subAccount }} - {{ subAccountName }}</div>
+                </div>
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black">
+                    รหัสเจ้าของบัญชีย่อย
+                  </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  <div class="input-group">{{ subAccountOwner }} - {{ subAccountOwnerName }}</div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black"> รหัสบัญชีธนาคารย่อย </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  <div class="input-group">{{ bankBook }} - {{ bankBookName }}</div>
+                </div>
+                <div class="col-12 col-sm-4 col-md-2">
+                  <label class="text-black">
+                    จำนวนเงิน
+                  </label>
+                </div>
+                <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                  <div class="d-flex input-with-unit-detail">
+                    {{ amount | bigdecimal }}
+                    บาท
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mx-auto mt-3 mb-5 text-center">
+            <button
+              (click)="openDialogTaxFee()"
+              *ngIf="listDocument.length > 0"
+              class="btn btn-light position-relative mr-5"
+            >
+              ระบุภาษี หัก ณ ที่จ่าย/ค่าปรับ
+              <div *ngIf="isTaxInputApply" class="icon-status apply-icon-success"></div>
+              <div *ngIf="!isTaxInputApply" class="icon-status apply-icon-unsuccess"></div>
+            </button>
+          </div>
+          <div
+            class="long-data-table mb-2"
+            *ngIf="listDocument.length > 0 && listDocument !== null"
+          >
+            <table border="0" class="table-result">
+              <tr>
+                <th>เลือก</th>
+                <th class="text">ลำดับที่</th>
+                <th class="text">PK</th>
+                <th class="text">ชื่อบัญชี</th>
+                <th class="text">รหัสบัญชีแยกประเภท</th>
+                <th class="text">รหัสศูนย์ต้นทุน</th>
+                <th class="text">รหัสแหล่งของเงิน</th>
+                <th class="text">รหัสงบประมาณ</th>
+                <th class="text">รหัสกิจกรรมหลัก</th>
+                <th class="text">รหัสกิจกรรมย่อย</th>
+                <th class="text">จำนวนเงิน</th>
+              </tr>
+              <tbody>
+                <tr
+                  *ngFor="
+                    let document of listDocument
+                      | paginate: { itemsPerPage: constant.PER_PAGINATION, currentPage: p };
+                    let i = index
+                  "
+                  [ngClass]="{
+                    selected: selectListOrder === (p - 1) * constant.PER_PAGINATION + (i + 1)
+                  }"
+                >
+                  <td align="center">
+                    <img
+                      (click)="selectOrder(document, (p - 1) * constant.PER_PAGINATION + i)"
+                      class="icon pointer"
+                      src="assets/images/icon/record.gif"
+                    />
+                  </td>
+                  <td>{{ document.line }}</td>
+                  <td>{{ document.postingKey | posting }}</td>
+                  <td
+                    *ngIf="accDocNo.startsWith('4') && document.accountType === 'K'"
+                    class="text-left"
+                  >
+                    {{ document.glAccount2Name }}
+                  </td>
+                  <td
+                    *ngIf="accDocNo.startsWith('4') && document.accountType === 'S'"
+                    class="text-left"
+                  >
+                    {{ document.glAccountName }}
+                  </td>
+                  <td *ngIf="!accDocNo.startsWith('4')" class="text-left">
+                    {{ document.glAccountName }}
+                  </td>
+                  <td *ngIf="accDocNo.startsWith('4') && document.accountType === 'K'">
+                    {{ document.glAccount2 }}
+                  </td>
+                  <td *ngIf="accDocNo.startsWith('4') && document.accountType === 'S'">
+                    {{ document.glAccount }}
+                  </td>
+                  <td *ngIf="!accDocNo.startsWith('4')">{{ document.glAccount }}</td>
+                  <td>{{ document.costCenter }}</td>
+                  <td>{{ document.fundSource }}</td>
+                  <td>{{ document.bgCode }}</td>
+                  <td>{{ document.bgActivity }}</td>
+                  <td>{{ document.costActivity }}</td>
+                  <td class="text-right">
+                    <span *ngIf="document.drCr === 'C'">-</span> {{ document.amount | bigdecimal }}
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="9"></td>
+                  <td class="summary">จำนวนเงินขอเบิก</td>
+                  <td class="summary-result text-right">{{ totalPrice | bigdecimal }}</td>
+                </tr>
+                <tr>
+                  <td colspan="9"></td>
+                  <td class="summary">จำนวนเงินภาษีหัก ณ ที่จ่าย</td>
+                  <td class="summary-result text-right">{{ totalTax | bigdecimal }}</td>
+                </tr>
+                <tr>
+                  <td colspan="9"></td>
+                  <td class="summary">จำนวนเงินค่าปรับ</td>
+                  <td class="summary-result text-right">{{ totalFee | bigdecimal }}</td>
+                </tr>
+                <tr>
+                  <td colspan="9"></td>
+                  <td class="summary">จำนวนเงินขอรับ</td>
+                  <td class="summary-result text-right">{{ netPrice | bigdecimal }}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <div *ngIf="listDocument.length > 0 && listDocument !== null">
+            <div class="box-explain">
+              <div class="row row-fix">
+                <div class="col-12">
+                  <div class="d-flex">
+                    <strong>คำอธิบาย:</strong>
+                    <div class="ml-2">
+                      <p>1. คลิกที่คอลัมน์ที่มีเส้นใต้เพื่อจัดเรียงลำดับ</p>
+                      <p>
+                        <span></span> <img src="assets/images/icon/record.gif" />
+                        <span class="ml-2"> คลิกเพื่อแสดงเอกสาร </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <pagination-controls
+            [hidden]="listDocument.length < 7"
+            (pageChange)="p = $event"
+            nextLabel=">"
+            previousLabel="<"
+          ></pagination-controls>
+        </mat-tab>
+      </mat-tab-group>
+
+      <div
+        *ngIf="!checkChangeDocument && listDocument.length > 0"
+        class="mt-3 d-flex justify-content-center"
+      >
+        <button
+          (click)="updateLineVendor()"
+          class="btn-gradient btn-bg-primary d-flex mb-5"
+          mat-icon-button
+        >
+          <span>เปลี่ยนแปลงเอกสาร</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

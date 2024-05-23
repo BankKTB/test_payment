@@ -1,0 +1,454 @@
+<div class="content-box dialog-box">
+  <div class="content-detail mb-4">
+    <div class="row">
+      <div class="col-12 col-sm-4 col-md-2">
+        <label class="text-black"> รหัสหน่วยงาน </label>
+      </div>
+      <div class="col-12 col-sm-8 col-md-4 text-thin">
+        <div class="text-black">{{ companyCode }}</div>
+        <span class="text-green font-14">{{ companyName }}</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-sm-4 col-md-2">
+        <label class="text-black"> รหัสหน่วยเบิกจ่าย </label>
+      </div>
+      <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+        <div class="text-black">{{ paymentCenter }}</div>
+        <span class="text-green font-14">{{ paymentCenterName }}</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-sm-4 col-md-2">
+        <label class="text-black"> เลขที่ใบสั่งซื้อสั่งจ้างระบบ GFMIS </label>
+      </div>
+      <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">{{ poDocNo }}</div>
+      <div class="col-12 col-md-2"><label class="text-black"> ผู้บันทึกรายการ </label></div>
+      <div class="col-12 col-md-4">
+        <p>{{ userWebOnline }}</p>
+        <button (click)="changeHistory()" class="btn btn-light position-relative">
+          ประวัติการแก้ไข
+        </button>
+      </div>
+    </div>
+    <div class="mx-auto text-center">
+      <button
+        [disabled]="!isTaxInputApply"
+        (click)="openDialogPoTax()"
+        class="btn btn-light position-relative mr-5"
+      >
+        ระบุภาษีมูลค่าเพิ่ม
+        <div *ngIf="isTaxInputApply" class="icon-status apply-icon-success"></div>
+        <div *ngIf="!isTaxInputApply" class="icon-status apply-icon-unsuccess"></div>
+      </button>
+      <button
+        [disabled]="!isAdvancePaymentApply"
+        (click)="openDialogPoAdvancePayment()"
+        class="btn btn-light position-relative mr-5"
+      >
+        ระบุมูลค่าเงินจ่ายล่วงหน้า
+        <div *ngIf="isAdvancePaymentApply" class="icon-status apply-icon-success"></div>
+        <div *ngIf="!isAdvancePaymentApply" class="icon-status apply-icon-unsuccess"></div>
+      </button>
+    </div>
+  </div>
+
+  <mat-tab-group #tabRef class="row-border">
+    <mat-tab label="ข้อมูลทั่วไป">
+      <br />
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> เลขที่ใบสั่งซื้อ/สัญญา </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 text-thin">
+          <div class="text-black">{{ egporderNo }}</div>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2"></div>
+        <div class="col-12 col-sm-8 col-md-4 text-thin">
+          <button
+            [disabled]="!isCheckHeaderText"
+            (click)="openDialogPoHeaderDetail()"
+            class="btn btn-light position-relative mr-5"
+          >
+            ระบุข้อความเพิ่มเติมสำหรับข้อมูลทั่วไป
+            <div *ngIf="isCheckHeaderText" class="icon-status apply-icon-success"></div>
+            <div *ngIf="!isCheckHeaderText" class="icon-status apply-icon-unsuccess"></div>
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> วิธีการจัดซื้อจัดจ้าง </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="text-black">{{ procureMethod }} - {{ procureMethodName }}</div>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> วันที่ใบสั่งซื้อ/สัญญา </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          {{ egpdateContractStart | thaidate }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสประจำตัวผู้เสียภาษี(ผู้ขาย) </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="text-black">{{ egpbpartnerTaxID }}</div>
+          <span class="text-green font-14">{{ vendorCodeName }}</span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> วันที่สิ้นสุดสัญญา </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          {{ egpdateContractEnd | thaidate }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> เลขที่บัญชีเงินฝากธนาคาร </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">{{ egpbpartnerBankAccountNo }}</div>
+      </div>
+    </mat-tab>
+    <mat-tab label="รายการสั่งซื้อ/จ้าง/เช่า">
+      <br />
+      <div class="row">
+        <div class="col-md-12 bg-secondcolor">
+          <label class="text-black"> <strong> รายละเอียดใบสั่งซื้อ </strong> </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label> ลำดับที่ {{ lineNo }}</label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="d-flex">
+            <label class="text-black mr-2"> สถานะ </label>
+            {{ poLineStatus }}
+          </div>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2"></div>
+        <div class="col-12 col-sm-8 col-md-4 text-thin">
+          <button
+            [disabled]="detailTexts.length === 0"
+            (click)="openDialogPoItemDetail()"
+            class="btn btn-light position-relative mr-5"
+          >
+            ระบุข้อความเพิ่มเติมสำหรับข้อมูลรายการ
+            <div *ngIf="detailTexts.length > 0" class="icon-status apply-icon-success"></div>
+            <div *ngIf="detailTexts.length === 0" class="icon-status apply-icon-unsuccess"></div>
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> ประเภทการจัดซื้อจัดจ้าง</label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">{{ accType }} - {{ accTypeName }}</div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัส GPSC </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ gPSCCode }}
+          </div>
+          <span class="text-green font-14">{{ gPSCCodeName }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> จำนวนที่สั่งซื้อ </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">{{ qty | bigdecimal }} {{ uom }} - {{ uomName }}</div>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> ราคาต่อหน่วย </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">{{ priceLastPO | bigdecimal }} บาท</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> วันที่ส่งมอบ </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">{{ egpdateDelivery | thaidate }}</div>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> มูลค่าเงินจ่ายล่วงหน้า </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">{{ downPayment | bigdecimal }} บาท</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 bg-secondcolor">
+          <label class="text-black"> <strong> รายละเอียดงบประมาณ </strong> </label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสศูนย์ต้นทุน </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ budgetCostCenter }}
+          </div>
+          <span class="text-green font-14">{{ budgetCostCenterName }}</span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสบัญชีแยกประเภท </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ glAccount }}
+          </div>
+          <span class="text-green font-14">{{ glAccountName }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> เลขที่เอกสารสำรองเงิน </label>
+        </div>
+        <div (click)="openDetailBr()" class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <label class="text-underline-green pointer">
+            <strong> {{ brDocNo }} </strong>
+          </label>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสบัญชีย่อยของบัญชีแยก ประเภท (Sub Book GL) </label>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group text-thin">
+            {{ subBookGL }}
+          </div>
+          <span class="text-green font-14">{{ subBookGLName }}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสแหล่งของเงิน </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ budgetFundSource }}
+          </div>
+          <span class="text-green font-14">{{ budgetFundSourceName }}</span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสงบประมาณ </label>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group text-thin">
+            {{ budgetCode }}
+          </div>
+          <span class="text-green font-14">{{ budgetCodeName }}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสกิจกรรมหลัก </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ budgetActivity }}
+          </div>
+          <span class="text-green font-14">{{ budgetActivity }}</span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสกิจกรรมย่อย </label>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group text-thin">
+            {{ budgetCostActivity }}
+          </div>
+          <span class="text-green font-14">{{ budgetCostActivityName }}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสบัญชีย่อย </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ depositAccountSub }}
+          </div>
+          <span class="text-green font-14">{{ depositAccountSubName }}</span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black">
+            รหัสเจ้าของบัญชีย่อย
+          </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ depositAccountSubOwner }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสบัญชีเงินฝากคลัง</label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ depositAccount }}
+          </div>
+          <span class="text-green font-14">{{ depositAccountName }}</span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสเจ้าของบัญชีเงินฝากคลัง </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ depositAccountOwner }}
+          </div>
+          <span class="text-green font-14">{{ depositAccountOwnerName }}</span>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+  <br />
+  <div class="long-data-table mb-2" *ngIf="listDocument.length > 0 && listDocument !== null">
+    <table border="0" class="table-result">
+      <tr>
+        <th>เลือก</th>
+        <th class="text">ลำดับที่</th>
+        <th class="text">วันที่ส่งมอบ</th>
+        <th class="text">รายละเอียดพัสดุ</th>
+        <th class="text">จำนวน</th>
+        <th class="text">หน่วย</th>
+        <th class="text">ราคาต่อหน่วย</th>
+        <th class="text">มูลค่า</th>
+        <th class="text">สถานะ</th>
+        <th class="text">งวดเงิน</th>
+        <th class="text">จ่ายล่วงหน้า</th>
+        <th class="text">ข้อความ</th>
+        <th class="text">ประวัติ</th>
+      </tr>
+      <tbody>
+        <tr
+          *ngFor="
+            let document of listDocument
+              | paginate: { itemsPerPage: constant.PER_PAGINATION, currentPage: p };
+            let i = index
+          "
+          [ngClass]="{ selected: selectListOrder === (p - 1) * constant.PER_PAGINATION + (i + 1) }"
+        >
+          <td align="center">
+            <img
+              (click)="selectOrder(document, (p - 1) * constant.PER_PAGINATION + i)"
+              class="icon pointer"
+              src="assets/images/icon/record.gif"
+            />
+          </td>
+          <td>{{ document.lineNo }}</td>
+
+          <td>{{ document.egpdateDelivery | thaidate }}</td>
+          <td>{{ document.gPSCCodeName }}</td>
+          <td>{{ document.qty | bigdecimal }}</td>
+          <td>{{ document.uom }} - {{ document.uomName }}</td>
+          <td>{{ document.priceLastPO | bigdecimal }}</td>
+          <td>{{ (document.priceLastPO * document.qty)  | bigdecimal }}</td>
+          <td>{{ document.poLineStatus }}</td>
+          <td>
+            {{
+              document.collectionPhase
+                ? document.collectionPhase.split('-')[0]
+                : document.collectionPhase
+            }}
+          </td>
+          <td class="position-relative">
+            <div
+              *ngIf="checkDownPay(document.downPayment)"
+              class="icon-status icon-in-table-bs apply-icon-success"
+            ></div>
+            <div
+              *ngIf="!checkDownPay(document.downPayment)"
+              class="icon-status icon-in-table-bs apply-icon-unsuccess"
+            ></div>
+          </td>
+          <td class="position-relative">
+            <div
+              *ngIf="document.detailTexts !== null && document.detailTexts.length > 0"
+              class="icon-status icon-in-table-bs apply-icon-success"
+            ></div>
+            <div
+              *ngIf="document.detailTexts === null || document.detailTexts.length <= 0"
+              class="icon-status icon-in-table-bs apply-icon-unsuccess"
+            ></div>
+          </td>
+          <td>
+            <div
+              (click)="showHistory(document)"
+              *ngIf="document.isHistory === 'Y'"
+              class="search-detail"
+            ></div>
+            <div *ngIf="document.isHistory !== 'Y'" class="search-detail-disabled"></div>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="11"></td>
+          <td class="summary text-left">มูลค่าสั่งซื้อรวม</td>
+          <td class="summary-result text-right">{{ totalPrice | bigdecimal }}</td>
+        </tr>
+        <tr>
+          <td colspan="11"></td>
+          <td class="summary text-left">ภาษีมูลค่าเพิ่ม</td>
+          <td class="summary-result text-right">{{ totalTax | bigdecimal }}</td>
+        </tr>
+        <tr>
+          <td colspan="11"></td>
+          <td class="summary text-left">มูลค่าสุทธิ</td>
+          <td class="summary-result text-right">{{ netPrice | bigdecimal }}</td>
+        </tr>
+        <tr>
+          <td colspan="11"></td>
+          <td class="summary text-left">มูลค่าเงินจ่ายล่วงหน้า</td>
+          <td class="summary-result text-right">{{ totalPrepaid | bigdecimal }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div *ngIf="listDocument.length > 0 && listDocument !== null">
+    <div class="box-explain">
+      <div class="row row-fix">
+        <div class="col-12">
+          <div class="d-flex">
+            <strong>คำอธิบาย:</strong>
+            <div class="ml-2">
+              <!--                  <p>1. คลิกที่คอลัมน์ที่มีเส้นใต้เพื่อจัดเรียงลำดับ</p>-->
+              <p>
+                <span></span> <img src="assets/images/icon/record.gif" />
+                <span class="ml-2"> คลิกเพื่อแสดงเอกสาร </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <pagination-controls
+    (pageChange)="p = $event"
+    nextLabel=">"
+    previousLabel="<"
+  ></pagination-controls>
+
+  <!--  <div class="mx-auto text-center">-->
+  <!--    <button class="btn btn-light position-relative mr-5">-->
+  <!--      พิมพ์ใบสั่งซื้อ/จ้าง/เช่า-->
+  <!--    </button>-->
+  <!--  </div>-->
+</div>

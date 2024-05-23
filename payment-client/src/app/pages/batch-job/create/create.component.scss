@@ -1,0 +1,35 @@
+.repeat-radio-row {
+  .mat-radio-button {
+    display: block;
+    margin: 10px 0;
+  }
+
+  .have-input {
+    display: flex;
+    align-items: center;
+
+    .mat-radio-button {
+      margin: 5px 0;
+    }
+
+    .form-control {
+      margin: 0 26px;
+      max-width: 40%;
+      margin-bottom: 0px !important;
+      @media screen and (max-width: 575.98px) {
+        max-width: 70%;
+      }
+    }
+  }
+}
+
+:host {
+  .contact-support-notice {
+    color: green;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+}

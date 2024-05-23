@@ -1,0 +1,242 @@
+<form (keydown.enter)="$event.preventDefault()" [formGroup]="parameterForm">
+  <div class="tabbody">
+    <div class="container-fluid">
+      <div class="row align-items-end">
+        <div class="col-md-2 col-left margin-tb-size">
+          <label class="text-black input-head"><b>วันที่ผ่านรายการ</b></label>
+          <div class="input-group datetime-input">
+            <input
+              (dateChange)="onChangePostDate($event)"
+              [matDatepicker]="postDatepicker"
+              [ngClass]="{ active: parameterForm.controls.postDate.value }"
+              class="form-control"
+              formControlName="postDate"
+              type="text"
+              appDateInput
+            />
+            <div class="datetime-input-append">
+              <button (click)="postDatepicker.open()" class="btn-calendar-icon" type="button">
+                <img src="assets/images/icon/calendar.svg" width="12px" />
+                <mat-datepicker #postDatepicker></mat-datepicker>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-left margin-tb-size">
+          <label class="text-black input-head">บันทึกเอกสาร</label>
+          <div class="input-group datetime-input">
+            <input
+              [matDatepicker]="myDatepicker2"
+              [ngClass]="{ active: parameterForm.controls.saveDate.value }"
+              class="form-control"
+              formControlName="saveDate"
+              type="text"
+              appDateInput
+            />
+            <div class="datetime-input-append">
+              <button (click)="myDatepicker2.open()" class="btn-calendar-icon" type="button">
+                <img src="assets/images/icon/calendar.svg" width="12px" />
+                <mat-datepicker #myDatepicker2></mat-datepicker>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-left margin-tb-size">
+          <label class="text-black input-head">วิธีชำระเงิน</label>
+          <div class="input-group">
+            <input
+              [ngClass]="{ active: parameterForm.controls.paymentMethod.value }"
+              appPaymentMethodOnly
+              class="form-control"
+              formControlName="paymentMethod"
+              type="text"
+            />
+            <div class="input-group-append">
+              <button
+                (click)="openDialogSearchPaymentMethod()"
+                class="btn btn-default"
+                type="button"
+              >
+                <img src="assets/images/icon/menu.svg" width="12px" />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-left margin-tb-size">
+          <label class="text-black input-head">วันชำระถัดไป</label>
+          <div class="input-group datetime-input">
+            <input
+              [matDatepickerFilter]="minFilter"
+              [matDatepicker]="myDatepicker4"
+              [ngClass]="{ active: parameterForm.controls.paymentDate.value }"
+              class="form-control"
+              formControlName="paymentDate"
+              type="text"
+              appDateInput
+              [_minDate]="parameterForm.controls.postDate.value"
+            />
+            <div class="datetime-input-append">
+              <button (click)="myDatepicker4.open()" class="btn-calendar-icon" type="button">
+                <img src="assets/images/icon/calendar.svg" width="12px" />
+                <mat-datepicker #myDatepicker4></mat-datepicker>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-left margin-tb-size" style="padding-top: 20px;">
+          <span><b>คัดลอกพารามิเตอร์ : </b></span>&nbsp;
+          <span class="fill-remaining-space">
+            <button
+              [disabled]="!editable"
+              (click)="openDialogCopyParameterComponent('copy')"
+              class="btn btn-primary"
+              mat-icon-button
+            >
+              <mat-icon>file_copy</mat-icon>
+            </button> </span
+          >&nbsp;
+        </div>
+      </div>
+      <div class="tabbody">
+        <div class="panel panel-primary">
+          <div (click)="panelExpanded = !panelExpanded" class="panel-heading pointer">
+            <h3>
+              รหัสบริษัท
+              <span class="float-right"
+                ><i *ngIf="!panelExpanded" class="material-icons">add</i></span
+              >
+              <span class="float-right"
+                ><i *ngIf="panelExpanded" class="material-icons">remove</i></span
+              >
+            </h3>
+          </div>
+          <div *ngIf="panelExpanded" class="panel-body">
+            <cdk-virtual-scroll-viewport class="para-textarea" itemSize="50">
+              <div class="example-item">
+                <textarea
+                  [ngClass]="{ active: parameterForm.controls.company.value }"
+                  class="form-control"
+                  formControlName="company"
+                  rows="9"
+                ></textarea>
+              </div>
+            </cdk-virtual-scroll-viewport>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-primary">
+        <div (click)="panelExpanded1 = !panelExpanded1" class="panel-heading pointer">
+          <h3>
+            บัญชี
+            <span class="float-right"
+              ><i *ngIf="!panelExpanded1" class="material-icons">add</i></span
+            >
+            <span class="float-right"
+              ><i *ngIf="panelExpanded1" class="material-icons">remove</i></span
+            >
+          </h3>
+        </div>
+        <div *ngIf="panelExpanded1" class="panel-body">
+          <!--          <div class="row">-->
+          <!--            <div class="col-12 col-md-12">-->
+          <!--              <button (click)="addInputVendor()" class="btn btn-default float-right" type="button">-->
+          <!--                เพิ่มฟิลด์-->
+          <!--              </button>-->
+          <!--            </div>-->
+          <!--          </div>-->
+          <div *ngFor="let item of listVendor; let i = index">
+            <div class="row" [hidden]="i != 0">
+              <div class="col-12 col-md-1">
+                <span
+                  *ngIf="optionExcludeVendor === 'Y'"
+                  class="badge"
+                  style="background-color: #f14742;"
+                  >Not include</span
+                >
+              </div>
+              <label class="input-head pt-15">ผู้ขาย </label>
+              <div class="col-12 col-md-4">
+                <div class="input-group">
+                  <input
+                    #vendorTaxIdFrom
+                    (blur)="setVendor(i)"
+                    (input)="copyFromExcel($event, i, 'vendorTaxIdFrom')"
+                    [ngClass]="{
+                      active: item.vendorTaxIdFrom,
+                      'error-input': checkVendorParameter
+                    }"
+                    [value]="item.vendorTaxIdFrom"
+                    appUpperCaseDirective
+                    class="form-control"
+                    maxLength="10"
+                    type="text"
+                  />
+
+                  <span (click)="openDialogOmVendor()" class="clear-input-icon">
+                    <img src="assets/images/icon/menu.svg" width="12px" />
+                  </span>
+                  <div class="input-group-append button-group-search">
+                    <button
+                      [disabled]="!editable"
+                      (click)="openDialogSearchVendor(i, 'vendorTaxIdFrom')"
+                      class="btn btn-default"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/fa-search.svg" width="12px" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <label class="input-head pt-15">ถึง </label>
+              <div class="col-12 col-md-4">
+                <div class="input-group mr-2">
+                  <input
+                    #vendorTaxIdTo
+                    (blur)="setVendor(i)"
+                    (input)="copyFromExcel($event, i, 'vendorTaxIdTo')"
+                    [ngClass]="{ active: item.vendorTaxIdTo }"
+                    [value]="item.vendorTaxIdTo"
+                    appUpperCaseDirective
+                    class="form-control"
+                    maxLength="10"
+                    type="text"
+                  />
+                  <span (click)="openDialogOmVendor()" class="clear-input-icon">
+                    <img src="assets/images/icon/menu.svg" width="12px" />
+                  </span>
+                  <div class="input-group-append button-group-search">
+                    <button
+                      [disabled]="!editable"
+                      (click)="openDialogSearchVendor(i, 'vendorTaxIdTo')"
+                      class="btn btn-default"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/fa-search.svg" width="12px" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!--            <div class="col-12 col-md-2 d-flex-center">-->
+              <!--              <div class="input-group mr-2">-->
+              <!--                <mat-checkbox-->
+              <!--                  #optionExclude-->
+              <!--                  (change)="setOptionInclude(i)"-->
+              <!--                  [checked]="item.optionExclude"-->
+              <!--                  >ไม่รวมค่า-->
+              <!--                </mat-checkbox>-->
+              <!--              </div>-->
+              <!--              <button-->
+              <!--                (click)="deleteInputVendor(i)"-->
+              <!--                class="btn btn-danger btn-close btn-with-icon"-->
+              <!--                type="button"-->
+              <!--              >-->
+              <!--                <i class="material-icons">clear</i>-->
+              <!--              </button>-->
+              <!--            </div>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

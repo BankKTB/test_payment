@@ -1,0 +1,39 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragRootElement=".cdk-overlay-pane"><b>ประวัติใบสั่งซื้อ</b></h1>
+</div>
+<br />
+<div mat-dialog-content style="min-height: 10px;">
+  <div class="content-dialog" style="padding-left: 15px; padding-right: 15px;">
+    <div *ngIf="listDocument.length > 0 && listDocument !== null">
+      <table class="table-normal">
+        <tr>
+          <th>ข้อความแบบสั้น</th>
+          <!-- <th>ประเภทการเคลื่อนย้าย</th> -->
+          <th>เอกสารวัสดุรายการ</th>
+          <th>รายการ</th>
+          <th>วันผ่านรายการ</th>
+          <th>ปริมาณ</th>
+          <!-- <th>ปริมาณต้นทุนการส่งมอบ</th> -->
+          <th>หน่วยที่สั่ง</th>
+          <th>จำนวนเงินใน LC</th>
+          <th>สกุลเงินในประเทศ</th>
+          <th>การอ้างอิง</th>
+        </tr>
+        <tr *ngFor="let item of listDocument; let i = index">
+          <td class="text-center">{{ item.historyName }}</td>
+          <!-- <td>{{ item.revAccountDocNo }}</td> -->
+          <td class="text-center">{{ item.docNo }}</td>
+          <td class="text-center">{{ item.line }}</td>
+          <td class="text-center">{{ item.dateAcct | thaidate }}</td>
+          <td class="text-center">{{ item.qty | bigdecimal }}</td>
+          <!-- <td>{{ item.compCode }}</td> -->
+          <td class="text-center">{{ item.uom }}</td>
+          <td class="text-center">{{ item.amount | bigdecimal }}</td>
+          <td class="text-center">{{ item.currency }}</td>
+          <td class="text-center">{{ item.poReference }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

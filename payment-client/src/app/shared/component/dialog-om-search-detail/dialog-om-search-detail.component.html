@@ -1,0 +1,73 @@
+<div mat-dialog-title *ngIf="listDocument.length > 0">
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane">
+    <span>รายละเอียดการบันทึกรายการ</span>
+  </h1>
+</div>
+<mat-dialog-content class="dialog-main" *ngIf="listDocument.length > 0">
+  <div style="padding: 15px 0 0 10px;">
+    <div class="content-dialog overflow-y max-h-400">
+      <p *ngIf="listBackupDocument.length > 0">รายการเอกสารกลับรายการ</p>
+      <table *ngIf="listBackupDocument.length > 0" class="table-normal">
+        <thead>
+          <tr>
+            <th>รหัสหน่วยงาน</th>
+            <th>เลขที่เอกสารกลับรายการ</th>
+            <th>ปีบัญชี</th>
+            <th>ผู้ขาย</th>
+            <!-- <th>เลขที่ใบกำกับสินค้า</th> -->
+            <th width="40%">คำอธิบาย</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listBackupDocument; let i = index">
+            <td class="text-center">{{ item.compCode }}</td>
+            <td class="text-center">{{ item.revAccountDocNo }}</td>
+            <td class="text-center">{{ item.fiscalYear | thaiyear }}</td>
+            <td class="text-center">{{ item.vendor }}</td>
+            <!-- <td></td> -->
+            <td class="text-center">
+              เอกสาร {{ item.revAccountDocNo }} ได้ผ่านรายการในรหัสบริษัท {{ item.compCode }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <span>รายการเปลี่ยนแปลงสถานะการจ่ายเงิน</span>
+
+      <table *ngIf="listDocument.length > 0" class="table-normal">
+        <thead>
+          <tr>
+            <th rowspan="2">รหัสหน่วยงาน</th>
+            <th rowspan="2">เลขที่เอกสาร</th>
+            <th rowspan="2">ปีบัญชี</th>
+            <th rowspan="2">รายการ</th>
+            <th colspan="2">สถานะการชำระเงิน</th>
+            <th rowspan="2">วันที่</th>
+            <th rowspan="2">เวลา</th>
+          </tr>
+          <tr>
+            <th>ค่าเดิม</th>
+            <th>ค่าใหม่</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listDocument; let i = index">
+            <td class="text-center">{{ item.compCode }}</td>
+            <td class="text-center">{{ item.accountDocNo }}</td>
+            <td class="text-center">{{ item.fiscalYear | thaiyear }}</td>
+            <!-- <td class="text-center">{{ item.line | number: '3.0-0' }}</td> -->
+            <td class="text-center">{{ item.line }}</td>
+            <td class="text-center">{{ item.valueOldName }}</td>
+            <td class="text-center">{{ item.valueNewName }}</td>
+            <td class="text-center">{{ item.created | thaidate }}</td>
+            <td class="text-center">{{ item.created | date: 'HH:mm:ss' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer" mat-dialog-actions>
+      <button (click)="onNoClick()" class="btn btn-info mx-auto">ปิด</button>
+      <!--      <button (click)="loadDetail()" class="btn btn-info mx-auto">รีเฟรช</button>-->
+    </div>
+  </div>
+</mat-dialog-content>

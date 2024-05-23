@@ -1,0 +1,110 @@
+<div>
+  <ol class="breadcrumb">
+    <li class="current"><em>ตั้งค่า</em></li>
+  </ol>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <form (keydown.enter)="$event.preventDefault()" [formGroup]="companyPayingForm">
+      <div class="container-fluid">
+        <div class="submenu">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12">
+              <h2>รหัสบริษัทที่ชำระเงิน</h2>
+            </div>
+          </div>
+        </div>
+        <mat-card>
+          <!--            <div class="row">-->
+          <!--              <div class="col-12 col-md-1"></div>-->
+          <!--              <label class="text-black input-head"><b>รหัสหน่วยงาน</b></label>-->
+          <!--              <div class="col-12 col-md-3">-->
+          <!--                <input type="text" class="form-control" readonly formControlName="companyCode" maxLength="5">-->
+          <!--              </div>-->
+          <!--              <label class="text-black input-head"><b>ชื่อหน่วยงาน</b></label>-->
+          <!--              <div class="col-12 col-md-4">-->
+          <!--                <input type="text" class="form-control"  readonly formControlName="companyName">-->
+          <!--              </div>-->
+          <!--              <div class="col-12 col-md-1">-->
+          <!--                <button class="btn btn-default" (click)="openDialogSearchMaster('departmentCodeFrom')"-->
+          <!--                        type="button">-->
+          <!--                  <img src="assets/images/icon/fa-search.svg" width="12px" />-->
+          <!--                </button>-->
+          <!--              </div>-->
+          <!--              <div class="col-12 col-md-1">-->
+          <!--                <button type="button" class="btn btn-primary d-flex-center"-->
+          <!--                  (click)="insertInputCompanyCode(companyPayingForm.value)">-->
+          <!--                  <i class="material-icons">add</i>-->
+          <!--                </button>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <br />
+          <div class="row">
+            <div class="col-12">
+              <div class="example-item">
+                <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table>
+                  <ng-container matColumnDef="companyCode">
+                    <th *matHeaderCellDef class="info" mat-header-cell>รหัสหน่วยงาน</th>
+                    <td *matCellDef="let element" mat-cell>{{ element.companyCode }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="companyName">
+                    <th *matHeaderCellDef class="info th-width-40" mat-header-cell>ชื่อหน่วยงาน</th>
+                    <td *matCellDef="let element" mat-cell>{{ element.companyName }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="edit">
+                    <th *matHeaderCellDef class="info" mat-header-cell></th>
+                    <td *matCellDef="let element" mat-cell>
+                      <div class="no-wrap">
+                        <button
+                          (click)="routeToCompanyPayingBankConfig(element)"
+                          [hidden]="element.companyCode !== '99999'"
+                          class="btn btn-detail"
+                          type="button"
+                        >
+                          การเลือกธนาคาร
+                        </button>
+                        <button
+                          (click)="routeToCompanyPayingPayMethodConfig(element)"
+                          class="btn btn-primary"
+                          type="button"
+                        >
+                          วิธีการชำระเงิน
+                        </button>
+                        <button
+                          (click)="openDialogCompanyPayingConfig(element)"
+                          class="btn btn-success"
+                          type="button"
+                        >
+                          <i class="material-icons">edit</i>
+                        </button>
+                        <button
+                          (click)="deleteInputCompanyCode(element)"
+                          [hidden]="element.companyCode === '99999'"
+                          class="btn btn-danger"
+                          type="button"
+                        >
+                          <i class="material-icons">clear</i>
+                        </button>
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+                  <tr
+                    (click)="row.highlighted = !row.highlighted"
+                    (mouseout)="row.hovered = false"
+                    (mouseover)="row.hovered = true"
+                    *matRowDef="let row; columns: displayedColumns"
+                    [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                    mat-row
+                  ></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </form>
+  </div>
+</div>

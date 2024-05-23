@@ -1,0 +1,15 @@
+.footer-table-summary {
+  display: flex;
+  .mat-paginator {
+    flex: 3;
+  }
+  .summary-result {
+    flex: 1;
+    //position: absolute;
+    //bottom: 0;
+    font-size: 12px;
+    p {
+      margin: 0;
+    }
+  }
+}

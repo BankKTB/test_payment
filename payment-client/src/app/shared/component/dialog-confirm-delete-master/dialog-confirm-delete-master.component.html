@@ -1,0 +1,26 @@
+<div mat-dialog-title>
+  <button (click)="clickCancel()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragRootElement=".cdk-overlay-pane"><b>ออกจากการลบข้อมูล</b></h1>
+</div>
+<div mat-dialog-content class="d-flex-center">
+  <div>
+    <div class="row">
+      <div class="col-md-12 text-left">
+        <label class="text-black">ยืนยันการลบข้อมูลใช่หรือไม่</label>
+      </div>
+    </div>
+    <hr class="under-title" />
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <button (click)="clickDelete()" class="btn btn-success btn-lg" type="button">
+          ใช่
+        </button>
+      </div>
+      <div class="col-12 col-md-6">
+        <button (click)="clickUnDelete()" class="btn btn-danger btn-lg" type="button">
+          ไม่ใช่
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,285 @@
+<div class="content-box dialog-box">
+  <div class="head-description-ju">
+    <div class="row">
+      <app-export-excel-button
+        [searchCriteria]="tempSearchCriteriaExport"
+        [pathServiceExport]="pathServiceExportExcel"
+        [fileNameExport]="fileNameExportExcel"
+      ></app-export-excel-button>
+      <app-export-pdf-button
+        [searchCriteria]="tempSearchCriteriaExport"
+        [pathServiceExport]="pathServiceExportPDF"
+        [fileNameExport]="fileNameExportPDF"
+      ></app-export-pdf-button>
+    </div>
+    <br />
+    <div class="box-detail">
+      <div class="box-left">
+        <div class="row">
+          <div class="col col-5">วันที่รายงาน</div>
+          <div class="col col-6">{{ dateDocHeader | datePattern: 'full' }}</div>
+          <div class="col col-5">วันที่นำส่งข้อมูล</div>
+          <div class="col col-6">{{ dateDocHeader | datePattern: 'full' }}</div>
+          <div class="col col-5">สถานะเอกสาร</div>
+          <div class="col col-6">เอกสารผ่านรายการ</div>
+        </div>
+      </div>
+      <div class="box-right">
+        <div class="row">
+          <div class="col col-5">Loader user</div>
+          <div class="col col-6">{{ loadUserHeader }}</div>
+          <div class="col col-5">Username</div>
+          <div class="col col-6">{{ usernameHeader }}</div>
+          <div class="col col-5">แหล่งที่มา</div>
+          <div class="col col-6">{{ sourceHeader }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-5 text-center">
+      <h3>รายงานนำส่งแบบฟอร์ม</h3>
+      <h3>แบบฟอร์มนำส่งสำเร็จ</h3>
+      <h3>I- Interface J-บช.01</h3>
+    </div>
+  </div>
+  <div class="px-3">
+    <table [dataSource]="dataSources" class="table-ju table-detail-ju mt-4" mat-table matSort>
+      <tr
+        *matHeaderRowDef="displayedGroupColumns; sticky: true"
+        class="header-group"
+        mat-header-row
+      ></tr>
+      <tr *matHeaderRowDef="displayedColumns; sticky: true" class="header-item" mat-header-row></tr>
+      <!-- BEGIN :  group header -->
+      <ng-container matColumnDef="companyCode">
+        <th *matHeaderCellDef colspan="2">
+          รหัสหน่วยงาน
+        </th>
+        <td *matCellDef="let element" class="white-space-pre" colspan="2">
+          {{ element.companyCode }} {{ element.companyName }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="documentNo">
+        <th *matHeaderCellDef>
+          Doc.no.
+        </th>
+        <td *matCellDef="let element" class="white-space-pre">
+          {{ element.documentNo }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="fiscalYear">
+        <th *matHeaderCellDef>
+          Year
+        </th>
+        <td *matCellDef="let element" class="white-space-pre">
+          {{ element.fiscalYear ? (element.fiscalYear | thaiyear) : '' }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="dateAcct">
+        <th *matHeaderCellDef>
+          Pst.Date
+        </th>
+        <td *matCellDef="let element" class="white-space-pre">
+          {{ element.dateAcct | datePattern: 'full' }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="dateDoc">
+        <th *matHeaderCellDef>
+          Doc.date
+        </th>
+        <td *matCellDef="let element" class="white-space-pre">
+          {{ element.dateDoc | datePattern: 'full' }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="docType">
+        <th *matHeaderCellDef>
+          DT
+        </th>
+        <td *matCellDef="let element" class="white-space-pre">
+          {{ element.docType }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="reference">
+        <th *matHeaderCellDef>
+          เอกสารอ้างอิง
+        </th>
+        <td *matCellDef="let element" class="white-space-pre">
+          {{ element.reference }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="paymentCenter">
+        <th *matHeaderCellDef>
+          หน่วยเบิกจ่าย
+        </th>
+        <td *matCellDef="let element" class="white-space-pre">
+          {{ element.paymentCenter }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="costCenter">
+        <th *matHeaderCellDef>
+          ศูนย์ต้นทุน
+        </th>
+        <td *matCellDef="let element" class="white-space-pre">
+          {{ element.costCenter }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="fundSource">
+        <th *matHeaderCellDef>
+          แหล่งของเงิน
+        </th>
+        <td *matCellDef="let element" class="white-space-pre">
+          {{ element.fundSource }}
+        </td>
+      </ng-container>
+      <!-- END :  group header -->
+      <!-- BEGIN : items row -->
+      <ng-container matColumnDef="line">
+        <th *matHeaderCellDef class="group-row">Ln</th>
+        <td *matCellDef="let element" class="white-space-pre">
+          {{ element.line | numberSequence: 3 }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="debitCredit">
+        <th *matHeaderCellDef class="group-row">D/C</th>
+        <td *matCellDef="let element" class="white-space-pre">
+          {{ element.debitCredit }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="accountNo">
+        <th *matHeaderCellDef colspan="3" class="group-row">บัญชี</th>
+        <td *matCellDef="let element" colspan="3" class="white-space-pre">
+          {{ element.accountNo }} {{ element.accountName }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="assignment">
+        <th *matHeaderCellDef class="group-row">Assignment</th>
+        <td *matCellDef="let element" class="white-space-pre">
+          {{ element.assignment }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="bgCode">
+        <th *matHeaderCellDef class="group-row">รหัสงบประมาณ</th>
+        <td *matCellDef="let element" class="white-space-pre">
+          {{ element.bgCode }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="budgetActivity">
+        <th *matHeaderCellDef class="group-row" colspan="2">กิจกรรมหลัก</th>
+        <td *matCellDef="let element" class="white-space-pre" colspan="2">
+          {{ element.budgetActivity }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="amount">
+        <th *matHeaderCellDef class="group-row text-right">จำนวนเงินที่ขอเบิก</th>
+        <td *matCellDef="let element" class="white-space-pre text-right">
+          {{ element.amount | bigdecimal }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="amountReceive">
+        <th *matHeaderCellDef class="group-row text-right">จำนวนเงินขอรับ</th>
+        <td *matCellDef="let element" class="white-space-pre text-right">
+          {{ element.amountReceive | bigdecimal }}
+        </td>
+      </ng-container>
+      <!-- END :  items row -->
+      <tr
+        mat-row
+        class="tr-group-header"
+        *matRowDef="let row; columns: displayedGroupColumns; when: isGroupRow"
+      ></tr>
+      <tr *matRowDef="let row; columns: displayedColumns" class="tr-group-item" mat-row></tr>
+    </table>
+
+    <table
+      [dataSource]="dataSourcesSummaryGroup"
+      class="border border-dark mt-4 table-ju table-detail-ju table-ju-detail-group"
+      mat-table
+      matSort
+    >
+      <!-- BEGIN : Group row -->
+      <ng-container matColumnDef="summaryType">
+        <td *matCellDef="let element" class="white-space-pre">
+          {{ element.summaryType }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="summaryCount">
+        <td *matCellDef="let element" class="white-space-pre text-left">
+          {{ element.summaryCount }}
+        </td>
+      </ng-container>
+      <!-- END :  Group row -->
+      <tr
+        *matRowDef="let row; columns: displayedSummaryGroupColumns; when: isGroupSummaryRow"
+        class="tr-group-summary"
+        mat-row
+      ></tr>
+    </table>
+    <table
+      [dataSource]="dataSourcesSummary"
+      class="border border-dark mt-4 table-ju table-detail-ju table-ju-detail-summary"
+      mat-table
+      matSort
+    >
+      <!-- BEGIN : Group row -->
+      <ng-container matColumnDef="summaryType">
+        <td *matCellDef="let element" class="white-space-pre">
+          {{ element.summaryType }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="summaryCount">
+        <td *matCellDef="let element" class="white-space-pre text-left">
+          {{ element.summaryCount }}
+        </td>
+      </ng-container>
+      <!-- END :  Group row -->
+      <tr
+        *matRowDef="let row; columns: displayedSummaryGroupColumns; when: isGroupSummaryRow"
+        class="tr-group-summary"
+        mat-row
+      ></tr>
+    </table>
+
+    <div class="row head-description-ju mt-5">
+      <div class="col-12 col-md-4">
+        <div class="row">
+          <div class="col col-5">วันที่รายงาน</div>
+          <div class="col col-6">{{ dateDocHeader | datePattern: 'full' }}</div>
+          <div class="col col-5">วันที่นำส่งข้อมูล</div>
+          <div class="col col-6">{{ dateDocHeader | datePattern: 'full' }}</div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <h3>สรุปรายการนำส่งแบบฟอร์ม</h3>
+      </div>
+    </div>
+    <table class="table-ju table-detail-ju mt-5 table-ju-detail-summary-amount">
+      <thead>
+        <tr>
+          <th></th>
+          <th>สถานะของเอกสาร</th>
+          <th>จำนวนเอกสาร</th>
+          <th>จำนวนเงินที่ขอรับ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>เอกสารที่นำส่งสำเร็จ</td>
+          <td class="text-right">รวม</td>
+          <td class="text-right">{{ summaryAll.summaryDoc }}</td>
+          <td class="text-right">{{ summaryAll.summaryAmount | bigdecimal }}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="text-right">เอกสารผ่านรายการ</td>
+          <td class="text-right">{{ summaryAll.summaryDoc }}</td>
+          <td class="text-right">{{ summaryAll.summaryAmount | bigdecimal }}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td class="text-right">รวมทั้งสิ้น</td>
+          <td class="text-right">{{ summaryAll.summaryDoc }}</td>
+          <td class="text-right">{{ summaryAll.summaryAmount | bigdecimal }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<app-loading overlay="true"></app-loading>
+<div *ngIf="isShowMenu">
+  <div class="wrapper fix-color-button">
+    <app-header></app-header>
+    <div class="d-flex main-wrapper">
+      <app-sidebar></app-sidebar>
+      <div class="main">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

@@ -1,0 +1,129 @@
+<mat-toolbar class="header-toolbar" color="primary">
+  <h3 class="title">{{headerText}}</h3>
+</mat-toolbar>
+<div class="body">
+  <div class="container-fluid">
+    <mat-tab-group
+        (selectedTabChange)="tabChanged($event)">
+      <mat-tab label="สำเร็จ">
+        <div class="mt-4 example-item">
+          <p> จำนวนรายการทั้งหมด : {{this.overviewAmount.total}} รายการ </p>
+          <p> จำนวนรายการที่สำเร็จ : {{this.overviewAmount.success}} รายการ </p>
+          <table [dataSource]="dataSource" class="table-log" mat-table>
+            <ng-container matColumnDef="logDate">
+              <th *matHeaderCellDef class="info th-width-15" mat-header-cell>Date</th>
+              <td *matCellDef="let element" mat-cell>
+                {{ element.logDate | thaidate }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Time">
+              <th *matHeaderCellDef class="info th-width-10" mat-header-cell>Time</th>
+              <td *matCellDef="let element" mat-cell>
+                {{ element.logDate | date: 'HH:mm:ss' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="messageText">
+              <th *matHeaderCellDef class="info" mat-header-cell>Message Text</th>
+              <td *matCellDef="let element" mat-cell>
+                {{ element.messageText }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="messageClass">
+              <th *matHeaderCellDef class="info th-width-10" mat-header-cell>Message Class</th>
+              <td *matCellDef="let element" mat-cell>{{ element.messageClass }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="messageNo">
+              <th *matHeaderCellDef class="info th-width-10" mat-header-cell>Message No.</th>
+              <td *matCellDef="let element" mat-cell>{{ element.messageNo }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="messageType">
+              <th *matHeaderCellDef class="info th-width-10" mat-header-cell>Message Type</th>
+              <td *matCellDef="let element" mat-cell>{{ element.messageType }}</td>
+            </ng-container>
+
+            <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+            <tr
+                (click)="row.highlighted = !row.highlighted"
+                (mouseout)="row.hovered = false"
+                (mouseover)="row.hovered = true"
+                *matRowDef="let row; columns: displayedColumns"
+                [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                mat-row
+            ></tr>
+          </table>
+        </div>
+        <mat-paginator
+          #paginatorSuccess
+          (page)="onPageChange($event)"
+          [length]="successPaginator?.totalElements"
+          [pageSizeOptions]="[5000]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </mat-tab>
+      <mat-tab label="ไม่สำเร็จ">
+        <div class="mt-4 example-item">
+          <p> จำนวนรายการทั้งหมด : {{this.overviewAmount.total}} รายการ </p>
+          <p> จำนวนรายการที่ไม่สำเร็จ : {{this.overviewAmount.error}} รายการ </p>
+          <table [dataSource]="dataSourceError" class="table-log" mat-table>
+            <ng-container matColumnDef="logDate">
+              <th *matHeaderCellDef class="info th-width-15" mat-header-cell>Date</th>
+              <td *matCellDef="let element" mat-cell>
+                {{ element.logDate | thaidate }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Time">
+              <th *matHeaderCellDef class="info th-width-10" mat-header-cell>Time</th>
+              <td *matCellDef="let element" mat-cell>
+                {{ element.logDate | date: 'HH:mm:ss' }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="messageText">
+              <th *matHeaderCellDef class="info" mat-header-cell>Message Text</th>
+              <td *matCellDef="let element" mat-cell>
+                {{ element.messageText }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="messageClass">
+              <th *matHeaderCellDef class="info th-width-10" mat-header-cell>Message Class</th>
+              <td *matCellDef="let element" mat-cell>{{ element.messageClass }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="messageNo">
+              <th *matHeaderCellDef class="info th-width-10" mat-header-cell>Message No.</th>
+              <td *matCellDef="let element" mat-cell>{{ element.messageNo }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="messageType">
+              <th *matHeaderCellDef class="info th-width-10" mat-header-cell>Message Type</th>
+              <td *matCellDef="let element" mat-cell>{{ element.messageType }}</td>
+            </ng-container>
+
+            <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+            <tr
+                (click)="row.highlighted = !row.highlighted"
+                (mouseout)="row.hovered = false"
+                (mouseover)="row.hovered = true"
+                *matRowDef="let row; columns: displayedColumns"
+                [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                mat-row
+            ></tr>
+          </table>
+        </div>
+        <mat-paginator
+          #paginatorError
+          (page)="onPageChange($event)"
+          [length]="errorPaginator?.totalElements"
+          [pageSizeOptions]="[this.pageSizeDefault]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+<app-back-to-top></app-back-to-top>

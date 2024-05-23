@@ -1,0 +1,188 @@
+<div mat-dialog-title>
+  <button (click)="clickCancel()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane"><b>Start Time</b></h1>
+</div>
+<div mat-dialog-content>
+  <form (keydown.enter)="$event.preventDefault()" [formGroup]="editJobSchedForm">
+    <div class="row">
+      <div class="col-12">
+        <button class="btn btn-success" type="button">
+          Immediate
+        </button>
+        <button class="btn btn-success" type="button">
+          Date/Time
+        </button>
+        <button class="btn btn-success" type="button">
+          After job
+        </button>
+        <button class="btn btn-success" type="button">
+          After event
+        </button>
+        <button class="btn btn-success" type="button">
+          At operation mode
+        </button>
+        <button class="btn btn-success" type="button">
+          >>
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <mat-card>
+          <mat-card-content>
+            <div class="panel panel-primary">
+              <div class="panel-heading pointer">
+                <h3 class="panel-head">
+                  Date/Time
+                </h3>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> Start Date </label>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="input-group datetime-input">
+                      <div class="box-instead-input">
+                        <input
+                          [matDatepicker]="schedStartDate"
+                          class="form-control"
+                          formControlName="schedStartDate"
+                          type="text"
+                          appDateInput
+                        />
+                      </div>
+                      <div class="datetime-input-append">
+                        <button
+                          (click)="schedStartDate.open()"
+                          class="btn-calendar-icon"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/calendar.svg" width="12px" />
+                          <mat-datepicker #schedStartDate></mat-datepicker>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <kendo-timepicker
+                      [format]="'HH:mm'"
+                      formControlName="schedStartTime"
+                    ></kendo-timepicker>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> No Start After </label>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="input-group datetime-input">
+                      <div class="box-instead-input">
+                        <input
+                          [matDatepicker]="schedNoStartAfterDate"
+                          class="form-control"
+                          formControlName="schedNoStartAfterDate"
+                          type="text"
+                          appDateInput
+                        />
+                      </div>
+                      <div class="datetime-input-append">
+                        <button
+                          (click)="schedNoStartAfterDate.open()"
+                          class="btn-calendar-icon"
+                          type="button"
+                        >
+                          <img src="assets/images/icon/calendar.svg" width="12px" />
+                          <mat-datepicker #schedNoStartAfterDate></mat-datepicker>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <kendo-timepicker
+                      [format]="'HH:mm'"
+                      formControlName="schedNoStartAfterTime"
+                    ></kendo-timepicker>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-7">
+        <mat-card>
+          <mat-card-content>
+            <div class="panel panel-primary">
+              <div class="panel-heading pointer">
+                <h3 class="panel-head">
+                  After job
+                </h3>
+              </div>
+              <div class="panel-body"></div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-5">
+        <mat-card>
+          <mat-card-content>
+            <div class="panel panel-primary">
+              <div class="panel-heading pointer">
+                <h3 class="panel-head">
+                  At operation mode
+                </h3>
+              </div>
+              <div class="panel-body"></div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <mat-card>
+          <mat-card-content>
+            <div class="panel panel-primary">
+              <div class="panel-heading pointer">
+                <h3 class="panel-head">
+                  After event
+                </h3>
+              </div>
+              <div class="panel-body"></div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <mat-checkbox formControlName="PeriodicJob">
+          Periodic job
+        </mat-checkbox>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 text-right">
+        <button class="btn btn-success" type="button">
+          <mat-icon>done</mat-icon>
+          Check
+        </button>
+        <button class="btn btn-primary" type="button">
+          <mat-icon>save</mat-icon>
+        </button>
+        <button class="btn btn-success" type="button">
+          มูลค่างวด
+        </button>
+        <button class="btn btn-success" type="button">
+          ข้อจำกัด
+        </button>
+        <button class="btn btn-danger" type="button">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

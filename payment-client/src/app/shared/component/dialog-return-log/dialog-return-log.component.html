@@ -1,0 +1,827 @@
+<div mat-dialog-title>
+  <button (click)="clickCancel()" class="close" mat-button>X</button>
+  <h1 cdkDragRootElement=".cdk-overlay-pane"><b>Log รายงานผล</b></h1>
+</div>
+<div mat-dialog-content class="">
+  <!-- LOG_TYPE = STATUS_STEP1 -->
+  <div class="update-file-status p-4" *ngIf="data.logType === 'STATUS_STEP1'">
+    <ng-container *ngIf="dataSourceFileError.data.length > 0">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <label class="text-black"> File ที่ไม่สามารถเปลี่ยนแปลงสถานะได้ </label>
+        </div>
+      </div>
+      <div class="mb-4">
+        <table
+          [dataSource]="dataSourceFileError"
+          id="excel-table-5"
+          class="mat-elevation-z8"
+          mat-table
+        >
+          <ng-container matColumnDef="fileName">
+            <th *matHeaderCellDef mat-header-cell>ชื่อไฟล์</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.fileName }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="error">
+            <th *matHeaderCellDef mat-header-cell>error</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.error }}
+            </td>
+          </ng-container>
+          <tr *matHeaderRowDef="displayedColumnsFileErrors; sticky: true" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: displayedColumnsFileErrors" mat-row></tr>
+        </table>
+        <mat-paginator
+          #paginatorStep1FileError
+          [pageSizeOptions]="[5, 10, 20]"
+          showFirstLastButtons
+        >
+        </mat-paginator>
+      </div>
+    </ng-container>
+
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <label class="text-black"> รายงาน log ที่สถานะเปลี่ยนแปลง </label>
+      </div>
+    </div>
+    <div class="mb-4">
+      <table
+        [dataSource]="dataSourceUpdateStatusSuccess"
+        id="excel-table-succes-step-1"
+        class="mat-elevation-z8"
+        mat-table
+      >
+        <ng-container matColumnDef="refRunning">
+          <th *matHeaderCellDef mat-header-cell>Ref Number Index</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.refRunning }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="refLine">
+          <th *matHeaderCellDef mat-header-cell>บรรทัดอ้าง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.refLine | numberSequence: 6 }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentDate">
+          <th *matHeaderCellDef mat-header-cell>วันที่ประมวลผล</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.paymentDate | datePattern: 'full' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentName">
+          <th *matHeaderCellDef mat-header-cell>การกำหนด</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.paymentName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="accountNoFrom">
+          <th *matHeaderCellDef mat-header-cell>บ/ช ต้นทาง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.accountNoFrom }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="accountNoTo">
+          <th *matHeaderCellDef mat-header-cell>บ/ช ปลายทาง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.accountNoTo }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fileType">
+          <th *matHeaderCellDef mat-header-cell>ประเภทไฟล์</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.fileType }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fileName">
+          <th *matHeaderCellDef mat-header-cell>ชื่อไฟล์</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.fileName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="transferDate">
+          <th *matHeaderCellDef mat-header-cell>วันที่สั่ง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.transferDate | datePattern: 'full' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="vendor">
+          <th *matHeaderCellDef mat-header-cell>ผู้ขาย</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.vendor }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+          <th *matHeaderCellDef mat-header-cell>จำนวนเงินใน LC</th>
+          <td class="text-center" *matCellDef="let element" mat-cell>
+            {{ element.amount | bigdecimal }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="bankFee">
+          <th *matHeaderCellDef mat-header-cell>ค่าธรรมเนียม</th>
+          <td class="text-center" *matCellDef="let element" mat-cell>
+            {{ element.bankFee | bigdecimal }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fileStatus">
+          <th *matHeaderCellDef mat-header-cell>สถานะ</th>
+          <td *matCellDef="let element" mat-cell class="text-center">
+            {{ element.fileStatus }}
+          </td>
+        </ng-container>
+        <tr *matHeaderRowDef="displayedColumnsUpdateStatus; sticky: true" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumnsUpdateStatus" mat-row></tr>
+      </table>
+      <mat-paginator #paginatorStep1Success [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+      </mat-paginator>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <label class="text-black"> รายงาน log ที่ไม่สามารถเปลี่ยนแปลงสถานะได้ </label>
+      </div>
+    </div>
+    <div>
+      <table
+        [dataSource]="dataSourceUpdateStatusNotSuccess"
+        id="excel-table-not-succes-step-1"
+        class="mat-elevation-z8"
+        mat-table
+        matSort
+      >
+        <ng-container matColumnDef="refRunning">
+          <th *matHeaderCellDef mat-header-cell>Ref Number Index</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.refRunning }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="refLine">
+          <th *matHeaderCellDef mat-header-cell>บรรทัดอ้าง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.refLine | numberSequence: 6 }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentDate">
+          <th *matHeaderCellDef mat-header-cell>วันที่ประมวลผล</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.paymentDate | datePattern: 'full' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentName">
+          <th *matHeaderCellDef mat-header-cell>การกำหนด</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.paymentName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="accountNoFrom">
+          <th *matHeaderCellDef mat-header-cell>บ/ช ต้นทาง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.accountNoFrom }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="accountNoTo">
+          <th *matHeaderCellDef mat-header-cell>บ/ช ปลายทาง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.accountNoTo }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fileType">
+          <th *matHeaderCellDef mat-header-cell>ประเภทไฟล์</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.fileType }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fileName">
+          <th *matHeaderCellDef mat-header-cell>ชื่อไฟล์</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.fileName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="transferDate">
+          <th *matHeaderCellDef mat-header-cell>วันที่สั่ง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.transferDate | datePattern: 'full' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="vendor">
+          <th *matHeaderCellDef mat-header-cell>ผู้ขาย</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.vendor }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+          <th *matHeaderCellDef mat-header-cell>จำนวนเงินใน LC</th>
+          <td class="text-center" *matCellDef="let element" mat-cell>
+            {{ element.amount | bigdecimal }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="bankFee">
+          <th *matHeaderCellDef mat-header-cell>ค่าธรรมเนียม</th>
+          <td class="text-center" *matCellDef="let element" mat-cell>
+            {{ element.bankFee | bigdecimal }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fileStatus">
+          <th *matHeaderCellDef mat-header-cell>สถานะ</th>
+          <td *matCellDef="let element" mat-cell class="text-center">
+            {{ element.fileStatus }}
+          </td>
+        </ng-container>
+        <tr *matHeaderRowDef="displayedColumnsUpdateStatus; sticky: true" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumnsUpdateStatus" mat-row></tr>
+      </table>
+      <mat-paginator #paginatorStep1NotSuccess [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+      </mat-paginator>
+    </div>
+    <div class="text-center">
+      <button (click)="clickConfirm()" class="btn btn-primary btn-w120">ปิด</button>
+    </div>
+  </div>
+  <!-- LOG_TYPE = STATUS -->
+  <div class="update-file-status p-4" *ngIf="data.logType === 'STATUS'">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <label class="text-black"> รายงาน log ที่สถานะเปลี่ยนแปลง </label>
+      </div>
+    </div>
+    <div class="mb-4">
+      <table
+        [dataSource]="dataSourceUpdateStatusSuccess"
+        id="excel-table"
+        class="mat-elevation-z8"
+        mat-table
+      >
+        <ng-container matColumnDef="refRunning">
+          <th *matHeaderCellDef mat-header-cell>Ref Number Index</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.refRunning }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="refLine">
+          <th *matHeaderCellDef mat-header-cell>บรรทัดอ้าง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.refLine | numberSequence: 6 }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentDate">
+          <th *matHeaderCellDef mat-header-cell>วันที่ประมวลผล</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.paymentDate | datePattern: 'full' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentName">
+          <th *matHeaderCellDef mat-header-cell>การกำหนด</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.paymentName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="accountNoFrom">
+          <th *matHeaderCellDef mat-header-cell>บ/ช ต้นทาง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.accountNoFrom }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="accountNoTo">
+          <th *matHeaderCellDef mat-header-cell>บ/ช ปลายทาง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.accountNoTo }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fileType">
+          <th *matHeaderCellDef mat-header-cell>ประเภทไฟล์</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.fileType }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fileName">
+          <th *matHeaderCellDef mat-header-cell>ชื่อไฟล์</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.fileName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="transferDate">
+          <th *matHeaderCellDef mat-header-cell>วันที่สั่ง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.transferDate | datePattern: 'full' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="vendor">
+          <th *matHeaderCellDef mat-header-cell>ผู้ขาย</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.vendor }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+          <th *matHeaderCellDef mat-header-cell>จำนวนเงินใน LC</th>
+          <td class="text-center" *matCellDef="let element" mat-cell>
+            {{ element.amount | bigdecimal }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="bankFee">
+          <th *matHeaderCellDef mat-header-cell>ค่าธรรมเนียม</th>
+          <td class="text-center" *matCellDef="let element" mat-cell>
+            {{ element.bankFee | bigdecimal }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fileStatus">
+          <th *matHeaderCellDef mat-header-cell>สถานะ</th>
+          <td *matCellDef="let element" mat-cell class="text-center">
+            {{ element.fileStatus }}
+          </td>
+        </ng-container>
+        <tr *matHeaderRowDef="displayedColumnsUpdateStatus; sticky: true" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumnsUpdateStatus" mat-row></tr>
+      </table>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <label class="text-black"> รายงาน log ที่ไม่สามารถเปลี่ยนแปลงสถานะได้ </label>
+      </div>
+    </div>
+    <div>
+      <table
+        [dataSource]="dataSourceUpdateStatusNotSuccess"
+        id="excel-table-1"
+        class="mat-elevation-z8"
+        mat-table
+        matSort
+      >
+        <ng-container matColumnDef="refRunning">
+          <th *matHeaderCellDef mat-header-cell>Ref Number Index</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.refRunning }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="refLine">
+          <th *matHeaderCellDef mat-header-cell>บรรทัดอ้าง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.refLine | numberSequence: 6 }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentDate">
+          <th *matHeaderCellDef mat-header-cell>วันที่ประมวลผล</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.paymentDate | datePattern: 'full' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentName">
+          <th *matHeaderCellDef mat-header-cell>การกำหนด</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.paymentName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="accountNoFrom">
+          <th *matHeaderCellDef mat-header-cell>บ/ช ต้นทาง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.accountNoFrom }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="accountNoTo">
+          <th *matHeaderCellDef mat-header-cell>บ/ช ปลายทาง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.accountNoTo }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fileType">
+          <th *matHeaderCellDef mat-header-cell>ประเภทไฟล์</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.fileType }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fileName">
+          <th *matHeaderCellDef mat-header-cell>ชื่อไฟล์</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.fileName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="transferDate">
+          <th *matHeaderCellDef mat-header-cell>วันที่สั่ง</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.transferDate | datePattern: 'full' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="vendor">
+          <th *matHeaderCellDef mat-header-cell>ผู้ขาย</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.vendor }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+          <th *matHeaderCellDef mat-header-cell>จำนวนเงินใน LC</th>
+          <td class="text-center" *matCellDef="let element" mat-cell>
+            {{ element.amount | bigdecimal }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="bankFee">
+          <th *matHeaderCellDef mat-header-cell>ค่าธรรมเนียม</th>
+          <td class="text-center" *matCellDef="let element" mat-cell>
+            {{ element.bankFee | bigdecimal }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fileStatus">
+          <th *matHeaderCellDef mat-header-cell>สถานะ</th>
+          <td *matCellDef="let element" mat-cell class="text-center">
+            {{ element.fileStatus }}
+          </td>
+        </ng-container>
+        <tr *matHeaderRowDef="displayedColumnsUpdateStatus; sticky: true" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumnsUpdateStatus" mat-row></tr>
+      </table>
+    </div>
+    <div class="text-center">
+      <button (click)="clickConfirm()" class="btn btn-primary btn-w120">ปิด</button>
+    </div>
+  </div>
+  <!-- LOG_TYPE = PAYMENT_REVERSE -->
+  <div class="update-file-status" [hidden]="data.logType !== 'PAYMENT_REVERSE'">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <label class="text-black"> รายงาน log ที่สถานะเปลี่ยนแปลง </label>
+      </div>
+    </div>
+    <!--    <div [hidden]="dataSourcePull.data.length > 0">-->
+    <!--      <table-->
+    <!--        [dataSource]="dataSourceReversePayment"-->
+    <!--        id="reverse-payment-table"-->
+    <!--        class="table-return-log"-->
+    <!--        mat-table-->
+    <!--      >-->
+    <!--        <ng-container matColumnDef="documentNo">-->
+    <!--          <th *matHeaderCellDef mat-header-cell>เลขที่เอกสารจ่าย</th>-->
+    <!--          <td *matCellDef="let element" mat-cell>-->
+    <!--            {{ element.documentNo }}-->
+    <!--          </td>-->
+    <!--        </ng-container>-->
+    <!--        <ng-container matColumnDef="compCode">-->
+    <!--          <th *matHeaderCellDef mat-header-cell>รหัสหน่วยงานเอกสารจ่าย</th>-->
+    <!--          <td *matCellDef="let element" mat-cell>-->
+    <!--            {{ element.compCode }}-->
+    <!--          </td>-->
+    <!--        </ng-container>-->
+    <!--        <ng-container matColumnDef="fiscalYear">-->
+    <!--          <th *matHeaderCellDef mat-header-cell>ปีเอกสารจ่าย</th>-->
+    <!--          <td *matCellDef="let element" mat-cell>-->
+    <!--            {{ element.fiscalYear | thaiyear }}-->
+    <!--          </td>-->
+    <!--        </ng-container>-->
+    <!--        <ng-container matColumnDef="paymentDate">-->
+    <!--          <th *matHeaderCellDef mat-header-cell>วันที่ประมวลผล</th>-->
+    <!--          <td *matCellDef="let element" mat-cell>-->
+    <!--            {{ element.paymentDate | datePattern: 'full' }}-->
+    <!--          </td>-->
+    <!--        </ng-container>-->
+    <!--        <ng-container matColumnDef="returnStatus">-->
+    <!--          <th *matHeaderCellDef mat-header-cell>รายละเอียด</th>-->
+    <!--          <td *matCellDef="let element" mat-cell>-->
+    <!--            {{ mappingLogType(element.logType) }}-->
+    <!--          </td>-->
+    <!--        </ng-container>-->
+    <!--        <tr *matHeaderRowDef="displayedColumnsReversePayment; sticky: true" mat-header-row></tr>-->
+    <!--        <tr *matRowDef="let row; columns: displayedColumnsReversePayment" mat-row></tr>-->
+    <!--      </table>-->
+    <!--    </div>-->
+    <div class="content-box" [hidden]="dataSourcePull.data.length === 0">
+      <table [dataSource]="dataSourcePull" class="mat-elevation-z8" mat-table matSort>
+        <ng-container matColumnDef="choose">
+          <th *matHeaderCellDef class="info" mat-header-cell>เลือก</th>
+          <td *matCellDef="let element" mat-cell>
+            <mat-icon (click)="viewDocument(element)" class="icon pointer">
+              folder_open
+            </mat-icon>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="companyCode">
+          <th style="width: 100px;" *matHeaderCellDef class="info" mat-header-cell>รหัสหน่วยงาน</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.companyCode }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="documentNo">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>เลขที่เอกสาร</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.documentNo }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fiscalYear">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ปีบัญชี</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.fiscalYear | thaiyear }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="reverseCompanyCode">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+            รหัสหน่วยงานเอกสารกลับรายการ
+          </th>
+          <td class="text-center" *matCellDef="let element" mat-cell>
+            {{ element.reverseCompanyCode }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="reverseDocumentNo">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+            เลขที่เอกสารกลับรายการ
+          </th>
+          <td class="text-center" *matCellDef="let element" mat-cell>
+            {{ element.reverseDocumentNo }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="reverseFiscalYear">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+            ปีบัญชีเอกสารกลับรายการ
+          </th>
+          <td class="text-center" *matCellDef="let element" mat-cell>
+            {{ element.reverseFiscalYear ? (element.reverseFiscalYear | thaiyear) : '' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>สถานะ</th>
+          <td *matCellDef="let element" mat-cell>
+            <span *ngIf="element.status === 'P'">กำลังทำการกลับรายการ</span>
+            <span *ngIf="element.status === 'S'">กลับรายการสำเร็จ</span>
+            <span *ngIf="element.status === 'E'">กลับรายการไม่สำเร็จ</span>
+          </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="displayedColumnsPull; sticky: true" mat-header-row></tr>
+        <tr
+          (click)="row.highlighted = !row.highlighted"
+          (mouseout)="row.hovered = false"
+          (mouseover)="row.hovered = true"
+          *matRowDef="let row; columns: displayedColumnsPull"
+          [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+          mat-row
+        ></tr>
+      </table>
+      <div class="footer-table-summary">
+        <div class="summary-result">
+          <p>จำนวนรายการเอกสารทั้งหมด : {{ summaryResult?.total }} รายการ</p>
+          <p>กำลังประมวลผล : {{ summaryResult?.process }} รายการ</p>
+          <p>สำเร็จ : {{ summaryResult?.success }} รายการ</p>
+          <p>ไม่สำเร็จ : {{ summaryResult?.fail }} รายการ</p>
+        </div>
+        <mat-paginator
+          #paginatorPull
+          [pageSizeOptions]="[5, 10, 20, 50, 100]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
+    </div>
+    <div class="text-center">
+      <button
+        [hidden]="dataSourcePull.data.length === 0"
+        (click)="clickConfirm()"
+        class="btn btn-primary"
+      >
+        ปิด
+      </button>
+      <button
+        [hidden]="dataSourcePull.data.length === 0"
+        (click)="refresh()"
+        class="btn btn-primary"
+      >
+        รีเฟรช
+      </button>
+      <button
+        [hidden]="dataSourcePull.data.length > 0"
+        (click)="pullMass()"
+        class="btn btn-primary"
+      >
+        ดูเลขที่เอกสารกลับรายการ
+      </button>
+    </div>
+  </div>
+  <!-- LOG_TYPE = PAYMENT_INVOICE -->
+  <div class="update-file-status" [hidden]="data.logType !== 'PAYMENT_INVOICE'">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <label class="text-black"> รายงาน log ที่สถานะเปลี่ยนแปลง </label>
+      </div>
+    </div>
+    <!--    <div [hidden]="dataSourcePull.data.length > 0">-->
+    <!--      <table-->
+    <!--        [dataSource]="dataSourceReverseInvoice"-->
+    <!--        id="reverse-invoice-table"-->
+    <!--        class="table-return-log"-->
+    <!--        mat-table-->
+    <!--      >-->
+    <!--        <ng-container matColumnDef="documentNo">-->
+    <!--          <th *matHeaderCellDef mat-header-cell>เลขที่เอกสารตั้งเบิก</th>-->
+    <!--          <td *matCellDef="let element" mat-cell>-->
+    <!--            {{ element.documentNo }}-->
+    <!--          </td>-->
+    <!--        </ng-container>-->
+    <!--        <ng-container matColumnDef="compCode">-->
+    <!--          <th *matHeaderCellDef mat-header-cell>รหัสหน่วยงานเอกสารตั้งเบิก</th>-->
+    <!--          <td *matCellDef="let element" mat-cell>-->
+    <!--            {{ element.compCode }}-->
+    <!--          </td>-->
+    <!--        </ng-container>-->
+    <!--        <ng-container matColumnDef="fiscalYear">-->
+    <!--          <th *matHeaderCellDef mat-header-cell>ปีเอกสารตั้งเบิก</th>-->
+    <!--          <td *matCellDef="let element" mat-cell>-->
+    <!--            {{ element.fiscalYear | thaiyear }}-->
+    <!--          </td>-->
+    <!--        </ng-container>-->
+    <!--        <ng-container matColumnDef="returnStatus">-->
+    <!--          <th *matHeaderCellDef mat-header-cell>รายละเอียด</th>-->
+    <!--          <td *matCellDef="let element" mat-cell>-->
+    <!--            {{ mappingLogType(element.logType) }}-->
+    <!--          </td>-->
+    <!--        </ng-container>-->
+    <!--        <tr *matHeaderRowDef="displayedColumnsReverseInvoice; sticky: true" mat-header-row></tr>-->
+    <!--        <tr *matRowDef="let row; columns: displayedColumnsReverseInvoice" mat-row></tr>-->
+    <!--      </table>-->
+    <!--    </div>-->
+    <div class="content-box" [hidden]="dataSourcePull.data.length === 0">
+      <table
+        [dataSource]="dataSourcePull"
+        class="mat-elevation-z8 data-table-pull"
+        mat-table
+        matSort
+      >
+        <ng-container matColumnDef="choose">
+          <th *matHeaderCellDef class="info" mat-header-cell>เลือก</th>
+          <td *matCellDef="let element" mat-cell>
+            <p>
+              <mat-icon (click)="viewDocumentPaymentReverse(element, false)" class="icon pointer">
+                folder_open
+              </mat-icon>
+            </p>
+            <p *ngIf="isShowMultipleLineLog(element)">
+              <mat-icon (click)="viewDocumentPaymentReverse(element, true)" class="icon pointer">
+                folder_open
+              </mat-icon>
+            </p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="originalCompanyCode">
+          <th *matHeaderCellDef class="info" mat-header-cell>รหัสหน่วยงาน</th>
+          <td *matCellDef="let element" mat-cell>
+            <p>{{ element.originalCompanyCode }}</p>
+            <p *ngIf="isShowMultipleLineLog(element)">{{ element.paymentCompanyCode }}</p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="originalDocumentNo">
+          <th *matHeaderCellDef class="info" mat-header-cell>เลขที่เอกสาร</th>
+          <td *matCellDef="let element" mat-cell>
+            <p>{{ element.originalDocumentNo }}</p>
+            <p *ngIf="isShowMultipleLineLog(element)">{{ element.paymentDocumentNo }}</p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="originalFiscalYear">
+          <th *matHeaderCellDef class="info" mat-header-cell>ปีบัญชี</th>
+          <td *matCellDef="let element" mat-cell>
+            <p>{{ element.originalFiscalYear | thaiyear }}</p>
+            <p *ngIf="isShowMultipleLineLog(element)">{{ element.paymentFiscalYear | thaiyear }}</p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="poDocumentNo">
+          <th *matHeaderCellDef class="info" mat-header-cell>เลขที่คำสั่งซื้อ/สั่งจ้าง</th>
+          <td *matCellDef="let element" mat-cell>
+            <p>{{ element.poDocNo }}</p>
+            <p *ngIf="isShowMultipleLineLog(element)">{{ element.poDocNo }}</p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="reverseOriginalCompanyCode">
+          <th *matHeaderCellDef class="info text-center" mat-header-cell>
+            รหัสหน่วยงานเอกสารกลับรายการ
+          </th>
+          <td class="text-center" *matCellDef="let element" mat-cell>
+            <p>{{ element.reverseOriginalCompanyCode }}</p>
+            <p *ngIf="isShowMultipleLineLog(element)">{{ element.reversePaymentCompanyCode }}</p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="reverseOriginalDocumentNo">
+          <th *matHeaderCellDef class="info text-center" mat-header-cell>
+            เลขที่เอกสารกลับรายการ
+          </th>
+          <td class="text-center" *matCellDef="let element" mat-cell>
+            <p>{{ element.reverseOriginalDocumentNo }}</p>
+            <p *ngIf="isShowMultipleLineLog(element)">{{ element.reversePaymentDocumentNo }}</p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="reverseOriginalFiscalYear">
+          <th *matHeaderCellDef class="info text-center" mat-header-cell>
+            ปีบัญชีเอกสารกลับรายการ
+          </th>
+          <td class="text-center" *matCellDef="let element" mat-cell>
+            <p>
+              {{
+                element.reverseOriginalFiscalYear
+                  ? (element.reverseOriginalFiscalYear | thaiyear)
+                  : ''
+              }}
+            </p>
+            <p *ngIf="isShowMultipleLineLog(element)">
+              {{
+                element.reversePaymentFiscalYear
+                  ? (element.reversePaymentFiscalYear | thaiyear)
+                  : ''
+              }}
+            </p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="originalIdemStatus">
+          <th *matHeaderCellDef class="info text-center" mat-header-cell>สถานะ</th>
+          <td *matCellDef="let element" class="text-center" mat-cell>
+            <p>
+              <span *ngIf="element.originalIdemStatus === 'P' || !element.originalIdemStatus"
+                >กำลังทำการกลับรายการ</span
+              >
+              <span *ngIf="element.originalIdemStatus === 'S'">กลับรายการสำเร็จ</span>
+              <span *ngIf="element.originalIdemStatus === 'E'">กลับรายการไม่สำเร็จ</span>
+            </p>
+            <p *ngIf="isShowMultipleLineLog(element)">
+              <span *ngIf="element.paymentIdemStatus === 'P' || !element.originalIdemStatus"
+                >กำลังทำการกลับรายการ</span
+              >
+              <span *ngIf="element.paymentIdemStatus === 'S'">กลับรายการสำเร็จ</span>
+              <span *ngIf="element.paymentIdemStatus === 'E'">กลับรายการไม่สำเร็จ</span>
+            </p>
+          </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="displayedColumnsPullStep4; sticky: true" mat-header-row></tr>
+        <tr
+          (click)="row.highlighted = !row.highlighted"
+          (mouseout)="row.hovered = false"
+          (mouseover)="row.hovered = true"
+          *matRowDef="let row; columns: displayedColumnsPullStep4"
+          [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+          mat-row
+        ></tr>
+      </table>
+      <div class="footer-table-summary">
+        <div class="summary-result">
+          <p>จำนวนรายการเอกสารทั้งหมด : {{ summaryResult?.total }} รายการ</p>
+          <p>กำลังประมวลผล : {{ summaryResult?.process }} รายการ</p>
+          <p>สำเร็จ : {{ summaryResult?.success }} รายการ</p>
+          <p>ไม่สำเร็จ : {{ summaryResult?.fail }} รายการ</p>
+        </div>
+        <mat-paginator
+          #paginatorStep4
+          [pageSizeOptions]="[5, 10, 20, 50, 100]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
+    </div>
+    <div class="text-center">
+      <button
+        [hidden]="dataSourcePull.data.length === 0"
+        (click)="clickConfirm()"
+        class="btn btn-primary"
+      >
+        ปิด
+      </button>
+      <button
+        [hidden]="dataSourcePull.data.length === 0"
+        (click)="refreshStep4()"
+        class="btn btn-primary"
+      >
+        รีเฟรช
+      </button>
+      <button
+        [hidden]="dataSourcePull.data.length > 0"
+        (click)="pullStep4Mass()"
+        class="btn btn-primary"
+      >
+        ดูเลขที่เอกสารกลับรายการ
+      </button>
+    </div>
+  </div>
+  <!-- LOG_TYPE = NOT_FOUND_COMPLETE -->
+  <div class="update-file-status" *ngIf="data.logType === 'NOT_FOUND_COMPLETE'">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <label class="text-black"> ชื่อไฟล์ : {{ data.listLog[0].fileName }} </label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <label class="text-black">
+          No Return In Clearing Data for Effective Date :
+          {{ data.listLog[0].transferDate | datePattern: 'full' }}
+        </label>
+      </div>
+    </div>
+    <div class="text-center">
+      <button (click)="clickConfirm()" class="btn btn-primary btn-w120">ปิด</button>
+    </div>
+  </div>
+  <!-- LOG_TYPE = ALERT_TEXT -->
+  <div class="update-file-status" *ngIf="data.logType === 'ALERT_TEXT'">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <label class="text-black"> {{ data.textAlert }} </label>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button (click)="clickConfirm()" class="btn btn-primary btn-w120">ปิด</button>
+    </div>
+  </div>
+</div>

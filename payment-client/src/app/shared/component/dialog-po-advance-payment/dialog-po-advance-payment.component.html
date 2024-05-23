@@ -1,0 +1,30 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragRootElement=".cdk-overlay-pane"><b>ระบุค่าเงินจ่ายล่วงหน้า</b></h1>
+</div>
+<br />
+<div mat-dialog-content style="min-height: 10px;">
+  <form (keydown.enter)="$event.preventDefault()" [formGroup]="dialogPrepaidForm">
+    <div>
+      <div class="content-dialog">
+        <div class="row">
+          <div class="col-12 col-md-5">
+            <label class="text-black"> มูลค่าเงินจ่ายล่วงหน้า </label>
+          </div>
+          <div class="col-12 col-md-7">
+            <div class="d-flex input-with-unit">
+              <input
+                appCurrency
+                class="form-control text-right"
+                formControlName="prepaidValue"
+                maxLength="15"
+                type="text"
+              />
+              <span> บาท </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

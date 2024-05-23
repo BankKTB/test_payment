@@ -1,0 +1,36 @@
+<div mat-dialog-title>
+  <button (click)="clickCancel()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane">
+    <b>ไม่อนุมัติทุกรายการ</b>
+  </h1>
+</div>
+<div [hidden]="isConfirm" mat-dialog-content style="width: 500px;">
+  <div class="content-box">
+
+
+      <div class="row margin-tb-size">
+        <div class="col-md-12 text-left">
+          <label class="text-black input-head">กรุณาระบุเหตุผลให้ทุกรายการ</label>
+        </div>
+        <div class="col-md-12">
+          <app-base-text-area
+            [maxLength]="200"
+            [value]="reason"
+            (onChangeValue)="setReasonTextArea($event)"
+          ></app-base-text-area>
+
+        </div>
+      </div>
+
+
+    <hr class="under-title" />
+    <div class="mx-auto d-flex">
+      <button (click)="clickConfirm()" class="btn btn-success btn-lg" type="button">
+        ใช่
+      </button>
+      <button (click)="clickCancel()" class="btn btn-danger btn-lg" type="button">
+        ไม่ใช่
+      </button>
+    </div>
+  </div>
+</div>

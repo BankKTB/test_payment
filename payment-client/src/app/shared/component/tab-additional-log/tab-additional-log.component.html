@@ -1,0 +1,147 @@
+<div class="tabbody">
+  <form (keydown.enter)="$event.preventDefault()" [formGroup]="additionLogForm">
+    <div class="panel panel-primary">
+      <div (click)="panelExpanded = !panelExpanded" class="panel-heading pointer">
+        <h3>
+          ต้องการประเภทการรายงานตรวจสอบ
+          <span class="float-right"><i *ngIf="!panelExpanded" class="material-icons">add</i></span>
+          <span class="float-right"
+            ><i *ngIf="panelExpanded" class="material-icons">remove</i></span
+          >
+        </h3>
+      </div>
+      <div *ngIf="panelExpanded" class="panel-body">
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <mat-checkbox formControlName="checkBoxDueDate">
+              ตรวจสอบวันที่ครบกำหนด
+            </mat-checkbox>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <mat-checkbox
+              (change)="checkValidationAdditionLog($event, 'paymentMethodAll')"
+              [disabled]="isDisabledCheckBoxPaymentMethodAll"
+              formControlName="checkBoxPaymentMethodAll"
+            >
+              เลือกวิธีชำระเงินในทุกกรณี
+            </mat-checkbox>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <mat-checkbox
+              (change)="checkValidationAdditionLog($event, 'paymentMethodUnSuccess')"
+              [disabled]="isDisabledCheckPaymentMethodUnSuccess"
+              formControlName="checkBoxPaymentMethodUnSuccess"
+            >
+              เลือกเฉพาะวิธีการชำระเงินไม่สำเร็จ
+            </mat-checkbox>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <mat-checkbox formControlName="checkBoxDisplayDetail"
+              >แสดงรายการบรรทัดรายการเอกสารชำระเงิน</mat-checkbox
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-primary">
+      <div (click)="panelExpanded1 = !panelExpanded1" class="panel-heading pointer">
+        <h3>
+          บัญชีที่ต้องการ
+          <span class="float-right"><i *ngIf="!panelExpanded1" class="material-icons">add</i></span>
+          <span class="float-right"
+            ><i *ngIf="panelExpanded1" class="material-icons">remove</i></span
+          >
+        </h3>
+      </div>
+      <div *ngIf="panelExpanded1" class="panel-body">
+        <div class="row">
+          <div class="col-12 col-md-12">
+            <button
+              (click)="addInputVendor()"
+              class="btn btn-default float-right btn-add-field"
+              type="button"
+            >
+              เพิ่มฟิลด์
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <label class="input-head">ผู้ขาย ( จาก / ถึง )</label>
+          </div>
+        </div>
+        <div *ngFor="let item of listVendor; let i = index" class="row mb-3">
+          <div class="col-12 col-md-5">
+            <div class="input-group">
+              <input
+                #vendorTaxIdFrom
+                (blur)="setVendor(i)"
+                [ngClass]="{ active: item.vendorTaxIdFrom, 'error-input': checkVendorAddition }"
+                [value]="item.vendorTaxIdFrom"
+                appUpperCaseDirective
+                class="form-control"
+                maxLength="10"
+                type="text"
+              />
+              <!--              <span (click)="openDialogOmVendor()" class="clear-input-icon">-->
+              <!--                      <img src="assets/images/icon/menu.svg" width="12px" />-->
+              <!--                    </span>-->
+              <div class="input-group-append button-group-search">
+                <button
+                  [disabled]="!editable"
+                  (click)="openDialogSearchVendor(i, 'vendorTaxIdFrom')"
+                  class="btn btn-default"
+                  type="button"
+                >
+                  <img src="assets/images/icon/fa-search.svg" width="12px" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-5">
+            <div class="input-group">
+              <input
+                #vendorTaxIdTo
+                (blur)="setVendor(i)"
+                [ngClass]="{ active: item.vendorTaxIdTo }"
+                [value]="item.vendorTaxIdTo"
+                appUpperCaseDirective
+                class="form-control"
+                maxLength="10"
+                type="text"
+              />
+              <!--              <span (click)="openDialogOmVendor()" class="clear-input-icon">-->
+              <!--                      <img src="assets/images/icon/menu.svg" width="12px" />-->
+              <!--                    </span>-->
+              <div class="input-group-append button-group-search">
+                <button
+                  [disabled]="!editable"
+                  (click)="openDialogSearchVendor(i, 'vendorTaxIdTo')"
+                  class="btn btn-default"
+                  type="button"
+                >
+                  <img src="assets/images/icon/fa-search.svg" width="12px" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 col-left d-flex-center">
+            <button
+              (click)="deleteInputVendor(i)"
+              class="btn btn-danger btn-close btn-with-icon"
+              type="button"
+            >
+              <i class="material-icons">clear</i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

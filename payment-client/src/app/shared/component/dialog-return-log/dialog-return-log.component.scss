@@ -1,0 +1,64 @@
+.data-table-pull {
+  .mat-header-cell {
+    &.mat-column-choose {
+      width: 10%;
+    }
+    &.mat-column-companyCode,
+    &.mat-column-documentNo {
+      width: 12%;
+    }
+    &.mat-column-fiscalYear {
+      width: 7%;
+    }
+    &.mat-column-reverseCompanyCode,
+    &.mat-column-reverseDocumentNo {
+      width: 15%;
+    }
+    &.mat-column-reverseFiscalYear {
+      width: 15%;
+    }
+    &.mat-column-status {
+      width: 15%;
+    }
+  }
+  .mat-cell {
+    p {
+      margin: 0;
+      position: relative;
+    }
+
+    p:first-child {
+      padding-top: 15px;
+      padding-bottom: 10px;
+      //&:after {
+      //  content: "";
+      //  position: absolute;
+      //  height: 1px;
+      //  //background: #f1ecec;
+      //  bottom: 0;
+      //  left: -5px;
+      //  right: -5px;
+      //}
+    }
+
+    p:last-child {
+      padding-top: 10px;
+      padding-bottom: 15px;
+    }
+  }
+}
+.footer-table-summary {
+  display: flex;
+  .mat-paginator {
+    flex: 3;
+  }
+  .summary-result {
+    flex: 1;
+    //position: absolute;
+    //bottom: 0;
+    font-size: 12px;
+    p {
+      margin: 0;
+    }
+  }
+}

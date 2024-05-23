@@ -1,0 +1,139 @@
+@import "variables.scss";
+
+h1 {
+  font-size: 22px;
+}
+
+h2 {
+  font-size: 20px;
+  font-family: 'SarabunSemiBold', "ms Sans Serif" !important;
+}
+
+h3 {
+  font-size: 16px;
+  font-family: 'SarabunSemiBold', "ms Sans Serif" !important;
+}
+
+.f-s-17 {
+  font-size: 17px;
+}
+
+.c-blue {
+  font-size: 15px;
+  color: $color-blue;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
+
+.text-blue {
+  color: $color-blue-sky;
+}
+
+.text-green {
+  color: $color-green;
+}
+
+.text-blue-sky {
+  color: $color-blue-sky;
+}
+
+.text-red {
+  color: $color-red;
+}
+
+.text-black {
+  color: $color-black;
+}
+
+.text-dark-grey {
+  color: $color-dark-gray;
+}
+
+.text-grey {
+  color: $color-gray;
+}
+
+.text-greenlight {
+  //font-weight: bold;
+  color: $color-greenlight;
+}
+
+.text-processing {
+  color: #F4901E;
+}
+
+.text-underline-blue {
+  //font-weight: bold;
+  text-decoration: underline;
+  color: $color-blue;
+}
+
+.text-underline-red {
+  //font-weight: bold;
+  text-decoration: underline;
+  color: $color-red;
+  position: relative;
+  // set * after text set .text-underline-red
+  // &:after {
+  //   content: "*";
+  //   position: absolute;
+  //   right: -10px;
+  // }
+}
+
+.text-underline-green {
+  //font-weight: bold;
+  text-decoration: underline;
+  color: $color-green;
+}
+
+.font-16 {
+  font-size: 16px;
+}
+
+.font-14 {
+  font-size: 14px;
+}
+.font-22{
+  font-size: 22px;
+}
+
+.text-red {
+  color: $color-red;
+}
+
+fieldset legend {
+  font-size: 14px;
+}
+
+span.break-word-text {
+  word-break: break-word;
+}
+
+.text-nowrap {
+  white-space: nowrap;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-thin {
+  font-weight: lighter;
+  font-family: 'SarabunRegular', 'ms Sans Serif';
+
+}

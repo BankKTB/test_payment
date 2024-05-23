@@ -1,0 +1,106 @@
+<div class="tabbody">
+  <div class="panel panel-primary">
+    <div (click)="panelExpanded = !panelExpanded" class="panel-heading pointer">
+      <h3>
+        เกณฑ์การเลือก
+        <span class="float-right"><i *ngIf="!panelExpanded" class="material-icons">add</i></span>
+        <span class="float-right"><i *ngIf="panelExpanded" class="material-icons">remove</i></span>
+      </h3>
+    </div>
+    <div *ngIf="panelExpanded" class="panel-body">
+      <div class="row">
+        <div class="col-md-12">
+          <button
+            (click)="addInputIndependent()"
+            class="btn btn-default float-right btn-add-field"
+            type="button"
+          >
+            เพิ่มฟิลด์
+          </button>
+        </div>
+      </div>
+      <div *ngFor="let item of listIndependent; let i = index">
+        <div class="row">
+          <div class="col-md-9">
+            <label class="input-head">ชื่อฟิลด์</label>
+            <div class="input-group">
+              <input
+                #fieldName
+                [value]="item.fieldName"
+                class="form-control"
+                readonly
+                type="text"
+              />
+              <div class="input-group-append">
+              <button (click)="openDialogSearchfield(i)" class="btn btn-default" type="button">
+                <img src="assets/images/icon/menu.svg" width="12px" />
+              </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-5 col-md-3 d-flex-center align-self-end">
+            <div class="input-group mr-2">
+              <mat-checkbox
+                #optionExclude
+                (change)="setOptionInclude(i)"
+                [checked]="item.optionExclude"
+                >ไม่รวมค่า
+              </mat-checkbox>
+            </div>
+            <button
+              (click)="deleteInputIndependent(i)"
+              class="btn btn-danger btn-close btn-with-icon"
+              type="button"
+            >
+              <i class="material-icons">clear</i>
+            </button>
+          </div>
+        </div>
+        <div *ngIf="item.fieldName" class="row">
+          <div class="col-md-9">
+            <input
+              #conditionField
+              (blur)="setConditionfield(i)"
+              [ngClass]="{ active: item.conditionField }"
+              [value]="item.conditionField"
+              class="form-control"
+              type="text"
+              *ngIf="item.dataType.toUpperCase() === 'STRING'"
+            />
+            <div class="input-group" *ngIf="item.dataType === 'DATE'">
+              <input
+                #conditionField
+                (blur)="setConditionfield(i)"
+                class="form-control"
+                type="text"
+                [value]="item.conditionField"
+              />
+              <input
+                [matDatepicker]="myDatepicker"
+                (dateChange)="setConditionDateField($event, i)"
+                class="form-control"
+                type="text"
+                style="position: absolute; z-index: -10;"
+              />
+              <span class="clear-input-icon" (click)="openDialogDateParameter(i)">
+                <img src="assets/images/icon/menu.svg" width="12px" />
+              </span>
+              <div class="input-group-append button-group-search">
+              <button
+                (click)="myDatepicker.open()"
+                class="btn btn-default"
+                mat-raised-button
+                type="button"
+              >
+                <img src="assets/images/icon/calendar.svg" width="12px" />
+                <mat-datepicker #myDatepicker></mat-datepicker>
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+      </div>
+    </div>
+  </div>
+</div>

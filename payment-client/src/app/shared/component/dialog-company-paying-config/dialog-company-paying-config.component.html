@@ -1,0 +1,50 @@
+<div mat-dialog-title>
+  <button (click)="clickCancel()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane">
+    <b>รหัสบริษัทที่ชำระเงิน</b>
+    <span class="mx-2">{{ data.item.companyCode }}</span>
+    <b>ชื่อหน่วยงาน</b>
+    <span class="mx-2">{{ data.item.companyName }}</span>
+  </h1>
+</div>
+
+<div mat-dialog-content>
+  <form (keydown.enter)="$event.preventDefault()" [formGroup]="companyPayingConfigForm">
+    <div class="panel panel-primary">
+      <div class="panel-heading pointer">
+        <h4>ข้อมูลควบคุม</h4>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-12">
+            <label class="text-black input-head"><b>จำนวนเงินขั้นต่ำสำหรับการจ่ายชำระ</b></label>
+            <div class="d-flex input-with-unit">
+              <input
+                appCurrency
+                class="form-control"
+                formControlName="minimumAmountForPay"
+                type="text"
+              />
+              <span> บาท </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="d-flex justify-content-center mb-2">
+    <button
+      (click)="clickSave(companyPayingConfigForm.value)"
+      class="btn btn-success btn-w120"
+      type="button"
+    >
+      บันทึก
+    </button>
+    <button (click)="clickCancel()" class="btn btn-danger btn-w120" type="button">
+      ยกเลิก
+    </button>
+  </div>
+  <div class="d-flex justify-content-center">
+    <button (click)="clickConfirm()" class="btn btn-primary btn-w120">ตกลง</button>
+  </div>
+</div>

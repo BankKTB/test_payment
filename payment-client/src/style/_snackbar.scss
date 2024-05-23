@@ -1,0 +1,21 @@
+snack-bar-container {
+  @import "variables.scss";
+
+  &.mat-snack-bar-container {
+    display: flex;
+    justify-content: center;
+    color: white;
+  }
+
+  &._warning {
+    background: $color-red;
+  }
+
+  &._success {
+    background: $color-green;
+  }
+
+  span {
+    font-size: 18px;
+  }
+}

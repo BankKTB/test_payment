@@ -1,0 +1,61 @@
+<div mat-dialog-title>
+  <button (click)="clickCancel()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane"><b>คัดลอก</b></h1>
+</div>
+<div mat-dialog-content>
+  <form (keydown.enter)="$event.preventDefault()" [formGroup]="copyCompanyForm">
+    <div class="row margin-tb-size">
+      <div class="col-md-12 text-left">
+        <button
+          (click)="openDialogSearchMaster('departmentCodeFrom')"
+          class="btn btn-primary"
+          type="button"
+          type="button"
+        >
+          ค้นหารหัสหน่วยงาน
+        </button>
+      </div>
+    </div>
+    <div class="row margin-tb-size">
+      <div class="col-md-12 text-left">
+        <label class="text-black input-head">รหัสหน่วยงาน</label>
+      </div>
+      <div class="col-md-12">
+        <input
+          class="form-control"
+          formControlName="companyCode"
+          maxLength="5"
+          readonly
+          type="text"
+        />
+      </div>
+    </div>
+    <div class="row margin-tb-size">
+      <div class="col-md-12 text-left">
+        <label class="text-black input-head">ชื่อหน่วยงาน</label>
+      </div>
+      <div class="col-md-12">
+        <input
+          class="form-control"
+          formControlName="companyName"
+          maxLength="5"
+          readonly
+          type="text"
+        />
+      </div>
+    </div>
+    <hr class="under-title" />
+    <div class="row">
+      <div class="col-md-6">
+        <button (click)="clickSave()" class="btn btn-success btn-lg" type="button">
+          <i class="material-icons">done</i>
+        </button>
+      </div>
+      <div class="col-md-6">
+        <button (click)="clickCancel()" class="btn btn-danger btn-lg" type="button">
+          <i class="material-icons">clear</i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

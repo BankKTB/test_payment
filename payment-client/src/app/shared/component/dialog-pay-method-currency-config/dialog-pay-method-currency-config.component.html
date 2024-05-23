@@ -1,0 +1,123 @@
+<div mat-dialog-title>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane"><b>สกุลเงินที่อนุญาต</b></h1>
+</div>
+
+<div mat-dialog-content>
+  <mat-card>
+    <form (keydown.enter)="$event.preventDefault()" [formGroup]="payMethodCurrencyConfigForm">
+      <div class="row">
+        <div class="col-12 col-right">
+          <button (click)="openDialogPayMethodCurrencyConfig()" class="btn btn-success">
+            สกุลเงิน
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <label class="text-black input-head"><b>ประเทศ : </b></label>
+          <input class="form-control" formControlName="country" readonly type="text" />
+        </div>
+        <div class="col-md-2">
+          {{ data.item.countryNameEN }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <label class="text-black input-head"><b>วิธีชำระเงิน : </b></label>
+          <input class="form-control" formControlName="payMethod" readonly type="text" />
+        </div>
+      </div>
+      <!--          <div class="row">-->
+      <!--            <div class="col-md-4">-->
+      <!--              <label class="text-black input-head"><b>คำอธิบาย : </b></label>-->
+      <!--              <input readonly type="text" formControlName="payMethodName" class="form-control"/>-->
+      <!--            </div>-->
+
+      <!--          </div>-->
+      <br />
+
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-2">
+          <h2 class="text-black"><b>สกุลเงิน</b></h2>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group">
+            <input
+              class="form-control"
+              formControlName="currency"
+              maxLength="5"
+              readonly
+              type="text"
+            />
+            <div class="input-group-append button-group-search">
+              <button
+                (click)="openDialogSearchMaster('currency')"
+                class="btn btn-default"
+                type="button"
+              >
+                <img src="assets/images/icon/fa-search.svg" width="12px" />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1">
+          <button
+            (click)="clickSave(this.payMethodCurrencyConfigForm.value)"
+            class="btn btn-primary"
+            type="button"
+            type="button"
+          >
+            เพิ่มสกุลเงิน
+          </button>
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col-12 col-md-12">
+          <div class="example-item-sm">
+            <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table>
+              <ng-container matColumnDef="currency">
+                <th *matHeaderCellDef class="info" mat-header-cell>สกุลเงิน</th>
+                <td *matCellDef="let element" mat-cell>{{ element.currency }}</td>
+              </ng-container>
+              <ng-container matColumnDef="currencyName">
+                <th *matHeaderCellDef class="info" mat-header-cell>ชื่อสกุลเงิน</th>
+                <td *matCellDef="let element" mat-cell>{{ element.currencyName }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="edit">
+                <th *matHeaderCellDef class="info" mat-header-cell></th>
+                <td *matCellDef="let element" mat-cell>
+                  <button
+                    (click)="deleteInputPayMethodCurrencyConfig(element)"
+                    class="btn btn-danger"
+                    type="button"
+                  >
+                    <i class="material-icons">clear</i>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+              <tr
+                (click)="row.highlighted = !row.highlighted"
+                (mouseout)="row.hovered = false"
+                (mouseover)="row.hovered = true"
+                *matRowDef="let row; columns: displayedColumns"
+                [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                mat-row
+              ></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </form>
+    <br /><br />
+    <hr />
+    <div class="d-flex justify-content-center">
+      <button (click)="clickConfirm()" class="btn btn-primary btn-w120">ตกลง</button>
+      <button (click)="clickCancel()" class="btn btn-danger btn-w120" type="button">ยกเลิก</button>
+    </div>
+  </mat-card>
+</div>

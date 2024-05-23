@@ -1,0 +1,487 @@
+<div mat-dialog-title>
+  <button (click)="closeDialog()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane">
+    <b>{{ title }}</b>
+  </h1>
+</div>
+<div mat-dialog-content>
+  <div *ngIf="this.data.type !== 'bankAccountNo'" class="row">
+    <div class="col-12 col-md-1" style="padding-top: 5px;">
+      <span>ค้นหา:</span>
+    </div>
+    <div class="col-12 col-md-4">
+      <input #searchValue class="form-control" type="text" />
+      <p class="text-red">{{ errorMessage }}</p>
+    </div>
+    <div class="col-12 col-md-3 btn-with-tooltip">
+      <button
+        (click)="search(searchValue); click()"
+        [disabled]="isLoading"
+        class="btn btn-info"
+        mat-icon-button
+      >
+        <i [ngClass]="{ 'fa-spin fa-spinner': isLoading, 'fa-check': !isLoading }" class="fa"></i>
+        <span>เริ่มค้นหา</span>
+      </button>
+      &nbsp;
+      <span class="tooltip-container">
+        <img src="assets/images/icon/question.png" />
+        <span class="tooltip-content">
+          <p>
+            ตัวอย่าง <br />- ต้องการหา เลข ที่ตามหลังด้วย 011 : พิมพ์ *011 <br />- ต้องการหา เลข
+            ที่ขึ้นต้นด้วย 011 : พิมพ์ 011* <br />- ต้องการหา เลข ที่ขึ้นต้นด้วย 01 ลงท้ายด้วย 1 :
+            พิมพ์ 01*1
+          </p>
+        </span>
+      </span>
+    </div>
+    <div class="col-12 col-md-4">
+      <input (keyup)="applyFilter($event.target.value)" class="form-control" placeholder="Filter" />
+    </div>
+  </div>
+  <div class="row justify-content-end" *ngIf="this.data.type === 'bankAccountNo'">
+    <div class="col-12 col-md-1" style="padding-top: 5px;">
+      <span>ค้นหา:</span>
+    </div>
+    <div class="col-12 col-md-4">
+      <input (keyup)="applyFilter($event.target.value)" class="form-control" placeholder="Filter" />
+    </div>
+  </div>
+
+  <div class="date_dialog">
+    <div [hidden]="!isShowTable" class="example-item">
+      <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
+        <div
+          *ngIf="
+            data.type === 'departmentCodeFrom' ||
+            data.type === 'departmentCodeTo' ||
+            data.type === 'companyCode' ||
+            data.type === 'companyCodeFrom' ||
+            data.type === 'companyCodeFromTo'
+          "
+        >
+          <ng-container matColumnDef="choose">
+            <th *matHeaderCellDef class="info th-width-20" mat-header-cell>เลือก</th>
+            <td *matCellDef="let element" mat-cell>
+              <mat-icon
+                (click)="chooseDataSearch(element.valueCode, element.name)"
+                class="icon pointer"
+              >
+                folder_open
+              </mat-icon>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="valueCode">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>รหัสหน่วยงาน</th>
+            <td *matCellDef="let element" mat-cell>{{ element.valueCode }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>คำอธิบาย</th>
+            <td *matCellDef="let element" mat-cell>{{ element.name }}</td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+          <tr
+            (click)="row.highlighted = !row.highlighted"
+            (mouseout)="row.hovered = false"
+            (mouseover)="row.hovered = true"
+            *matRowDef="let row; columns: displayedColumns"
+            [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+            mat-row
+          ></tr>
+        </div>
+
+        <div
+          *ngIf="
+            data.type === 'provinceCodeFrom' ||
+            data.type === 'provinceCodeTo' ||
+            data.type === 'fiAreaFrom' ||
+            data.type === 'fiAreaTo'
+          "
+        >
+          <ng-container matColumnDef="choose">
+            <th *matHeaderCellDef class="info th-width-20" mat-header-cell>เลือก</th>
+            <td *matCellDef="let element" mat-cell>
+              <mat-icon
+                (click)="chooseDataSearch(element.fiArea, element.name)"
+                class="icon pointer"
+              >
+                folder_open
+              </mat-icon>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="fiArea">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>รหัสจังหวัด</th>
+            <td *matCellDef="let element" mat-cell>{{ element.fiArea }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ชื่อจังหวัด</th>
+            <td *matCellDef="let element" mat-cell>{{ element.name }}</td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+          <tr
+            (click)="row.highlighted = !row.highlighted"
+            (mouseout)="row.hovered = false"
+            (mouseover)="row.hovered = true"
+            *matRowDef="let row; columns: displayedColumns"
+            [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+            mat-row
+          ></tr>
+        </div>
+
+        <div *ngIf="data.type === 'disbursementCodeFrom' || data.type === 'disbursementCodeTo'">
+          <ng-container matColumnDef="choose">
+            <th *matHeaderCellDef class="info th-width-20" mat-header-cell>เลือก</th>
+            <td *matCellDef="let element" mat-cell>
+              <mat-icon
+                (click)="chooseDataSearch(element.valueCode, element.description)"
+                class="icon pointer"
+                >folder_open
+              </mat-icon>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="valueCode">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+              รหัสหน่วยเบิกจ่าย
+            </th>
+            <td *matCellDef="let element" mat-cell>{{ element.valueCode }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+              ชื่อหน่วยเบิกจ่าย
+            </th>
+            <td *matCellDef="let element" mat-cell>{{ element.description }}</td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+          <tr
+            (click)="row.highlighted = !row.highlighted"
+            (mouseout)="row.hovered = false"
+            (mouseover)="row.hovered = true"
+            *matRowDef="let row; columns: displayedColumns"
+            [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+            mat-row
+          ></tr>
+        </div>
+
+        <div
+          *ngIf="
+            data.type === 'vendorTaxIdFrom' ||
+            data.type === 'vendorTaxIdTo' ||
+            data.type === 'vendorFrom' ||
+            data.type === 'vendorTo'
+          "
+        >
+          <ng-container matColumnDef="choose">
+            <th *matHeaderCellDef class="info th-width-20" mat-header-cell>เลือก</th>
+            <td *matCellDef="let element" mat-cell>
+              <mat-icon
+                (click)="chooseDataSearch(element.valueCode, element.name)"
+                class="icon pointer"
+              >
+                folder_open
+              </mat-icon>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="valueCode">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>รหัสผู้ขาย</th>
+            <td *matCellDef="let element" mat-cell>{{ element.valueCode }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="taxId">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+              รหัสประจำตัวผู้เสียภาษี
+            </th>
+            <td *matCellDef="let element" mat-cell>{{ element.taxId }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ชื่อผู้ขาย</th>
+            <td *matCellDef="let element" mat-cell>{{ element.name }}</td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+          <tr
+            (click)="row.highlighted = !row.highlighted"
+            (mouseout)="row.hovered = false"
+            (mouseover)="row.hovered = true"
+            *matRowDef="let row; columns: displayedColumns"
+            [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+            mat-row
+          ></tr>
+        </div>
+
+        <div *ngIf="data.type === 'country'">
+          <ng-container matColumnDef="choose">
+            <th *matHeaderCellDef class="info th-width-20" mat-header-cell>เลือก</th>
+            <td *matCellDef="let element" mat-cell>
+              <mat-icon
+                (click)="chooseDataSearch(element.valueCode, element.name)"
+                class="icon pointer"
+              >
+                folder_open
+              </mat-icon>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="valueCode">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>รหัสประเทศ</th>
+            <td *matCellDef="let element" mat-cell>{{ element.valueCode }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ชื่อประเทศ</th>
+            <td *matCellDef="let element" mat-cell>{{ element.name }}</td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+          <tr
+            (click)="row.highlighted = !row.highlighted"
+            (mouseout)="row.hovered = false"
+            (mouseover)="row.hovered = true"
+            *matRowDef="let row; columns: displayedColumns"
+            [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+            mat-row
+          ></tr>
+        </div>
+
+        <div *ngIf="data.type === 'bankBranch'">
+          <ng-container matColumnDef="choose">
+            <th *matHeaderCellDef class="info th-width-20" mat-header-cell>เลือก</th>
+            <td *matCellDef="let element" mat-cell>
+              <mat-icon
+                (click)="chooseDataSearch(element.valueCode, element.description)"
+                class="icon pointer"
+              >
+                folder_open
+              </mat-icon>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="valueCode">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>คีย์ธนาคาร</th>
+            <td *matCellDef="let element" mat-cell>{{ element.valueCode }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ชื่อคีย์ธนาคาร</th>
+            <td *matCellDef="let element" mat-cell>{{ element.description }}</td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+          <tr
+            (click)="row.highlighted = !row.highlighted"
+            (mouseout)="row.hovered = false"
+            (mouseover)="row.hovered = true"
+            *matRowDef="let row; columns: displayedColumns"
+            [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+            mat-row
+          ></tr>
+        </div>
+
+        <div
+          *ngIf="
+            data.type === 'paymentMethodFrom' ||
+            data.type === 'paymentMethodTo' ||
+            data.type === 'paymentMethod' ||
+            data.type === 'payMethodFrom' ||
+            data.type === 'payMethodTo'
+          "
+        >
+          <ng-container matColumnDef="choose">
+            <th *matHeaderCellDef class="info th-width-20" mat-header-cell>เลือก</th>
+            <td *matCellDef="let element" mat-cell>
+              <mat-icon
+                (click)="chooseDataSearch(element.valueCode, element.name)"
+                class="icon pointer"
+              >
+                folder_open
+              </mat-icon>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="valueCode">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>วิธีชำระเงิน</th>
+            <td *matCellDef="let element" mat-cell>{{ element.valueCode }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ชื่อวิธีชำระเงิน</th>
+            <td *matCellDef="let element" mat-cell>{{ element.name }}</td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+          <tr
+            (click)="row.highlighted = !row.highlighted"
+            (mouseout)="row.hovered = false"
+            (mouseover)="row.hovered = true"
+            *matRowDef="let row; columns: displayedColumns"
+            [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+            mat-row
+          ></tr>
+        </div>
+
+        <div *ngIf="data.type === 'currency'">
+          <ng-container matColumnDef="choose">
+            <th *matHeaderCellDef class="info th-width-20" mat-header-cell>เลือก</th>
+            <td *matCellDef="let element" mat-cell>
+              <mat-icon
+                (click)="chooseDataSearch(element.valueCode, element.description)"
+                class="icon pointer"
+              >
+                folder_open
+              </mat-icon>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="valueCode">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>สกุลเงิน</th>
+            <td *matCellDef="let element" mat-cell>{{ element.valueCode }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ชื่อสกุลเงิน</th>
+            <td *matCellDef="let element" mat-cell>{{ element.description }}</td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+          <tr
+            (click)="row.highlighted = !row.highlighted"
+            (mouseout)="row.hovered = false"
+            (mouseover)="row.hovered = true"
+            *matRowDef="let row; columns: displayedColumns"
+            [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+            mat-row
+          ></tr>
+        </div>
+
+        <div *ngIf="data.type === 'specialTypeFrom' || data.type === 'specialTypeTo'">
+          <ng-container matColumnDef="choose">
+            <th *matHeaderCellDef class="info th-width-20" mat-header-cell>เลือก</th>
+            <td *matCellDef="let element" mat-cell>
+              <mat-icon
+                (click)="chooseDataSearch(element.valueCode, element.description)"
+                class="icon pointer"
+              >
+                folder_open
+              </mat-icon>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="valueCode">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>สกุลเงิน</th>
+            <td *matCellDef="let element" mat-cell>{{ element.valueCode }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ชื่อสกุลเงิน</th>
+            <td *matCellDef="let element" mat-cell>{{ element.name }}</td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+          <tr
+            (click)="row.highlighted = !row.highlighted"
+            (mouseout)="row.hovered = false"
+            (mouseover)="row.hovered = true"
+            *matRowDef="let row; columns: displayedColumns"
+            [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+            mat-row
+          ></tr>
+        </div>
+
+        <div *ngIf="data.type === 'docTypeFrom' || data.type === 'docTypeTo'">
+          <ng-container matColumnDef="choose">
+            <th *matHeaderCellDef class="info th-width-20" mat-header-cell>เลือก</th>
+            <td *matCellDef="let element" mat-cell>
+              <mat-icon
+                (click)="chooseDataSearch(element.name, element.description)"
+                class="icon pointer"
+              >
+                folder_open
+              </mat-icon>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>สกุลเงิน</th>
+            <td *matCellDef="let element" mat-cell>{{ element.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ชื่อสกุลเงิน</th>
+            <td *matCellDef="let element" mat-cell>{{ element.description }}</td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+          <tr
+            (click)="row.highlighted = !row.highlighted"
+            (mouseout)="row.hovered = false"
+            (mouseover)="row.hovered = true"
+            *matRowDef="let row; columns: displayedColumns"
+            [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+            mat-row
+          ></tr>
+        </div>
+
+        <div *ngIf="data.type === 'bankAccountNo'">
+          <ng-container matColumnDef="choose">
+            <th *matHeaderCellDef class="info th-width-20" mat-header-cell>เลือก</th>
+            <td *matCellDef="let element" mat-cell>
+              <mat-icon
+                (click)="chooseDataSearch(element.bankAccountNo, element.routingNo)"
+                class="icon pointer"
+              >
+                folder_open
+              </mat-icon>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="bankAccountNo">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+              เลขที่บัญชีเงินฝากธนาคาร
+            </th>
+            <td *matCellDef="let element" mat-cell>{{ element.bankAccountNo }}</td>
+          </ng-container>
+          <ng-container matColumnDef="routingNo">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>Key ธนาคาร</th>
+            <td *matCellDef="let element" mat-cell>{{ element.routingNo }}</td>
+          </ng-container>
+          <ng-container matColumnDef="vendor">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>รหัสผู้ขาย</th>
+            <td *matCellDef="let element" mat-cell>{{ element.vendor }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="vendorName">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ชื่อผู้ขาย</th>
+            <td *matCellDef="let element" mat-cell>{{ element.vendorName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="active">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>Block</th>
+            <td *matCellDef="let element" mat-cell>
+              <span *ngIf="!element.active">Block</span>
+              <span *ngIf="element.active">-</span>
+            </td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+          <tr
+            (click)="row.highlighted = !row.highlighted"
+            (mouseout)="row.hovered = false"
+            (mouseover)="row.hovered = true"
+            *matRowDef="let row; columns: displayedColumns"
+            [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+            mat-row
+          ></tr>
+        </div>
+      </table>
+    </div>
+  </div>
+</div>

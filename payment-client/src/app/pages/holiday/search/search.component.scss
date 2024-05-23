@@ -1,0 +1,76 @@
+:host {
+  .btn-gradient.btn-bg-info {
+    padding: 5px;
+    .mat-icon {
+      font-size: 19px;
+    }
+  }
+}
+.table-full-width {
+  .mat-header-cell {
+    width: 40%;
+
+    &.mat-column-action {
+      width: 20%;
+    }
+  }
+
+  .mat-row {
+    .mat-cell.mat-column-action .action__outer {
+      display: block;
+
+      .mat-icon {
+        font-size: 25px;
+        color: #0b694a;
+        cursor: pointer;
+        opacity: 0.7;
+
+        &.play-icon,
+        &.stop-icon,
+        &.pause-icon,
+        &.delete-icon {
+          color: #a7abb0;
+        }
+
+        &:hover {
+          opacity: 1;
+        }
+
+        &.play-icon:hover {
+          color: #0b694a;
+        }
+
+        &.pause-icon:hover {
+          color: #2da8dc;
+        }
+
+        &.stop-icon:hover,
+        &.delete-icon:hover {
+          color: #d70808;
+        }
+      }
+    }
+
+    &:hover {
+      .mat-cell.mat-column-action .action__outer {
+        display: block;
+      }
+    }
+    .mat-cell.pointer:hover {
+      color: #0b90e1;
+      text-decoration: underline;
+    }
+  }
+
+  .mat-column-status,
+  .mat-column-state,
+  .mat-column-jobDate,
+  .mat-column-runTime,
+  .mat-column-finishedDate,
+  .mat-column-finishedTime {
+    text-align: center;
+    ::ng-deep .mat-sort-header-container {
+      justify-content: center;
+    }
+  }
+}

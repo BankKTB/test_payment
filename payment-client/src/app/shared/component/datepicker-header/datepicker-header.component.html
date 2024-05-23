@@ -1,0 +1,79 @@
+<div class="mat-calendar-controls datepicker-header">
+  <button (click)="periodConsitionClicked('year')" *ngIf="!isYearSelectOpen && !isMonthSelectOpen"
+          aria-label="Choose month and year"
+          cdkarialive="polite" class="mat-calendar-period-button mat-button mat-button-base"
+          mat-button="" ng-reflect-politeness="polite"
+          type="button">
+      <span class="mat-button-wrapper">
+        {{periodLabel}}
+        <div class="mat-calendar-arrow"></div>
+      </span>
+    <div class="mat-button-ripple mat-ripple" matripple="" ng-reflect-centered="false"
+         ng-reflect-disabled="false" ng-reflect-trigger="[object HTMLButtonElement]">
+    </div>
+    <div class="mat-button-focus-overlay"></div>
+  </button>
+  <button (click)="periodConsitionClicked('month')" *ngIf="isYearSelectOpen" aria-label="Choose month and year"
+          cdkarialive="polite" class="mat-calendar-period-button mat-button mat-button-base"
+          mat-button="" ng-reflect-politeness="polite"
+          type="button">
+      <span class="mat-button-wrapper">
+        {{periodYearLabel}}
+        <div class="mat-calendar-arrow"></div>
+      </span>
+    <div class="mat-button-ripple mat-ripple" matripple="" ng-reflect-centered="false"
+         ng-reflect-disabled="false" ng-reflect-trigger="[object HTMLButtonElement]">
+    </div>
+    <div class="mat-button-focus-overlay"></div>
+  </button>
+  <button (click)="periodConsitionClicked('month')" *ngIf="isMonthSelectOpen" aria-label="Choose month and year"
+          cdkarialive="polite" class="mat-calendar-period-button mat-button mat-button-base"
+          mat-button="" ng-reflect-politeness="polite"
+          type="button">
+      <span class="mat-button-wrapper">
+        {{periodMonthLabel}}
+        <div class="mat-calendar-arrow"></div>
+      </span>
+    <div class="mat-button-ripple mat-ripple" matripple="" ng-reflect-centered="false"
+         ng-reflect-disabled="false" ng-reflect-trigger="[object HTMLButtonElement]">
+    </div>
+    <div class="mat-button-focus-overlay"></div>
+  </button>
+  <div class="mat-calendar-spacer"></div>
+  <button (click)="previousClicked('month')" *ngIf="!isMonthSelectOpen"
+          class="mat-calendar-previous-button mat-icon-button mat-button-base" mat-icon-button=""
+          type="button">
+    <span class="mat-button-wrapper"></span>
+    <div class="mat-button-ripple mat-ripple mat-button-ripple-round" matripple="">
+    </div>
+    <div class="mat-button-focus-overlay"></div>
+  </button>
+  <button (click)="nextClicked('month')" *ngIf="!isMonthSelectOpen"
+          class="mat-calendar-next-button mat-icon-button mat-button-base" mat-icon-button=""
+          type="button">
+    <span class="mat-button-wrapper"></span>
+    <div class="mat-button-ripple mat-ripple mat-button-ripple-round" matripple="">
+    </div>
+    <div class="mat-button-focus-overlay"></div>
+  </button>
+</div>
+<div *ngIf="isYearSelectOpen" class="year-select-box">
+  <div class="row year-items">
+    <div (click)="selectYear(year)" *ngFor="let year of listYear" class="col-md-3 year-item">
+      <div [ngClass]="{ 'mat-calendar-body-selected mat-calendar-body-today': year === yearSelect }">
+        พ.ศ. {{ year }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isMonthSelectOpen" class="month-select-box">
+  <div class="row month-items h-100">
+    <div (click)="selectMonth(month.id)" *ngFor="let month of listMonth" class="col-md-4 month-item">
+      <div>
+        {{ month.name }}
+      </div>
+    </div>
+  </div>
+</div>
+

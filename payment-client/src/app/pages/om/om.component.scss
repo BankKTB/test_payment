@@ -1,0 +1,24 @@
+.example-viewport {
+  height: 200px;
+
+  border: 1px solid black;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+table {
+  text-align: center !important;
+  width: 100%;
+}
+
+.mat-header-cell {
+  text-align: center;
+}
+
+:host ::ng-deep .mat-sort-header-container {
+  display: flex;
+  justify-content: center;
+}
+

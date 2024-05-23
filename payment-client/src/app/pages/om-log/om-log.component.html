@@ -1,0 +1,443 @@
+<div class="content-menu-top">
+  <app-head-content></app-head-content>
+  <div class="topic">
+    <h4>รายงานผลการอนุมัติ</h4>
+  </div>
+</div>
+<div class="body">
+  <div class="container-fluid">
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="omForm" [ngClass]="{ 'submited-form': isSubmittedForm }">
+          <div class="panel panel-primary">
+            <div (click)="panelExpanded = !panelExpanded" class="panel-heading pointer">
+              <h3 class="panel-head">
+                Selection Criteria
+                <span class="float-right"
+                  ><i *ngIf="!panelExpanded" class="material-icons">add</i></span
+                >
+                <span class="float-right"
+                  ><i *ngIf="panelExpanded" class="material-icons">remove</i></span
+                >
+              </h3>
+            </div>
+            <div *ngIf="panelExpanded" class="panel-body">
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-underline-red input-head"> รหัสหน่วยงาน </label>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      formControlName="departmentCodeFrom"
+                      maxLength="5"
+                      type="text"
+                    />
+                    <div class="input-group-append button-group-search">
+                      <button
+                        (click)="openDialogSearchMaster('departmentCodeFrom')"
+                        class="btn btn-default"
+                        type="button"
+                      >
+                        <img src="assets/images/icon/fa-search.svg" width="12px" />
+                      </button>
+                    </div>
+                  </div>
+                  <!--                  {{departmentCodeFromBindingName}}-->
+                </div>
+                <label class="input-head pt-15">ถึง </label>
+                <div class="col-12 col-md-4">
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      formControlName="departmentCodeTo"
+                      maxLength="5"
+                      type="text"
+                    />
+                    <div class="input-group-append button-group-search">
+                      <button
+                        (click)="openDialogSearchMaster('departmentCodeTo')"
+                        class="btn btn-default"
+                        type="button"
+                      >
+                        <img src="assets/images/icon/fa-search.svg" width="12px" />
+                      </button>
+                    </div>
+                  </div>
+                  <!--                  {{departmentCodeToBindingName}}-->
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> ประเภทเอกสาร </label>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <input
+                      [formControl]="docTypeFromControl"
+                      [matAutocomplete]="auto5"
+                      class="form-control"
+                      formControlName="docTypeFrom"
+                      maxLength="2"
+                      type="text"
+                    />
+                    <div class="input-group-append button-group-search">
+                      <button
+                        (click)="openDialogSearchMaster('docTypeFrom')"
+                        class="btn btn-default"
+                        type="button"
+                      >
+                        <img src="assets/images/icon/fa-search.svg" width="12px" />
+                      </button>
+                    </div>
+                    <mat-autocomplete #auto5="matAutocomplete">
+                      <mat-option
+                        *ngFor="let option of filteredOptionsDocTypeFrom | async"
+                        [value]="option.name"
+                      >
+                        {{ option.name }} - {{ option.description }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </div>
+                </div>
+                <label class="input-head pt-15">ถึง </label>
+                <div class="col-12 col-md-4">
+                  <div class="input-group">
+                    <input
+                      [formControl]="docTypeToControl"
+                      [matAutocomplete]="auto6"
+                      class="form-control"
+                      formControlName="docTypeTo"
+                      maxLength="2"
+                      type="text"
+                    />
+                    <div class="input-group-append button-group-search">
+                      <button
+                        (click)="openDialogSearchMaster('docTypeTo')"
+                        class="btn btn-default"
+                        type="button"
+                      >
+                        <img src="assets/images/icon/fa-search.svg" width="12px" />
+                      </button>
+                    </div>
+                    <mat-autocomplete #auto6="matAutocomplete">
+                      <mat-option
+                        *ngFor="let option of filteredOptionsDocTypeTo | async"
+                        [value]="option.name"
+                      >
+                        {{ option.name }} - {{ option.description }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> เอกสารทางการบัญชี </label>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      formControlName="accDocNoFrom"
+                      maxLength="10"
+                      type="text"
+                    />
+                  </div>
+                  <!--                  {{provinceCodeFromBindingName}}-->
+                </div>
+                <label class="input-head pt-15">ถึง </label>
+                <div class="col-12 col-md-4">
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      formControlName="accDocNoTo"
+                      maxLength="10"
+                      type="text"
+                    />
+                  </div>
+                  <!--                  {{provinceCodeToBindingName}}-->
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> ปีบัญชี </label>
+                </div>
+                <div class="col-md-4">
+                  <input
+                    class="form-control"
+                    formControlName="yearAccountFrom"
+                    maxLength="4"
+                    type="text"
+                  />
+                </div>
+                <label class="input-head pt-15">ถึง </label>
+                <div class="col-md-4">
+                  <input
+                    class="form-control"
+                    formControlName="yearAccountTo"
+                    maxLength="4"
+                    type="text"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> วันผ่านรายการ </label>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group datetime-input">
+                    <div class="box-instead-input">
+                      <input
+                        [matDatepicker]="postDateFrom"
+                        class="form-control"
+                        formControlName="postDateFrom"
+                        type="text"
+                        appDateInput
+                      />
+                    </div>
+                    <div class="datetime-input-append">
+                      <button (click)="postDateFrom.open()" class="btn-calendar-icon" type="button">
+                        <img src="assets/images/icon/calendar.svg" width="12px" />
+                        <mat-datepicker #postDateFrom></mat-datepicker>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <label class="input-head pt-15">ถึง </label>
+                <div class="col-12 col-md-4">
+                  <div class="input-group datetime-input">
+                    <div class="box-instead-input">
+                      <input
+                        [matDatepicker]="postDateto"
+                        class="form-control"
+                        formControlName="postDateTo"
+                        type="text"
+                        appDateInput
+                      />
+                    </div>
+                    <div class="datetime-input-append">
+                      <button (click)="postDateto.open()" class="btn-calendar-icon" type="button">
+                        <img src="assets/images/icon/calendar.svg" width="12px" />
+                        <mat-datepicker #postDateto></mat-datepicker>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> วันที่อนุมัติ </label>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group datetime-input">
+                    <div class="box-instead-input">
+                      <input
+                        [matDatepicker]="approveDateFrom"
+                        class="form-control"
+                        formControlName="approveDateFrom"
+                        type="text"
+                        appDateInput
+                      />
+                    </div>
+                    <div class="datetime-input-append">
+                      <button
+                        (click)="approveDateFrom.open()"
+                        class="btn-calendar-icon"
+                        type="button"
+                      >
+                        <img src="assets/images/icon/calendar.svg" width="12px" />
+                        <mat-datepicker #approveDateFrom></mat-datepicker>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <label class="input-head pt-15">ถึง </label>
+                <div class="col-12 col-md-4">
+                  <div class="input-group datetime-input">
+                    <div class="box-instead-input">
+                      <input
+                        [matDatepicker]="approveDateto"
+                        class="form-control"
+                        formControlName="approveDateTo"
+                        type="text"
+                        appDateInput
+                      />
+                    </div>
+                    <div class="datetime-input-append">
+                      <button
+                        (click)="approveDateto.open()"
+                        class="btn-calendar-icon"
+                        type="button"
+                      >
+                        <img src="assets/images/icon/calendar.svg" width="12px" />
+                        <mat-datepicker #approveDateto></mat-datepicker>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> ค่าเก่า </label>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <input
+                      [readonly]="isDisableValue"
+                      class="form-control"
+                      formControlName="valueOld"
+                      maxLength="10"
+                      type="text"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> ค่าใหม่ </label>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <input class="form-control" formControlName="valueNew" type="text" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mx-auto mt-3 border-t-black mb-2">
+            <div class="mx-auto d-flex">
+              <button (click)="onSearch()" class="btn-light" type="button">ค้นหา</button>
+            </div>
+          </div>
+        </form>
+        <ul class="warning-box">
+          <li *ngFor="let c of listSearchValidate">{{ c }}</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<div class="row" [hidden]="!isDisableTable">
+  <div class="col-md-12">
+    <div class="container-fluid">
+      <div class="submenu">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12">
+            <h2>รายการ</h2>
+          </div>
+        </div>
+      </div>
+      <div class="long-data-table mt-4">
+        <table [dataSource]="dataSource" class="table-custom-size" mat-table matSort>
+          <ng-container matColumnDef="chooseOmDetail">
+            <th *matHeaderCellDef class="info" mat-header-cell>เลือก</th>
+            <td *matCellDef="let element" mat-cell>
+              <mat-icon (click)="chooseDataSearchDetail(element)" class="icon pointer">
+                folder_open
+              </mat-icon>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="docType">
+            <th *matHeaderCellDef class="info" mat-header-cell>ประเภทเอกสาร</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.documentType }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="compCode">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+              รหัสหน่วยงาน
+            </th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.companyCode }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="accDocNo">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+              เลขที่เอกสาร
+            </th>
+            <td
+              [ngClass]="{ pointer: element.valueNew === 'E' }"
+              (click)="openDialogOmLogDocument(element)"
+              *matCellDef="let element"
+              mat-cell
+            >
+              {{ element.originalDocumentNo }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="fiscalYear">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ปีบัญชี</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.originalFiscalYear | thaiyear }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="valueOld">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ค่าเก่า</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.valueOld }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="valueNew">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ค่าใหม่</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.valueNew }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="reason">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>เหตุผล</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.reason }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="postDate">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+              วันที่ผ่านรายการ
+            </th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.dateAcct | thaidate }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="approveDate">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+              วันที่อนุมัติ
+            </th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.unblockDate | thaidate }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="userPost">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>รหัสผู้สร้าง</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.userPost }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="username">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+              รหัสผู้อนุมัติ
+            </th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.userName }}
+            </td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+          <tr
+            (click)="row.highlighted = !row.highlighted"
+            (mouseout)="row.hovered = false"
+            (mouseover)="row.hovered = true"
+            *matRowDef="let row; columns: displayedColumns"
+            [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+            mat-row
+          ></tr>
+        </table>
+      </div>
+      <mat-paginator [pageSizeOptions]="[50, 100, 200, 500, 1000]" showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </div>
+</div>

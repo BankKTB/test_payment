@@ -1,0 +1,92 @@
+//Base Color//
+
+$color-Sblue: #245572;
+$color-strong-green: #0d4932;
+$color-primary: #0b694a;
+$color-bright-green: #477c2e;
+$color-blue-green: #509c90;
+$color-lime-green: #a2d18c;
+$color-light-green: #ebffe8;
+
+$color-blue: #3268a5;
+$color-light-blue: #e9fffa;
+
+$color-th-blue: #b8dffd;
+$color-white-blue: #eff8ff;
+$color-light-yellow: #ffffe5;
+
+//$color-yellow: #be8a18;
+$color-yellow: #fff30c;
+$color-orange: #ff9b1b;
+
+$color-black: #252525;
+$color-dark-gray: #424242;
+$color-gray: #a0a3a5;
+$color-light-gray: rgb(229, 230, 231);
+
+$color-light-Pblue: #d3ecff;
+$color-light-purple: #e9f0ff;
+$color-strong-purple: #4f58ad;
+$color-purple: #ccdaf8;
+$color-pink: #e8d4ff;
+$color-light-pink: #f4ecfd;
+
+$color-red: #d32620;
+$color-light-red: #ff9490;
+$color-green: $color-bright-green;
+$color-greenlight: #00776d;
+$color-blue-sky: #00719e;
+
+$color-yellow-light: #ffffe1;
+$color-orange-light: #ffcb88;
+$color-button-next: $color-primary;
+$bg-topic-1: $color-light-purple;
+
+//border Color//
+$border-content: $color-gray;
+
+//Table Color//
+$tr-odd: #f2f2f2;
+$table-collapseRow1: $color-light-Pblue;
+$table-collapseRow2: #fff;
+$table-collapseRow3: $color-light-purple;
+$table-collapseRow4: $color-pink;
+$table-collapseRow5: $color-purple;
+
+//Gradient color//
+$gradient-white-Lblue_bottom: linear-gradient(to bottom, #fff 50%, $color-light-blue 100%);
+//linear-gradient(to bottom, rgba(255, 255, 255, 0) 50%, #e9fffa 100%);
+$gradient-none-Lblue_bottom: linear-gradient(
+  to bottom,
+  rgba(255, 255, 255, 0) 50%,
+  $color-light-blue 100%
+);
+$gradient-green-Bgreen_right: linear-gradient(to right, $color-primary 45%, $color-blue-green 90%);
+//linear-gradient(to right, #0b694a 45%, #509c90 90%);
+$gradient-green-Bgreen_bottom: linear-gradient(to bottom, $color-primary 0%, $color-blue-green 90%);
+
+$gradient-Gblue-LGreen_bottom: linear-gradient(
+  to bottom,
+  $color-primary 15%,
+  $color-blue-green 95%
+);
+//linear-gradient(to bottom, #0b694a 15%, #509c90 95%);
+
+//Layout Size//
+$size-menu: 240px;
+//$header-height: 117px;
+$header-height: 130px;
+$footer-height: 60px;
+
+//Font Size//
+$font-base: 15px;
+$header-height: 130px;
+$footer-height: 60px;
+
+//Media Query//
+$break-large: 1200px;
+$break-ipadpro: 1024.98px;
+$break-big: 991.98px;
+$break-ipad: 768.98px;
+$break-small: 575.98px;
+$break-smallest: 450px;

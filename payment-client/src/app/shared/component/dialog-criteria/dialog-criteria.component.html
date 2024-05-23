@@ -1,0 +1,167 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane">
+    <b> {{ data.thaiText }} </b>
+  </h1>
+</div>
+<div mat-dialog-content>
+  <div class="panel-body">
+    <div class="row justify-content-between">
+      <div class="col-6 col-sm-6">
+        <!--      <button (click)="copyToClipboard($event)" class="btn btn-default f-medium" type="button">-->
+        <!--        วางคลิปบอร์ด-->
+        <!--      </button>-->
+      </div>
+      <div class="col-6 col-sm-6 text-right">
+        <button (click)="addRow()" class="btn btn-default f-medium" type="button">
+          เพิ่มฟิลด์
+        </button>
+      </div>
+    </div>
+    <div
+      *ngFor="let item of listCriteriaRange; let i = index"
+      class="row align-items-center justify-content-center m-0"
+    >
+      <ng-container *ngIf="!item.isDelete">
+        <label class="input-head pt-15">{{ data.thaiText }} </label>
+        <div class="col-5 col-sm-4">
+          <input
+            #from
+            (blur)="onBlurSetValue(i)"
+            (input)="copyFromExcel($event, i, 'from')"
+            [ngClass]="{ active: item.from, 'input-not-include': item.optionExclude }"
+            [value]="item.from"
+            appNumberAllowStar
+            class="form-control"
+            type="text"
+            [max]="data.max"
+            *ngIf="data.typeInput === 'NUMBER' || data.typeInput === 'YEAR'"
+          />
+          <input
+            #from
+            (blur)="onBlurSetValue(i)"
+            (input)="copyFromExcel($event, i, 'from')"
+            [ngClass]="{ active: item.from, 'input-not-include': item.optionExclude }"
+            [value]="item.from"
+            class="form-control"
+            type="text"
+            [max]="data.max"
+            *ngIf="data.typeInput === 'STRING' || data.typeInput === 'TEXT'"
+          />
+          <input
+            #from
+            (blur)="onBlurSetValue(i)"
+            (input)="copyFromExcel($event, i, 'from')"
+            [ngClass]="{ active: item.from, 'input-not-include': item.optionExclude }"
+            [value]="item.from"
+            class="form-control"
+            type="text"
+            appCurrency
+            *ngIf="data.typeInput === 'CURRENCY'"
+          />
+          <div class="input-group datetime-input" *ngIf="data.typeInput === 'DATE'">
+            <input
+              [matDatepicker]="dateFrom"
+              [value]="item.from"
+              class="form-control"
+              [ngClass]="{ 'input-not-include': item.optionExclude }"
+              type="text"
+              appDateInput
+              (dateChange)="onDateChange($event, i, 'from')"
+            />
+            <div class="datetime-input-append">
+              <button (click)="dateFrom.open()" class="btn-calendar-icon" type="button">
+                <img src="assets/images/icon/calendar.svg" width="12px" />
+                <mat-datepicker #dateFrom></mat-datepicker>
+              </button>
+            </div>
+          </div>
+        </div>
+        <label class="input-head pt-15"> ถึง </label>
+        <div class="col-5 col-sm-4">
+          <input
+            #to
+            (blur)="onBlurSetValue(i)"
+            (input)="copyFromExcel($event, i, 'to')"
+            [ngClass]="{ active: item.to, 'input-not-include': item.optionExclude }"
+            [value]="item.to"
+            appNumberAllowStar
+            class="form-control"
+            type="text"
+            *ngIf="data.typeInput === 'NUMBER' || data.typeInput === 'YEAR'"
+          />
+          <input
+            #to
+            (blur)="onBlurSetValue(i)"
+            (input)="copyFromExcel($event, i, 'to')"
+            [ngClass]="{ active: item.to, 'input-not-include': item.optionExclude }"
+            [value]="item.to"
+            class="form-control"
+            type="text"
+            *ngIf="data.typeInput === 'STRING' || data.typeInput === 'TEXT'"
+          />
+          <input
+            #to
+            (blur)="onBlurSetValue(i)"
+            (input)="copyFromExcel($event, i, 'to')"
+            [ngClass]="{ active: item.to, 'input-not-include': item.optionExclude }"
+            [value]="item.to"
+            class="form-control"
+            type="text"
+            appCurrency
+            *ngIf="data.typeInput === 'CURRENCY'"
+          />
+          <div class="input-group datetime-input" *ngIf="data.typeInput === 'DATE'">
+            <input
+              [matDatepicker]="dateTo"
+              [value]="item.to"
+              class="form-control"
+              [ngClass]="{ 'input-not-include': item.optionExclude }"
+              type="text"
+              appDateInput
+              (dateChange)="onDateChange($event, i, 'to')"
+              [min]="item.from"
+            />
+            <div class="datetime-input-append">
+              <button (click)="dateTo.open()" class="btn-calendar-icon" type="button">
+                <img src="assets/images/icon/calendar.svg" width="12px" />
+                <mat-datepicker #dateTo></mat-datepicker>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-2 col-sm-2 p-0 m-0">
+          <div class="d-flex align-items-center justify-content-end">
+            <mat-checkbox
+              #optionExclude
+              (change)="setOptionInclude(i)"
+              [checked]="item.optionExclude"
+              *ngIf="data.enableExclude"
+            >
+              <span class="d-sm-inline"> ไม่รวมค่า </span>
+            </mat-checkbox>
+            <button
+              (click)="deleteRow(i)"
+              class="btn btn-danger btn-close btn-with-icon"
+              type="button"
+            >
+              <i class="material-icons">clear</i>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <button (click)="clickSave()" class="btn btn-success btn-lg" type="button">
+        <i class="material-icons">done</i>
+      </button>
+    </div>
+    <div class="col-md-6">
+      <button (click)="onNoClick()" class="btn btn-danger btn-lg" type="button">
+        <i class="material-icons">clear</i>
+      </button>
+    </div>
+  </div>
+</div>

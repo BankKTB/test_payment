@@ -1,0 +1,43 @@
+<div mat-dialog-title>
+  <button (click)="clickCancel()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane">
+    <b>ยืนยันกลับรายการเอกสาร</b>
+  </h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="dialog-reverse dialog-reverse-payment mb-3">
+    <div class="row">
+      <div class="col-12 col-sm-3">ชื่อเอกสาร</div>
+      <div class="col-12 col-sm-9">
+        <span *ngIf="data.reverseType === 'PAYMENT'"> ใบกลับรายการเอกสารจ่าย </span>
+        <span *ngIf="data.reverseType === 'INVOICE'"> ใบกลับรายการเอกสารตั้งเบิก </span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-sm-3">รหัสหน่วยงาน</div>
+      <div class="col-12 col-sm-9">{{ data.objRequest.compCodeDisplay }}</div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-sm-3">เลขที่ใบขอกลับรายการ</div>
+      <div class="col-12 col-sm-9">{{ data.objRequest.accountDocNoDisplay }}</div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-sm-3">ปีงบประมาณ</div>
+      <div class="col-12 col-sm-9">{{ data.objRequest.fiscalYearDisplay | thaiyear }}</div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-sm-3">วันที่ผ่านรายการ</div>
+      <div class="col-12 col-sm-9">{{ data.objRequest.revDateAcct | thaidate }}</div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center mb-2">
+    <button (click)="onSave(1)" class="btn btn-success btn-w120" type="button">
+      กลับรายการ
+    </button>
+    <button (click)="clickCancel()" class="btn btn-danger btn-w120" type="button">
+      ยกเลิก
+    </button>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+package th.com.bloomcode.paymentservice.webservice.model.response;
+
+import lombok.Data;
+import th.com.bloomcode.paymentservice.webservice.model.FICreateResponseBase;
+import th.com.bloomcode.paymentservice.webservice.model.StandardXMLTagName;
+import th.com.bloomcode.paymentservice.webservice.model.ZFIDoc;
+
+import javax.xml.bind.annotation.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Data
+@XmlRootElement(name = StandardXMLTagName.RESPONSE)
+@XmlAccessorType(XmlAccessType.FIELD)
+public class FIPostResponse extends FICreateResponseBase {
+	
+	@XmlElement(name = StandardXMLTagName.FLAG)
+	private int flag = 0; // 0=Test, 1=Do
+
+	@XmlElement(name = StandardXMLTagName.FIDOC)
+	private ZFIDoc fiDoc = null;
+	
+	@XmlElementWrapper(name = StandardXMLTagName.AUTO_DOCUMENT_LIST)
+	@XmlElement(name = StandardXMLTagName.AUTO_DOCUMENT_ENTRY)
+	private List<FICreateResponseBase> autoDoc = new ArrayList<>();
+	
+
+
+}

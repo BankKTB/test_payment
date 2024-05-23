@@ -1,0 +1,173 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane"><b>ยืนยันการอนุมัติ</b></h1>
+</div>
+<div [hidden]="!isConfirm" mat-dialog-content>
+  <div class="content-box">
+    <div class="position-relative" style="overflow-y: auto; max-height: 500px;">
+      <div style="overflow-x: auto;">
+        <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
+          <ng-container matColumnDef="choose">
+            <th *matHeaderCellDef class="info" mat-header-cell>เลือก</th>
+            <td *matCellDef="let element" mat-cell>
+              <mat-icon (click)="chooseDataSearchDetail(element)" class="icon pointer">
+                folder_open
+              </mat-icon>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="date">
+            <th *matHeaderCellDef class="info" mat-header-cell>วันที่</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.unblockDate | thaidate }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="time">
+            <th *matHeaderCellDef class="info" mat-header-cell>เวลา</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.unblockDate | date: 'HH:mm:ss' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="compCode">
+            <th *matHeaderCellDef class="info" mat-header-cell>รหัสหน่วยงาน</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.companyCode }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="docType">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ประเภทเอกสาร</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.documentType }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="accDocNo">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>เลขที่เอกสาร</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.originalDocumentNo }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="fiscalYear">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ปี</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.originalFiscalYear | thaiyear }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="line">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>รายการ</th>
+            <td *matCellDef="let element" mat-cell>
+              001
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="valueOld">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ค่าเก่า</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.valueOld }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="valueNew">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ค่าใหม่</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.valueNew }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="reason">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>เหตุผล</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.reason ? element.reason : '-' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="userPost">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ชื่อผู้ใช้งาน</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.userPost }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="userName">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ชื่อผู้ใช้ในระบบ</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.userName }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>สถานะ</th>
+            <td *matCellDef="let element" mat-cell>
+              <p *ngIf="element.idemStatus === 'P'">กำลังประมวลผล</p>
+              <p *ngIf="element.idemStatus === 'NP'">ไม่ได้ทำรายการเนื่องจากไม่เข้าเงื่อนไข</p>
+              <p *ngIf="element.idemStatus === 'S'">สำเร็จ</p>
+              <p
+                class="pointer text-underline"
+                (click)="viewDetailError(element)"
+                *ngIf="element.idemStatus === 'E'"
+              >
+                ไม่สำเร็จ
+              </p>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="reverseOriginalDocumentNo">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+              เลขที่เอกสารกลับรายการ
+            </th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.reverseOriginalDocumentNo }}
+            </td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+          <tr
+            (click)="row.highlighted = !row.highlighted"
+            (mouseout)="row.hovered = false"
+            (mouseover)="row.hovered = true"
+            *matRowDef="let row; columns: displayedColumns"
+            [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+            mat-row
+          ></tr>
+        </table>
+      </div>
+      <div class="footer-table-summary">
+        <div class="summary-result">
+          <p>จำนวนรายการเอกสารทั้งหมด : {{ summaryResult?.total }} รายการ</p>
+          <p>กำลังประมวลผล : {{ summaryResult?.process }} รายการ</p>
+          <p>สำเร็จ : {{ summaryResult?.success }} รายการ</p>
+          <p>ไม่สำเร็จ : {{ summaryResult?.fail }} รายการ</p>
+        </div>
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 20, 50, 100]"
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
+    </div>
+    <div class="row mx-auto mt-3 border-t-black">
+      <div class="mx-auto d-flex">
+        <button (click)="onNoClick()" class="btn-light" type="button">ปิด</button>
+        <button (click)="pullChangePaymentBlock(uuid)" class="btn-light" type="button">
+          รีเฟรช
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div [hidden]="isConfirm" mat-dialog-content style="width: 1000px;">
+  <div class="content-box">
+    <div class="row">
+      <div class="col-md-12 text-left">
+        <label class="text-black">ยืนยันรายการ</label>
+        <p class="text-red" *ngFor="let item of data.listValidate">- {{ item }}</p>
+      </div>
+    </div>
+
+    <hr class="under-title" />
+    <div class="mx-auto d-flex">
+      <button (click)="clickConfirm()" class="btn btn-success btn-lg" type="button">
+        ใช่
+      </button>
+      <button (click)="clickCancel()" class="btn btn-danger btn-lg" type="button">
+        ไม่ใช่
+      </button>
+    </div>
+  </div>
+</div>

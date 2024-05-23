@@ -1,0 +1,303 @@
+<div class="content-menu-top" style="width: calc(100% + 240px);">
+  <app-head-content></app-head-content>
+  <div class="topic">
+    <h4>Log Proposal file</h4>
+  </div>
+</div>
+<div class="row" style="width: calc(100% + 240px);">
+  <div class="col-12">
+    <div class="container-fluid">
+      <mat-card>
+        <div class="row">
+          <div class="col-12 col-sm-2 mt-2">
+            หมายเลขอ้างอิง
+          </div>
+          <div class="col-12 col-sm-10 mt-2">
+            {{ referenceDoc }}
+          </div>
+        </div>
+        <!-- TABLE SMARTS -->
+        <div class="row" *ngIf="dataSourceSmarts.data.length > 0">
+          <div class="col-12 long-table-log fix-table mt-4">
+            <table
+              [dataSource]="dataSourceSmarts"
+              class="mat-elevation-z8 table-log"
+              mat-table
+              matSort
+            >
+              <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+              <ng-container matColumnDef="groupHeader">
+                <td class="bg-content-search group-row" *matCellDef="let group">
+                  ชื่อไฟล์ : {{ group.group }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="outputText">
+                <th *matHeaderCellDef mat-header-cell class="group-row">SMART</th>
+                <td *matCellDef="let element" mat-cell class="white-space-pre">
+                  {{ element.outputText }}
+                </td>
+              </ng-container>
+              <tr
+                mat-row
+                class="clickable"
+                *matRowDef="let row; columns: ['groupHeader']; when: isGroup"
+              ></tr>
+              <tr
+                (click)="row.highlighted = !row.highlighted"
+                (mouseout)="row.hovered = false"
+                (mouseover)="row.hovered = true"
+                *matRowDef="let row; columns: displayedColumns"
+                [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                mat-row
+              ></tr>
+            </table>
+          </div>
+        </div>
+        <!-- TABLE SWIFTS -->
+        <div class="row" *ngIf="dataSourceSwifts.data.length > 0">
+          <div class="col-12 long-table-log fix-table mt-4">
+            <table
+              [dataSource]="dataSourceSwifts"
+              class="mat-elevation-z8 table-log"
+              mat-table
+              matSort
+            >
+              <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+              <ng-container matColumnDef="groupHeader">
+                <td class="bg-content-search group-row" *matCellDef="let group">
+                  ชื่อไฟล์ : {{ group.group }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="outputText">
+                <th *matHeaderCellDef mat-header-cell class="group-row">SWIFTS</th>
+                <td *matCellDef="let element" mat-cell class="white-space-pre">
+                  {{ element.outputText }}
+                </td>
+              </ng-container>
+              <tr
+                mat-row
+                class="clickable"
+                *matRowDef="let row; columns: ['groupHeader']; when: isGroup"
+              ></tr>
+              <tr
+                (click)="row.highlighted = !row.highlighted"
+                (mouseout)="row.hovered = false"
+                (mouseover)="row.hovered = true"
+                *matRowDef="let row; columns: displayedColumns"
+                [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                mat-row
+              ></tr>
+            </table>
+          </div>
+        </div>
+        <!-- TABLE GIROS -->
+        <div class="row" *ngIf="dataSourceGiros.data.length > 0">
+          <div class="col-12 long-table-log fix-table mt-4">
+            <table
+              [dataSource]="dataSourceGiros"
+              class="mat-elevation-z8 table-log"
+              mat-table
+              matSort
+            >
+              <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+              <ng-container matColumnDef="groupHeader">
+                <td class="bg-content-search group-row" *matCellDef="let group">
+                  ชื่อไฟล์ : {{ group.group }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="outputText">
+                <th *matHeaderCellDef mat-header-cell class="group-row">GIROS</th>
+                <td *matCellDef="let element" mat-cell class="white-space-pre">
+                  {{ element.outputText }}
+                </td>
+              </ng-container>
+              <tr
+                mat-row
+                class="clickable"
+                *matRowDef="let row; columns: ['groupHeader']; when: isGroup"
+              ></tr>
+              <tr
+                (click)="row.highlighted = !row.highlighted"
+                (mouseout)="row.hovered = false"
+                (mouseover)="row.hovered = true"
+                *matRowDef="let row; columns: displayedColumns"
+                [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                mat-row
+              ></tr>
+            </table>
+          </div>
+        </div>
+        <!-- TABLE INHOUSES -->
+        <div class="row" *ngIf="dataSourceInHouses.data.length > 0">
+          <div class="col-12 long-table-log fix-table mt-4">
+            <table
+              [dataSource]="dataSourceInHouses"
+              class="mat-elevation-z8 table-log"
+              mat-table
+              matSort
+            >
+              <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+              <ng-container matColumnDef="groupHeader">
+                <td class="bg-content-search group-row" *matCellDef="let group">
+                  ชื่อไฟล์ : {{ group.group }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="outputText">
+                <th *matHeaderCellDef mat-header-cell class="group-row">INHOUSES</th>
+                <td *matCellDef="let element" mat-cell class="white-space-pre">
+                  {{ element.outputText }}
+                </td>
+              </ng-container>
+              <tr
+                mat-row
+                class="clickable"
+                *matRowDef="let row; columns: ['groupHeader']; when: isGroup"
+              ></tr>
+              <tr
+                (click)="row.highlighted = !row.highlighted"
+                (mouseout)="row.hovered = false"
+                (mouseover)="row.hovered = true"
+                *matRowDef="let row; columns: displayedColumns"
+                [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                mat-row
+              ></tr>
+            </table>
+          </div>
+        </div>
+        <!-- TABLE GM -->
+        <div class="row" *ngIf="dataSourceGM.data.length > 0">
+          <div class="col-12 long-table-log fix-table mt-4">
+            <table [dataSource]="dataSourceGM" class="mat-elevation-z8 table-log" mat-table matSort>
+              <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+              <ng-container matColumnDef="groupHeader">
+                <td class="bg-content-search group-row" *matCellDef="let group">
+                  ชื่อไฟล์ : {{ group.group }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="outputText">
+                <th *matHeaderCellDef mat-header-cell class="group-row">GM</th>
+                <td *matCellDef="let element" mat-cell class="white-space-pre">
+                  {{ element.outputText }}
+                </td>
+              </ng-container>
+              <tr
+                mat-row
+                class="clickable"
+                *matRowDef="let row; columns: ['groupHeader']; when: isGroup"
+              ></tr>
+              <tr
+                (click)="row.highlighted = !row.highlighted"
+                (mouseout)="row.hovered = false"
+                (mouseover)="row.hovered = true"
+                *matRowDef="let row; columns: displayedColumns"
+                [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                mat-row
+              ></tr>
+            </table>
+          </div>
+        </div>
+        <!-- TABLE GGIRO -->
+        <div class="row" *ngIf="dataSourceGgiro.data.length > 0">
+          <div class="col-12 long-table-log fix-table mt-4">
+            <table
+              [dataSource]="dataSourceGgiro"
+              class="mat-elevation-z8 table-log"
+              mat-table
+              matSort
+            >
+              <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+              <ng-container matColumnDef="groupHeader">
+                <td class="bg-content-search group-row" *matCellDef="let group">
+                  ชื่อไฟล์ : {{ group.group }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="outputText">
+                <th *matHeaderCellDef mat-header-cell class="group-row">GGIRO</th>
+                <td *matCellDef="let element" mat-cell class="white-space-pre">
+                  {{ element.outputText }}
+                </td>
+              </ng-container>
+              <tr
+                mat-row
+                class="clickable"
+                *matRowDef="let row; columns: ['groupHeader']; when: isGroup"
+              ></tr>
+              <tr
+                (click)="row.highlighted = !row.highlighted"
+                (mouseout)="row.hovered = false"
+                (mouseover)="row.hovered = true"
+                *matRowDef="let row; columns: displayedColumns"
+                [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                mat-row
+              ></tr>
+            </table>
+          </div>
+        </div>
+        <!-- TABLE INH -->
+        <div class="row" *ngIf="dataSourceInh.data.length > 0">
+          <div class="col-12 long-table-log fix-table mt-4">
+            <table
+              [dataSource]="dataSourceInh"
+              class="mat-elevation-z8 table-log"
+              mat-table
+              matSort
+            >
+              <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+              <ng-container matColumnDef="groupHeader">
+                <td class="bg-content-search group-row" *matCellDef="let group">
+                  ชื่อไฟล์ : {{ group.group }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="outputText">
+                <th *matHeaderCellDef mat-header-cell class="group-row">GGIRO - INHOUSE</th>
+                <td *matCellDef="let element" mat-cell class="white-space-pre">
+                  {{ element.outputText }}
+                </td>
+              </ng-container>
+              <tr
+                mat-row
+                class="clickable"
+                *matRowDef="let row; columns: ['groupHeader']; when: isGroup"
+              ></tr>
+              <tr
+                (click)="row.highlighted = !row.highlighted"
+                (mouseout)="row.hovered = false"
+                (mouseover)="row.hovered = true"
+                *matRowDef="let row; columns: displayedColumns"
+                [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                mat-row
+              ></tr>
+            </table>
+          </div>
+        </div>
+        <!-- TABLE ERRORS -->
+        <div class="row" *ngIf="dataSourceErrors.data.length > 0">
+          <div class="col-12 long-table-log fix-table mt-4">
+            <table
+              [dataSource]="dataSourceErrors"
+              class="mat-elevation-z8 table-log"
+              mat-table
+              matSort
+            >
+              <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+              <ng-container matColumnDef="outputText">
+                <th *matHeaderCellDef mat-header-cell class="group-row">ERROR</th>
+                <td *matCellDef="let element" mat-cell class="white-space-pre">
+                  {{ element }}
+                </td>
+              </ng-container>
+              <tr
+                (click)="row.highlighted = !row.highlighted"
+                (mouseout)="row.hovered = false"
+                (mouseover)="row.hovered = true"
+                *matRowDef="let row; columns: displayedColumns"
+                [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                mat-row
+              ></tr>
+            </table>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<div mat-dialog-title>
+  <button (click)="closeDialog()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane"><b>ตารางแสดงผล</b></h1>
+</div>
+
+<div mat-dialog-content>
+  <div cdkDropListGroup class="sorting-dialog mb-4">
+    <div class="row">
+      <div class="col-12 col-md-12">
+        <h2 class="submenu">บันทึกโครงร่าง</h2>
+      </div>
+    </div>
+    <form [formGroup]="arrangeForm" [ngClass]="{ 'submited-form': isSubmitedForm }">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <label class="col-12 col-md-2 text-underline-red input-head"> ชื่อคำสั่งงาน </label>
+        <div class="col-12 col-md-8">
+          <input class="form-control" formControlName="arrangeName" type="text" />
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-1"></div>
+        <label class="col-12 col-md-2"> คำอธิบาย </label>
+        <div class="col-12 col-md-8">
+          <textarea
+            class="form-control"
+            formControlName="arrangeDescription"
+            type="text"
+          ></textarea>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row justify-content-end">
+    <div class="col-md-2">
+      <button (click)="clickSave()" class="btn btn-success btn-lg" type="button">
+        บันทึก
+      </button>
+    </div>
+    <div class="col-md-2">
+      <button (click)="closeDialog()" class="btn btn-danger btn-lg" type="button">
+        ปิด
+      </button>
+    </div>
+  </div>
+</div>

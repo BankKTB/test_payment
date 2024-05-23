@@ -1,0 +1,249 @@
+<div class="content-menu-top">
+  <app-head-content></app-head-content>
+  <div class="topic">
+    <h4>ระบบกลางประมวลผลจ่าย (Central Payment)</h4>
+  </div>
+</div>
+<div class="menu-page">
+  <div hideIfUnauthorize="AP01|AP02|AP03|AP04|AP05|AP06|AP07|AP08">
+    <div class="d-flex menu-list">
+      <div class="menu-img">
+        <img alt="" src="assets/images/img_menuItems/menuitem1.jpg" />
+      </div>
+      <div class="menu-desc">
+        <div class="pointer" data-toggle="collapse" href="#menu1">
+          <p>ระบบอนุมัติเอกสารขอเบิก</p>
+          <span>อนุมัติ, ค้นหา, แสดงเอกสาร</span>
+        </div>
+        <div class="collapse" id="menu1">
+          <ul>
+            <li hideIfUnauthorize="AP01">
+              <a routerLink="/omCgd">» CGD - การอนุมัติจ่ายเงินโดยกรมบัญชีกลาง </a>
+            </li>
+            <li hideIfUnauthorize="AP02">
+              <a routerLink="/omPto">» PTO - การอนุมัติจ่ายเงินโดยกรมบัญชีกลาง/คลังจังหวัด </a>
+            </li>
+            <li hideIfUnauthorize="AP03">
+              <a routerLink="/omPtoH">» PTO_H - การอนุมัติจ่ายค่ารักษาพยาบาลโดยกรมบัญชีกลาง </a>
+            </li>
+            <!--            <li hideIfUnauthorize="AP04">-->
+            <!--              <a routerLink="/omLog">» รายงานผลการอนุมัติ </a>-->
+            <!--            </li>-->
+            <!--            <li hideIfUnauthorize="AP05">-->
+            <!--              <a routerLink="/om-result">» รายละเอียดการอนุมัติเอกสารภายในวัน B เป็น ว่าง </a>-->
+            <!--            </li>-->
+            <!--            <li hideIfUnauthorize="AP06">-->
+            <!--              <a routerLink="/om-result-e">» รายละเอียดการอนุมัติเอกสารภายในวัน B เป็น E </a>-->
+            <!--            </li>-->
+            <!--            <li hideIfUnauthorize="AP07">-->
+            <!--              <a routerLink="/om-result-summary"-->
+            <!--                >» สรุปรายละเอียดการอนุมัติเอกสารภายในวัน B เป็น ว่าง-->
+            <!--              </a>-->
+            <!--            </li>-->
+            <!--            <li hideIfUnauthorize="AP08">-->
+            <!--              <a routerLink="/om-result-e-summary"-->
+            <!--                >» สรุปรายละเอียดการอนุมัติเอกสารภายในวัน B เป็น E-->
+            <!--              </a>-->
+            <!--            </li>-->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div hideIfUnauthorize="PM01|PM02">
+    <div class="d-flex menu-list">
+      <div class="menu-img">
+        <img alt="" src="assets/images/img_menuItems/menuitem2.jpg" />
+      </div>
+      <div class="menu-desc">
+        <div class="pointer" data-toggle="collapse" href="#menu2">
+          <p>ระบบประมวลผลจ่าย</p>
+          <span> สร้าง, ยกเลิก, ค้นหา, แสดงเอกสาร </span>
+        </div>
+        <div class="collapse" id="menu2">
+          <ul>
+            <li hideIfUnauthorize="PM01">
+              <a routerLink="/payment">» ประมวลผลจ่าย </a>
+            </li>
+            <li hideIfUnauthorize="PM02">
+              <a routerLink="/selectGroupDocument">» โปรแกรมการเลือกเอกสารเพื่อ Run payment </a>
+            </li>
+            <li hideIfUnauthorize="PM03">
+              <a routerLink="/batch-job/search">» ค้นหา Payment Job Monitoring </a>
+            </li>
+            <li hideIfUnauthorize="PM04">
+              <a routerLink="/batch-job/create">» สร้าง Payment Job Monitoring </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div hideIfUnauthorize="KJ01|KJ02">
+    <div class="d-flex menu-list">
+      <div class="menu-img">
+        <img alt="" src="assets/images/img_menuItems/menuitem5.jpg" />
+      </div>
+      <div class="menu-desc">
+        <div class="pointer" data-toggle="collapse" href="#menu6">
+          <p>กลับรายการเอกสาร</p>
+        </div>
+        <div class="collapse" id="menu6">
+          <ul>
+            <li hideIfUnauthorize="KJ01">
+              <a routerLink="/reverse/payment">» กลับรายการเอกสารจ่าย </a>
+            </li>
+            <li hideIfUnauthorize="KJ02">
+              <a routerLink="/reverse/invoice">» กลับรายการเอกสารตั้งเบิก </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div hideIfUnauthorize="CF01|CF02|KJ03|RG01|TR1">
+    <div class="d-flex menu-list">
+      <div class="menu-img">
+        <img alt="" src="assets/images/img_menuItems/menuitem3.jpg" />
+      </div>
+      <div class="menu-desc">
+        <div class="pointer" data-toggle="collapse" href="#menu3">
+          <p>ระบบสร้างไฟล์</p>
+          <span>สร้าง</span>
+        </div>
+        <div class="collapse" id="menu3">
+          <ul>
+            <li hideIfUnauthorize="CF01">
+              <a routerLink="/generate">» สร้างไฟล์ </a>
+            </li>
+            <li hideIfUnauthorize="CF02">
+              <a routerLink="/generate-pac">» สร้างไฟล์ ISO20022 </a>
+            </li>
+            <!--            <li hideIfUnauthorize="CF02">-->
+            <!--              <a routerLink="/generatReport">» รายงานการสร้างไฟล์ </a>-->
+            <!--            </li>-->
+            <li hideIfUnauthorize="KJ03">
+              <a routerLink="/return">» กลับรายการเอกสารและกำหนดรายการคืนกลับ </a>
+            </li>
+            <li hideIfUnauthorize="RG01">
+              <a>» Re gen </a>
+            </li>
+            <li hideIfUnauthorize="TR1">
+              <a routerLink="/proposal-tr1">» สรุปยอดรายจ่ายรวมจาก TR1 </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div hideIfUnauthorize="JU01">
+    <div class="d-flex menu-list">
+      <div class="menu-img">
+        <img alt="" src="assets/images/img_menuItems/menuJu.png" />
+      </div>
+      <div class="menu-desc">
+        <div class="pointer" data-toggle="collapse" href="#menu8">
+          <p>รายการจ่ายเงินจากบัญชีเงินคลัง</p>
+        </div>
+        <div class="collapse" id="menu8">
+          <ul>
+            <li hideIfUnauthorize="JU01">
+              <a routerLink="/generate-ju/search">» รายการจ่ายเงินจากบัญชีเงินคลัง </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div hideIfUnauthorize="CHLITM">
+    <div class="d-flex menu-list">
+      <div class="menu-img">
+        <img alt="" src="assets/images/img_menuItems/menuChangeDoc.png" />
+      </div>
+      <div class="menu-desc">
+        <div class="pointer" data-toggle="collapse" href="#menu7">
+          <p>การเปลี่ยนแปลงบรรทัดรายการ</p>
+        </div>
+        <div class="collapse" id="menu7">
+          <ul>
+            <li hideIfUnauthorize="CHLITM">
+              <a routerLink="/change-document">» การเปลี่ยนแปลงบรรทัดรายการ </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div hideIfUnauthorize="SS07|SS08|SS09|SS11|DUPPAY">
+    <div class="d-flex menu-list">
+      <div class="menu-img">
+        <img alt="" src="assets/images/img_menuItems/menuitem4.jpg" />
+      </div>
+      <div class="menu-desc">
+        <div class="pointer" data-toggle="collapse" href="#menu5">
+          <p>แสดงค่าระบบ</p>
+        </div>
+        <div class="collapse" id="menu5">
+          <ul>
+            <li hideIfUnauthorize="SS07">
+              <a routerLink="/view-smartFee">» ค่าธรรมเนียม SMART </a>
+            </li>
+            <li hideIfUnauthorize="SS08">
+              <a routerLink="/view-swiftFee">» ค่าธรรมเนียม SWIFT </a>
+            </li>
+            <li hideIfUnauthorize="SS09">
+              <a routerLink="/view-sumFileCondition">» ตารางกำหนดเงื่อนไขการรวมยอดโอนเงิน </a>
+            </li>
+            <li hideIfUnauthorize="SS11">
+              <a routerLink="/holiday/search">» แสดงวันหยุด </a>
+            </li>
+            <li hideIfUnauthorize="DUPPAY">
+              <a routerLink="/report-duplicate-pay">» แสดงรายการจ่ายซ้ำ </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div hideIfUnauthorize="SS04|SS05|SS06|SS10">
+    <div class="d-flex menu-list">
+      <div class="menu-img">
+        <img alt="" src="assets/images/img_menuItems/menuitem4.jpg" />
+      </div>
+      <div class="menu-desc">
+        <div class="pointer" data-toggle="collapse" href="#menu4">
+          <p>ตั้งค่าระบบ</p>
+          <!--          <span>อนุมัติ, ยกเลิก, ค้นหา, แสดงเอกสาร</span>-->
+        </div>
+        <div class="collapse" id="menu4">
+          <ul>
+            <!--            <li>-->
+            <!--              <a routerLink="/companyPayee">» รหัสบริษัท </a>-->
+            <!--            </li>-->
+            <!--            <li>-->
+            <!--              <a routerLink="/companyPaying">» รหัสบริษัทชำระ </a>-->
+            <!--            </li>-->
+            <!--            <li>-->
+            <!--              <a routerLink="/payMethod">» วิธีชำระเงิน/ประเทศ </a>-->
+            <!--            </li>-->
+            <li hideIfUnauthorize="SS04">
+              <a routerLink="/smartFee">» ค่าธรรมเนียม SMART </a>
+            </li>
+            <li hideIfUnauthorize="SS05">
+              <a routerLink="/swiftFee">» ค่าธรรมเนียม SWIFT </a>
+            </li>
+            <li hideIfUnauthorize="SS06">
+              <a routerLink="/sumFileCondition">» ตารางกำหนดเงื่อนไขการรวมยอดโอนเงิน </a>
+            </li>
+            <li hideIfUnauthorize="SS10">
+              <a routerLink="/holiday/create">» กำหนดวันหยุด </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

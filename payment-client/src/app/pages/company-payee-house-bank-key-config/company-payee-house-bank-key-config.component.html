@@ -1,0 +1,142 @@
+<ol class="breadcrumb">
+  <li><a [routerLink]="['/companyPayee']"> รหัสหน่วยงาน </a></li>
+  <li class="current"><em> ธนาคารตัวแทน </em></li>
+</ol>
+<div class="row">
+  <div class="col-md-12">
+    <div class="container-fluid">
+      <div class="submenu">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12">
+            <h2>ธนาคารตัวแทน</h2>
+          </div>
+        </div>
+      </div>
+      <mat-card>
+        <form
+          (keydown.enter)="$event.preventDefault()"
+          [formGroup]="companyPayeeHouseBankKeyConfigForm"
+        >
+          <div class="row">
+            <div class="col-md-4">
+              <label class="text-black input-head"><b>รหัสหน่วยงาน : </b></label>
+              <input
+                class="form-control"
+                formControlName="companyPayeeCode"
+                maxLength="5"
+                readonly
+                type="text"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <label class="text-black input-head"
+                ><b>ชื่อหน่วยงาน : {{ companyPayeeName }} </b></label
+              >
+            </div>
+          </div>
+          <br />
+          <!--      <div class="row">-->
+          <!--        <div class="col-md-2">-->
+          <!--          <label class="text-black input-head"><b>ธนาคารตัวแทน : </b></label>-->
+          <!--          <input type="text" class="form-control" formControlName="houseBankKey" maxLength="5">-->
+          <!--        </div>-->
+          <!--        <div class="col-md-2">-->
+          <!--          <label class="text-black input-head"><b>ประเทศธนาคาร : </b></label>-->
+          <!--          <div class="input-group">-->
+          <!--            <input type="text" readonly class="form-control" formControlName="country" maxLength="3">-->
+          <!--            <div class="input-group-append button-group-search">-->
+          <!--              <button class="btn btn-default" (click)="openDialogSearchMaster('country')"-->
+          <!--                      type="button">-->
+          <!--                <img src="assets/images/icon/fa-search.svg" width="12px"/>-->
+          <!--              </button>-->
+          <!--            </div>-->
+          <!--          </div>-->
+          <!--        </div>-->
+          <!--        <div class="col-md-2">-->
+          <!--          <label class="text-black input-head"><b>คีย์ธนาคาร : </b></label>-->
+          <!--          <div class="input-group">-->
+          <!--            <input type="text" readonly class="form-control" formControlName="bankBranch" maxLength="8">-->
+          <!--            <div class="input-group-append button-group-search">-->
+          <!--              <button class="btn btn-default" (click)="openDialogSearchMaster('bankBranch')"-->
+          <!--                      type="button">-->
+          <!--                <img src="assets/images/icon/fa-search.svg" width="12px"/>-->
+          <!--              </button>-->
+          <!--            </div>-->
+          <!--          </div>-->
+          <!--        </div>-->
+          <!--        <div class="col-md-2 d-flex-center">-->
+          <!--          <button type="button" class="btn btn-success d-flex-center"-->
+          <!--                  (click)="clickSave(companyPayeeHouseBankKeyConfigForm.value)"-->
+          <!--                 >-->
+          <!--            สร้างธนาคารตัวแทน-->
+          <!--          </button>-->
+          <!--        </div>-->
+          <!--      </div>-->
+          <!--      <br>-->
+        </form>
+        <hr />
+        <div class="row">
+          <div class="col-md-12">
+            <div class="example-item">
+              <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table>
+                <ng-container matColumnDef="valueCode">
+                  <th *matHeaderCellDef class="info" mat-header-cell>ธนาคารตัวแทน</th>
+                  <td *matCellDef="let element" mat-cell>{{ element.valueCode }}</td>
+                </ng-container>
+                <ng-container matColumnDef="countryCode">
+                  <th *matHeaderCellDef class="info" mat-header-cell>ประเทศธนาคาร</th>
+                  <td *matCellDef="let element" mat-cell>{{ element.countryCode }}</td>
+                </ng-container>
+                <ng-container matColumnDef="bankBranch">
+                  <th *matHeaderCellDef class="info" mat-header-cell>คีย์ธนาคาร</th>
+                  <td *matCellDef="let element" mat-cell>{{ element.bankBranch }}</td>
+                </ng-container>
+                <ng-container matColumnDef="bankName">
+                  <th *matHeaderCellDef class="info" mat-header-cell>ชื่อธนาคาร</th>
+                  <td *matCellDef="let element" mat-cell>{{ element.bankName }}</td>
+                </ng-container>
+                <ng-container matColumnDef="edit">
+                  <th *matHeaderCellDef class="info" mat-header-cell></th>
+                  <td *matCellDef="let element" mat-cell>
+                    <div class="no-wrap">
+                      <button
+                        (click)="routeToCompanyPayeeHouseBankKeyDetailConfig(element)"
+                        class="btn btn-detail"
+                        type="button"
+                      >
+                        รายละเอียด
+                      </button>
+                      <button
+                        (click)="routeToCompanyPayeeBankAccountNoConfig(element)"
+                        class="btn btn-primary"
+                        type="button"
+                      >
+                        บัญชีธนาคาร
+                      </button>
+                      <!--                  <button type="button"-->
+                      <!--                          class="btn btn-danger "-->
+                      <!--                          (click)="deleteHouseBankKey(element)">-->
+                      <!--                    <i class="material-icons">clear</i>-->
+                      <!--                  </button>-->
+                    </div>
+                  </td>
+                </ng-container>
+                <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+                <tr
+                  (click)="row.highlighted = !row.highlighted"
+                  (mouseout)="row.hovered = false"
+                  (mouseover)="row.hovered = true"
+                  *matRowDef="let row; columns: displayedColumns"
+                  [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                  mat-row
+                ></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<div mat-dialog-title>
+  <button (click)="closeDialog()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane"><b>ตัวเลือก</b></h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="date_dialog">
+    <form (keydown.enter)="$event.preventDefault()" [formGroup]="searchFiledFormCreate">
+      <div class="row mt-2">
+        <div class="col-12 col-md-7">
+          <label class="text-underline-blue input-head mr-4"> ประเภทฟิลด์: </label>
+          <mat-radio-group
+            (change)="changeType($event)"
+            aria-label="Select an option"
+            formControlName="type"
+          >
+            <mat-radio-button name="type" value="1">ตั้งต้น</mat-radio-button>&nbsp;
+            <mat-radio-button name="type" value="2">เอกสาร</mat-radio-button>&nbsp;
+            <mat-radio-button name="type" value="3">ผู้ขาย</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="col-12 col-md-5">
+          <input
+            (keyup)="applyFilter($event.target.value)"
+            class="form-control"
+            placeholder="Filter"
+          />
+        </div>
+      </div>
+    </form>
+    <div class="example-item">
+      <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
+        <ng-container matColumnDef="choose">
+          <th *matHeaderCellDef class="info th-width-20" mat-header-cell>เลือก</th>
+          <td (click)="chooseDataSearch(element)" *matCellDef="let element" mat-cell>
+            <mat-icon class="icon pointer">folder_open</mat-icon>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fieldName">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ชื่อฟิลด์</th>
+          <td *matCellDef="let element" mat-cell>{{ element.fieldName }}</td>
+        </ng-container>
+        <ng-container matColumnDef="dbName">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ชื่อตาราง</th>
+          <td *matCellDef="let element" mat-cell>{{ element.dbName }}</td>
+        </ng-container>
+        <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+        <tr
+          (click)="row.highlighted = !row.highlighted"
+          (mouseout)="row.hovered = false"
+          (mouseover)="row.hovered = true"
+          *matRowDef="let row; columns: displayedColumns"
+          [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+          mat-row
+        ></tr>
+      </table>
+    </div>
+  </div>
+</div>

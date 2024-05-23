@@ -1,0 +1,249 @@
+<div class="content-menu-top">
+  <app-head-content></app-head-content>
+  <div class="topic">
+    <h4>สร้าง Batch job</h4>
+  </div>
+</div>
+<section class="mt-4">
+  <form [formGroup]="createBatchForm">
+    <!-- Job Type -->
+    <div class="row">
+      <div class="col-md-2">
+        <label class="text-black input-head"> ประเภท Job </label>
+      </div>
+      <div class="col-md-4">
+        <select
+          (change)="onChangeJobType()"
+          class="form-control"
+          formControlName="jobType"
+          name="jobType"
+        >
+          <option [ngValue]="''" [disabled]="true">เลือกประเภท Job</option>
+          <option [ngValue]="JOB_TYPE_PAYMENT">รันจ่าย</option>
+          <option [ngValue]="JOB_TYPE_RETURN">รันกลับรายการ</option>
+        </select>
+      </div>
+    </div>
+    <div *ngIf="createBatchForm.controls.jobType.value === JOB_TYPE_PAYMENT">
+      <!-- Payment Date -->
+      <div class="row">
+        <div class="col-12 col-sm-2">
+          <label class="input-head"> Payment Date </label>
+        </div>
+        <div class="col-12 col-sm-10 col-md-4">
+          <div class="input-group datetime-input">
+            <input
+              (dateChange)="onChangePaymentData()"
+              [matDatepicker]="paymentDatePicker"
+              class="form-control"
+              type="text"
+              formControlName="paymentDate"
+              appDateInput
+            />
+            <div class="datetime-input-append">
+              <button (click)="paymentDatePicker.open()" class="btn-calendar-icon" type="button">
+                <img src="assets/images/icon/calendar.svg" width="12px" />
+                <mat-datepicker #paymentDatePicker></mat-datepicker>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Payment Name -->
+      <div class="row">
+        <div class="col-12 col-sm-2">
+          <label class="input-head"> Payment name </label>
+        </div>
+        <div class="col-12 col-sm-10 col-md-4">
+          <div class="input-group">
+            <input
+              (change)="onChangePaymentData()"
+              class="form-control"
+              maxLength="5"
+              type="text"
+              appUpperCaseDirective
+              formControlName="paymentName"
+            />
+            <div class="input-group-append">
+              <button
+                (click)="openDialogPaymentNameSelector()"
+                class="btn btn-default"
+                type="button"
+              >
+                <img src="assets/images/icon/menu.svg" width="12px" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Payment Type  -->
+      <div class="row">
+        <div class="col-12 col-sm-2">
+          <label class="input-head"> Payment Type </label>
+        </div>
+        <div class="col-12 col-sm-10 col-md-6">
+          <mat-radio-group formControlName="paymentType">
+            <div class="row no-gutters">
+              <div class="col-12 col-sm-6 col-md-5">
+                <mat-radio-button name="paymentType" value="0">สร้างข้อเสนอ</mat-radio-button>&nbsp;
+              </div>
+              <div class="col-12 col-sm-6 col-md-5">
+                <mat-radio-button name="paymentType" value="1">ดำเนินการชำระเงิน</mat-radio-button
+                >&nbsp;
+              </div>
+            </div>
+          </mat-radio-group>
+        </div>
+      </div>
+      <!-- Schedule  -->
+      <div class="row">
+        <div class="col-12 col-sm-2">
+          <label class="input-head d-flex">
+            Schedule
+            <mat-icon
+              *ngIf="createBatchForm.controls.scheduleType.value"
+              class="contact-support-notice"
+              matTooltip="สามารถเลือก After Event ได้จะต้องเป็นการตั้ง job แบบ 'ดำเนินการชำระเงิน'"
+              >contact_support</mat-icon
+            >
+          </label>
+        </div>
+        <div class="col-12 col-sm-10 col-md-6">
+          <mat-radio-group formControlName="scheduleType" (change)="changeIsAfterEvent()">
+            <div class="row no-gutters">
+              <div class="col-12 col-sm-6 col-md-5">
+                <mat-radio-button name="scheduleType" [value]="true">ตั้งเวลา</mat-radio-button
+                >&nbsp;
+              </div>
+              <div class="col-12 col-sm-6 col-md-5">
+                <mat-radio-button name="scheduleType" [value]="false">After event</mat-radio-button
+                >&nbsp;
+              </div>
+            </div>
+          </mat-radio-group>
+        </div>
+      </div>
+      <ng-container *ngIf="createBatchForm.controls.scheduleType.value">
+        <!-- Job date  -->
+        <div class="row">
+          <div class="col-12 col-sm-2">
+            <label class="input-head"> Job date </label>
+          </div>
+          <div class="col-12 col-sm-10 col-md-4">
+            <div class="input-group datetime-input">
+              <input
+                [matDatepicker]="jobDate"
+                class="form-control"
+                type="text"
+                formControlName="jobDate"
+              />
+              <div class="datetime-input-append">
+                <button (click)="jobDate.open()" class="btn-calendar-icon" type="button">
+                  <img src="assets/images/icon/calendar.svg" width="12px" />
+                  <mat-datepicker #jobDate></mat-datepicker>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Job time  -->
+        <div class="row">
+          <div class="col-12 col-sm-2">
+            <label class="input-head"> Job time </label>
+          </div>
+          <div class="col-12 col-sm-10 col-md-4">
+            <kendo-timepicker
+              [format]="'HH:mm'"
+              formControlName="jobTime"
+              class="w-100"
+            ></kendo-timepicker>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!createBatchForm.controls.scheduleType.value">
+        <!-- Parent event  -->
+        <div class="row d-none">
+          <div class="col-12 col-sm-2">
+            <label class="input-head"> Parent event </label>
+          </div>
+          <div class="col-12 col-md-3">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="afterEvent"
+              *ngIf="!createBatchForm.controls.scheduleType.value"
+            />
+          </div>
+        </div>
+        <!-- Payment name (After event)  -->
+        <div class="row">
+          <div class="col-12 col-sm-2">
+            <label class="input-head"> Payment name (After event) </label>
+          </div>
+          <div class="col-12 col-md-3">
+            <input
+              disabled
+              type="text"
+              class="form-control"
+              formControlName="paymentNameAfterEvent"
+              *ngIf="!createBatchForm.controls.scheduleType.value"
+            />
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div *ngIf="createBatchForm.controls.jobType.value === JOB_TYPE_RETURN">
+      <!-- Job return date  -->
+      <div class="row">
+        <div class="col-12 col-sm-2">
+          <label class="input-head"> Job return date </label>
+        </div>
+        <div class="col-12 col-sm-10 col-md-4">
+          <div class="input-group datetime-input">
+            <input
+              [matDatepicker]="jobReturnDate"
+              class="form-control"
+              type="text"
+              formControlName="jobReturnDate"
+            />
+            <div class="datetime-input-append">
+              <button (click)="jobReturnDate.open()" class="btn-calendar-icon" type="button">
+                <img src="assets/images/icon/calendar.svg" width="12px" />
+                <mat-datepicker #jobReturnDate></mat-datepicker>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Job return time  -->
+      <div class="row">
+        <div class="col-12 col-sm-2">
+          <label class="input-head"> Job return time </label>
+        </div>
+        <div class="col-12 col-sm-10 col-md-4">
+          <kendo-timepicker
+            [format]="'HH:mm'"
+            formControlName="jobReturnTime"
+            class="w-100"
+          ></kendo-timepicker>
+        </div>
+      </div>
+    </div>
+    <!-- Action  -->
+    <div class="row mt-5">
+      <div class="col-12 offset-0 col-sm-10 offset-sm-2 col-md-6 p-0">
+        <button
+          *ngIf="isCanSubmit"
+          class="btn-gradient btn-bg-primary"
+          type="button"
+          (click)="onSubmit()"
+        >
+          สร้าง
+        </button>
+      </div>
+    </div>
+  </form>
+  <ul class="warning-box">
+    <li *ngFor="let c of listValidate">{{ c }}</li>
+  </ul>
+</section>

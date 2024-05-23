@@ -1,0 +1,285 @@
+<!-- <button class="close" mat-button (click)="closeDialog()">X</button> -->
+<div mat-dialog-title>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane"><b>ทางเลือกแบบหลายทางสำหรับผู้ขาย</b>
+    <span class="float-right">
+      <button class="btn btn-success" type="button">
+        <i class="material-icons">done</i>
+      </button>&nbsp;
+      <button (click)="closeDialog()" class="btn btn-danger" mat-button type="button">
+        <i class="material-icons">clear</i>
+      </button>
+    </span>
+  </h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="date_dialog">
+    <div class="panel panel-primary">
+      <div class="panel-heading">การเลือกมูลค่าเดียว</div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-3 text-right">
+            <label class="text-black">+</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group ">
+              <input class="form-control" type="text">
+              <div class="input-group-append button-group-search">
+              <button class="btn btn-default" mat-raised-button type="button">
+                <img src="assets/images/icon/menu.svg" width="12px">
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 text-right">
+            <label class="text-black">+</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input class="form-control" type="text">
+              <div class="input-group-append button-group-search">
+              <button class="btn btn-default" mat-raised-button type="button">
+                <img src="assets/images/icon/menu.svg" width="12px">
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 text-right">
+            <label class="text-black">+</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input class="form-control" type="text">
+              <div class="input-group-append button-group-search">
+              <button class="btn btn-default" mat-raised-button type="button">
+                <img src="assets/images/icon/menu.svg" width="12px">
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 text-right">
+            <label class="text-black">+</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input class="form-control" type="text">
+              <div class="input-group-append button-group-search">
+                <button class="btn btn-default" mat-raised-button type="button">
+                <img src="assets/images/icon/menu.svg" width="12px">
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row margin-tb-size ">
+          <div class="col-md-3 text-right">
+            <label class="text-black">จากบรรทัด</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input class="form-control" type="text">
+              <div class="input-group-append button-group-search">
+              <button class="btn btn-default" mat-raised-button type="button">
+                <img src="assets/images/icon/menu.svg" width="12px">
+              </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1 text-right">
+            <label class="text-black">ของ</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input class="form-control" id="InputConfig" type="text">
+              <div class="input-group-append button-group-search">
+              <button class="btn btn-default" mat-raised-button type="button">
+                <img src="assets/images/icon/menu.svg" width="12px">
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-primary">
+      <div class="panel-heading">ช่วงกว้าง</div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-3 text-right">
+            <label class="text-black"></label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input class="form-control" type="text">
+              <div class="input-group-append button-group-search">
+              <button class="btn btn-default" mat-raised-button type="button">
+                <img src="assets/images/icon/menu.svg" width="12px">
+              </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1 text-right">
+            <label class="text-black">ถึง</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input class="form-control" id="InputConfig" type="text">
+              <div class="input-group-append button-group-search">
+              <button class="btn btn-default" mat-raised-button type="button">
+                <img src="assets/images/icon/menu.svg" width="12px">
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 text-right">
+            <label class="text-black">+</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input class="form-control" type="text">
+              <div class="input-group-append button-group-search">
+              <button class="btn btn-default" mat-raised-button type="button">
+                <img src="assets/images/icon/menu.svg" width="12px">
+              </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1 text-right">
+            <label class="text-black">ถึง</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input class="form-control" id="InputConfig" type="text">
+              <div class="input-group-append button-group-search">
+              <button class="btn btn-default" mat-raised-button type="button">
+                <img src="assets/images/icon/menu.svg" width="12px">
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 text-right">
+            <label class="text-black">+</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input class="form-control" type="text">
+              <div class="input-group-append button-group-search">
+              <button class="btn btn-default" mat-raised-button type="button">
+                <img src="assets/images/icon/menu.svg" width="12px">
+              </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1 text-right">
+            <label class="text-black">ถึง</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input class="form-control" id="InputConfig" type="text">
+              <div class="input-group-append button-group-search">
+              <button class="btn btn-default" mat-raised-button type="button">
+                <img src="assets/images/icon/menu.svg" width="12px">
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 text-right">
+            <label class="text-black">+</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input class="form-control" type="text">
+              <div class="input-group-append button-group-search">
+              <button class="btn btn-default" mat-raised-button type="button">
+                <img src="assets/images/icon/menu.svg" width="12px">
+              </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1 text-right">
+            <label class="text-black">ถึง</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input class="form-control" id="InputConfig" type="text">
+              <div class="input-group-append button-group-search">
+              <button class="btn btn-default" mat-raised-button type="button">
+                <img src="assets/images/icon/menu.svg" width="12px">
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 text-right">
+            <label class="text-black">+</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input class="form-control" type="text">
+              <div class="input-group-append button-group-search">
+              <button class="btn btn-default" mat-raised-button type="button">
+                <img src="assets/images/icon/menu.svg" width="12px">
+              </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1 text-right">
+            <label class="text-black">ถึง</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input class="form-control" id="InputConfig" type="text">
+              <div class="input-group-append button-group-search">
+              <button class="btn btn-default" mat-raised-button type="button">
+                <img src="assets/images/icon/menu.svg" width="12px">
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row margin-tb-size ">
+          <div class="col-md-3 text-right">
+            <label class="text-black">จากบรรทัด</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input class="form-control" type="text">
+              <div class="input-group-append button-group-search">
+              <button class="btn btn-default" mat-raised-button type="button">
+                <img src="assets/images/icon/menu.svg" width="12px">
+              </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1 text-right">
+            <label class="text-black">ของ</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input class="form-control" id="InputConfig" type="text">
+              <div class="input-group-append button-group-search">
+              <button class="btn btn-default" mat-raised-button type="button">
+                <img src="assets/images/icon/menu.svg" width="12px">
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

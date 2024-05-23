@@ -1,0 +1,124 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane">
+    <b> ผู้ขาย</b>
+  </h1>
+</div>
+
+<div mat-dialog-content>
+  ​<div class="overflow-dialog">
+    <div class="content-box">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-6 col-sm-9">
+            <div class="d-flex align-items-center">
+              <button
+                (click)="copyToClipboard($event)"
+                class="btn btn-default btn-success f-medium"
+                type="button"
+              >
+                วางคลิปบอร์ด
+              </button>
+              <button
+                (click)="deleteAllClipBoard()"
+                class="btn btn-default btn-danger f-medium"
+                type="button"
+              >
+                ลบคลิปบอร์ด
+              </button>
+              <p *ngIf="data.isShowIndex" class="m-0"> จำนวนรายการทั้งหมด : {{ renderCount() }}</p>
+            </div>
+          </div>
+
+          <div class="col-6 col-sm-3">
+            <button (click)="addInputCompany()" class="btn btn-default float-right" type="button">
+              เพิ่มฟิลด์
+            </button>
+          </div>
+        </div>
+        <div *ngFor="let item of listVendor; let i = index" class="row justify-content-center">
+          <div *ngIf="data.isShowIndex" class="col-12 col-md-1">
+            <label class="pt-15"> {{ renderIndexRow(i + 1) }} </label>
+          </div>
+          <label class="input-head pt-15">ผู้ขาย </label>
+          <div class="col-12 col-md-4">
+            <div class="input-group">
+              <input
+                #from
+                (blur)="setVendor(i)"
+                (input)="copyFromExcel($event, i, 'vendorFrom')"
+                [ngClass]="{ active: item.from }"
+                [value]="item.from"
+                class="form-control"
+                maxLength="13"
+                type="text"
+              />
+              <div class="input-group-append button-group-search">
+                <button
+                  (click)="openDialogSearchVendor(i, 'vendorFrom')"
+                  class="btn btn-default"
+                  type="button"
+                >
+                  <img src="assets/images/icon/fa-search.svg" width="12px" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <label class="input-head pt-15">ถึง </label>
+          <div class="col-12 col-md-4">
+            <div class="input-group mr-2">
+              <input
+                #to
+                (blur)="setVendor(i)"
+                (input)="copyFromExcel($event, i, 'vendorTo')"
+                [ngClass]="{ active: item.to }"
+                [value]="item.to"
+                class="form-control"
+                maxLength="13"
+                type="text"
+              />
+              <div class="input-group-append button-group-search">
+                <button
+                  (click)="openDialogSearchVendor(i, 'vendorTo')"
+                  class="btn btn-default"
+                  type="button"
+                >
+                  <img src="assets/images/icon/fa-search.svg" width="12px" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-2 d-flex-center">
+            <div class="input-group mr-2">
+              <mat-checkbox
+                #optionExclude
+                (change)="setOptionInclude(i)"
+                [checked]="item.optionExclude"
+                >ไม่รวมค่า
+              </mat-checkbox>
+            </div>
+            <button
+              (click)="deleteInputVendor(i)"
+              class="btn btn-danger btn-close btn-with-icon"
+              type="button"
+            >
+              <i class="material-icons">clear</i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <button (click)="clickSave()" class="btn btn-success btn-lg" type="button">
+          <i class="material-icons">done</i>
+        </button>
+      </div>
+      <div class="col-md-6">
+        <button (click)="onNoClick()" class="btn btn-danger btn-lg" type="button">
+          <i class="material-icons">clear</i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

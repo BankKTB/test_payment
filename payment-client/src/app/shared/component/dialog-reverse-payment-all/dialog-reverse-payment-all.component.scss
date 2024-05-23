@@ -1,0 +1,59 @@
+:host {
+  .mat-dialog-content {
+    table {
+      .mat-header-cell {
+        min-width: 35px;
+      }
+      .mat-column-choose {
+        min-width: 55px;
+      }
+      .mat-column-date {
+        min-width: 110px;
+      }
+      .mat-column-compCode {
+        min-width: 91px;
+      }
+      .mat-column-status {
+        min-width: 110px;
+      }
+      .mat-column-userPost {
+        min-width: 125px;
+      }
+      .mat-column-userName {
+        min-width: 125px;
+      }
+      .mat-column-accDocNo {
+        min-width: 90px;
+      }
+      .mat-cell {
+        font-size: 12px;
+      }
+      td.mat-cell:first-of-type,
+      td.mat-footer-cell:first-of-type,
+      th.mat-header-cell:first-of-type {
+        text-align: center;
+        padding: 0 !important;
+      }
+      td.mat-cell:last-of-type,
+      td.mat-footer-cell:last-of-type,
+      th.mat-header-cell:last-of-type {
+        padding: 0 !important;
+      }
+    }
+  }
+
+  .footer-table-summary {
+    display: flex;
+    .mat-paginator {
+      flex: 3;
+    }
+    .summary-result {
+      flex: 1;
+      font-size: 12px;
+      p {
+        margin: 0;
+      }
+    }
+  }
+
+}

@@ -1,0 +1,520 @@
+<div class="content-box dialog-box">
+  <div *ngIf="isDisabledFromSearch" class="content-detail mb-4">
+    <div class="row">
+      <div class="col-12 col-md-2"><label class="text-black"> เลขที่เอกสารสำรองเงิน </label></div>
+      <div class="col-12 col-md-4">
+        <p>{{ docNoFromSearchDetail }}</p>
+      </div>
+      <div class="col-12 col-md-2"><label class="text-black"> สถานะ </label></div>
+      <div class="col-12 col-md-4">
+        <p>{{ docStatus }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-2"><label class="text-black"> ผู้บันทึกรายการ </label></div>
+      <div class="col-12 col-md-8">
+        <div class="d-flex">
+          <p>{{ createBy }}</p>
+          <button (click)="showConsumption()" [disabled]="isDisableConsumption && !isDisableRef"
+                  class="btn btn-light position-relative"
+                  type="button">
+            การใช้ไป
+          </button>
+          <!--          <button [disabled]="true" class="btn-info" type="button">ประวัติการแก้ไข</button>-->
+          <button (click)="showDocument()" [disabled]="!isDisableConsumption && !isDisableRef"
+                  class="btn btn-light position-relative"
+                  type="button">
+            แสดงเอกสาร
+          </button>
+          <!--                    <button (click)="showRefData()" disabled="true" class="btn-info" type="button">-->
+          <!--                      แสดงเอกสารอ้างอิง-->
+          <!--                    </button>-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--  <div *ngIf="isDisableShowRefData" class="border-light table-overflow-x">-->
+  <!--    <table *ngIf="listDocumentShowRef.length > 0 && listDocumentShowRef !== null" class="table-normal text-center">-->
+  <!--      <tr>-->
+  <!--        <th>รายการที่</th>-->
+  <!--        <th>เลขที่เอกสารสำรองเงิน</th>-->
+  <!--        <th width="25%">คำอธิบาย</th>-->
+  <!--        <th>จำนวนเงิน</th>-->
+  <!--        &lt;!&ndash; <th>ปีงบประมาณ</th> &ndash;&gt;-->
+  <!--        <th>แหล่งของเงิน</th>-->
+  <!--        <th>รหัสงบประมาณ</th>-->
+  <!--        <th>รายการผูกพันงบประมาณ</th>-->
+  <!--        <th>หน่วยรับงบประมาณ</th>-->
+  <!--        <th>รหัสพื้นที่</th>-->
+  <!--      </tr>-->
+  <!--      <tr *ngFor="let document of listDocumentShowRef; let i = index">-->
+  <!--        <td>{{ i + 1 }}</td>-->
+  <!--        <td>{{ document.brDocumentNo }}</td>-->
+  <!--        <td class="text-left">-->
+  <!--          <span class="break-word-text">{{ document.headerText }} </span>-->
+  <!--        </td>-->
+  <!--        <td class="text-right">{{ document.amount | bigdecimal }}</td>-->
+  <!--        &lt;!&ndash; <td>{{ document.year }}</td> &ndash;&gt;-->
+  <!--        <td>{{ document.fundSource }}</td>-->
+  <!--        <td>{{ document.budgetCode }}</td>-->
+  <!--        <td>{{ document.budgetAccount }}</td>-->
+  <!--        <td>{{ document.fundCenter }}</td>-->
+  <!--        <td>{{ document.budgetArea }}</td>-->
+  <!--      </tr>-->
+  <!--      <tfoot>-->
+  <!--      <tr>-->
+  <!--        <td colspan="7"></td>-->
+  <!--        <td class="summary text-left">จำนวนเงินรวม</td>-->
+  <!--        <td class="summary-result text-right">{{ sumAmountReferences | bigdecimal }}</td>-->
+  <!--      </tr>-->
+  <!--      </tfoot>-->
+  <!--    </table>-->
+  <!--    <span *ngIf="listDocumentShowRef.length === 0 && listDocumentShowRef === null" style="color: red;">-->
+  <!--      ไม่พบข้อมูลเอกสารสำรองเงินอ้างอิง-->
+  <!--    </span>-->
+  <!--  </div>-->
+  <div *ngIf="isDisableConsumption && !isDisableShowRefData" class="border-light table-overflow-x">
+    <table class="table-result border text-center my-table-collpse">
+      <tr>
+        <th class="sort text-center" style="width: 25%;">ประเภท</th>
+        <th class="sort">จำนวนเงิน</th>
+        <th class="sort">สกุลเงิน</th>
+        <th class="sort">วันที่</th>
+        <th class="sort">เลขที่เอกสาร</th>
+        <th class="sort" style="width: 7%;">บรรทัดรายการ</th>
+        <th class="sort" style="width: 20%;">ข้อความ</th>
+      </tr>
+      <tbody>
+      <tr *ngIf="brAmount !== null" class="first-row">
+        <td>(1) จำนวนเงิน</td>
+        <td>{{ brAmount.amount | bigdecimal }}</td>
+        <td>THB</td>
+        <td>{{ brAmount.postingDate | date: 'dd/MM/yyyy' }}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <tr (click)="sumAcAmountCollapsed = !sumAcAmountCollapsed" class="second-row">
+        <td>
+          <div class="d-flex">
+            (2) ผลรวมเบิก
+            <div *ngIf="!sumAcAmountCollapsed && acAmount.length > 0" class="icon-collpse-open"></div>
+            <div *ngIf="sumAcAmountCollapsed && acAmount.length > 0" class="icon-collpse-close"></div>
+          </div>
+        </td>
+        <td>{{ sumAcAmount | bigdecimal }}</td>
+        <td *ngIf="sumAcAmount !== 0">THB</td>
+        <td *ngIf="sumAcAmount === 0"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <ng-container *ngIf="sumAcAmountCollapsed">
+        <tr *ngFor="let acAmt of acAmount" class="tr-collapse">
+          <td><span class="pl-5"> ใบกำกับ/ใบลดหนี้ </span></td>
+          <td>
+            <span> {{ acAmt.amount | bigdecimal }} </span>
+          </td>
+          <td><span> THB </span></td>
+          <td>
+            <span> {{ acAmt.postingDate | date: 'dd/MM/yyyy' }} </span>
+          </td>
+          <td>
+            <span> {{ acAmt.documentNo }} </span>
+          </td>
+          <td>
+            <span> {{ acAmt.lineNo }} </span>
+          </td>
+          <td>
+            <span class="break-word-text"> {{ acAmt.description }} </span>
+          </td>
+        </tr>
+      </ng-container>
+      <tr (click)="sumPoAmountCollapsed = !sumPoAmountCollapsed" class="second-row">
+        <td>
+          <div class="d-flex">
+            (3) ผลรวมใบสั่งซื้อ
+            <div *ngIf="!sumPoAmountCollapsed && poAmount.length > 0" class="icon-collpse-open"></div>
+            <div *ngIf="sumPoAmountCollapsed && poAmount.length > 0" class="icon-collpse-close"></div>
+          </div>
+        </td>
+        <td>{{ sumPoAmount | bigdecimal }}</td>
+        <td *ngIf="sumPoAmount !== 0">THB</td>
+        <td *ngIf="sumPoAmount === 0"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <ng-container *ngIf="sumPoAmountCollapsed">
+        <tr *ngFor="let poAmt of poAmount" class="tr-collapse">
+          <td><span class="pl-5"> ใบสั่งซื้อ </span></td>
+          <td>
+            <span> {{ poAmt.amount | bigdecimal }} </span>
+          </td>
+          <td><span> THB </span></td>
+          <td>
+            <span> {{ poAmt.postingDate | date: 'dd/MM/yyyy' }} </span>
+          </td>
+          <td>
+            <span> {{ poAmt.documentNo }} </span>
+          </td>
+          <td>
+            <span> {{ poAmt.lineNo }} </span>
+          </td>
+          <td>
+            <span class="break-word-text"> {{ poAmt.description }} </span>
+          </td>
+        </tr>
+      </ng-container>
+
+      <tr (click)="sumBrAdjustCollapsed = !sumBrAdjustCollapsed" class="second-row">
+        <td>
+          <div class="d-flex">
+            (4) ผลรวมสร้างเอกสารสำรองเงิน
+            <div *ngIf="!sumBrAdjustCollapsed && brAdjust.length > 0" class="icon-collpse-open"></div>
+            <div *ngIf="sumBrAdjustCollapsed && brAdjust.length > 0" class="icon-collpse-close"></div>
+          </div>
+        </td>
+        <td>{{ sumBrAdjust | bigdecimal }}</td>
+        <td *ngIf="sumBrAdjust !== 0">THB</td>
+        <td *ngIf="sumBrAdjust === 0"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <ng-container *ngIf="sumBrAdjustCollapsed">
+        <tr *ngFor="let brAdj of brAdjust" class="tr-collapse">
+          <td *ngIf="brAdj.consumeStatus === '20' && brAdj.consumeType == 'BR'">
+            <span class="pl-5"> สร้างเอกสารสำรองเงิน </span>
+          </td>
+          <td *ngIf="brAdj.consumeStatus === '61' && brAdj.consumeType == 'BR'"><span
+            class="pl-5"> ลดยอดเอกสารสำรองเงิน </span></td>
+          <td *ngIf="brAdj.consumeStatus === '62' && brAdj.consumeType == 'BR'"><span class="pl-5"> เพิ่มยอดเอกสารสำรองเงิน </span>
+          </td>
+          <td *ngIf="brAdj.consumeStatus === '20' && brAdj.consumeType == 'TS'">
+            <span class="pl-5"> ลดยอดเอกสารสำรองเงิน สำหรับการโอนงบประมาณ </span>
+          </td>
+          <td *ngIf="brAdj.consumeStatus === '20' && (brAdj.consumeType == 'SW' || brAdj.consumeType == 'SR')">
+            <span class="pl-5"> ลดยอดเอกสารสำรองเงิน สำหรับการเบิกแทน </span>
+          </td>
+          <td>
+            <span> {{ brAdj.amount | bigdecimal }} </span>
+          </td>
+          <td><span> THB </span></td>
+          <td>
+            <span> {{ brAdj.postingDate | date: 'dd/MM/yyyy' }} </span>
+          </td>
+          <td>
+            <span> {{ brAdj.documentNo }} </span>
+          </td>
+          <td>
+            <span> {{ brAdj.lineNo }} </span>
+          </td>
+          <td>
+            <span class="break-word-text"> {{ brAdj.description }} </span>
+          </td>
+        </tr>
+      </ng-container>
+
+      <tr class="third-row">
+        <td>(5) รวมการใช้ไป [(2)+(3)+(4)]</td>
+        <td>{{ sumAmountUsed | bigdecimal }}</td>
+        <td>THB</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <tr *ngIf="brClosed !== null" class="forth-row">
+        <td>(6) ยกเลิกเอกสารสำรองเงิน</td>
+        <td>{{ brClosed.amount | bigdecimal }}</td>
+        <td>THB</td>
+        <td>{{ brClosed.postingDate | date: 'dd/MM/yyyy' }}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr class="fifth-row">
+        <td>(7) จำนวนเงินคงเหลือ [(1)+(5)+(6)]</td>
+        <td>{{ sumAmountOutstanding | bigdecimal }}</td>
+        <td>THB</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div [hidden]="isDisableConsumption || isDisableShowRefData" class="border-light">
+    <form (keydown.enter)="$event.preventDefault()"
+          [ngClass]="{ 'submited-form': isSubmitedForm }">
+      <mat-tab-group name="tabRef" #tabRef (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="tabSelectedIndex"
+                     class="row-border">
+        <mat-tab label="ข้อมูลทั่วไป">
+          <div class="row">
+            <div class="col-12 col-md-2">
+              <label> รหัสหน่วยงาน </label>
+            </div>
+            <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+              <div class="text-black">{{ departmentCode }}</div>
+              <span class="text-green font-14">{{ compCodeBindingName }}</span>
+            </div>
+            <div class="col-12 col-md-2">
+              <label class="text-black"> วันที่เอกสาร </label>
+            </div>
+            <div class="col-12 col-sm-8 col-md-4 text-thin">
+              {{ documentDate | thaidate }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-2"><label> รหัสหน่วยเบิกจ่าย </label></div>
+            <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+              <div class="text-black">{{ disbursementCode }}</div>
+              <span class="text-green font-14">{{ divisionBindingName }}</span>
+
+            </div>
+            <div class="col-12 col-md-2">
+              <label class="text-black"> วันที่ผ่านรายการ </label>
+            </div>
+            <div class="col-12 col-sm-8 col-md-4 text-thin">
+              {{ postDate | thaidate }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-2">
+              <label class="text-black"> ประเภทเอกสาร </label>
+            </div>
+            <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+              <div class="text-black">{{ documentType }}</div>
+            </div>
+            <div class="col-12 col-md-2">
+              <label class="text-black"> จำนวนเงิน </label>
+            </div>
+            <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+              <div class="d-flex input-with-unit-detail">
+                {{ amountMoney | bigdecimal }}
+                บาท
+              </div>
+            </div>
+          </div>
+          <div *ngIf="isDisabledFromSearch" class="row">
+            <div class="col-12 col-md-2"></div>
+            <div class="col-12 col-md-4"></div>
+            <div class="col-12 col-md-2">
+              <label class="text-black"> จำนวนเงินค้าง </label>
+            </div>
+            <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+              <div class="d-flex input-with-unit-detail">
+                {{ amountArrearsMoney | bigdecimal }}
+                บาท
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-2">
+              <label class="text-black"> รหัสงบประมาณ </label>
+            </div>
+            <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+              <div class="text-black">{{ sourceBudgetCode }}</div>
+              <span class="text-green font-14">{{ sourceBudgetCodeBindingName }}</span>
+            </div>
+            <div class="col-12 col-md-2">
+              <label class="text-black"> รหัสแหล่งของเงิน </label>
+            </div>
+            <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+              <div class="text-black">{{ sourceMoneyCode }}</div>
+              <span class="text-green font-14">{{ sourceMoneyCodeBindindName }}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-2">
+              <label class="text-black"> รหัสพื้นที่ </label>
+            </div>
+            <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+              <div class="text-black">{{ areaCode }}</div>
+              <span class="text-green font-14">{{ areaCodeBindingName }}</span>
+            </div>
+            <div class="col-12 col-md-2">
+              <label class="text-black"> รายการผูกพันงบประมาณ </label>
+            </div>
+            <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+              <div class="text-black">{{ budgetAccount }}</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-2">
+              <label class="text-black"> อ้างอิง2 </label>
+            </div>
+            <div class="col-12 col-sm-8 col-md-10 mb-2 text-thin">
+              <div class="text-black">{{ reference2 }}</div>
+            </div>
+          </div>
+          <div *ngIf="isDisabledFromSearch" class="row">
+            <div class="col-12 col-md-2">
+              <label class="text-black"> ข้อความ </label>
+            </div>
+            <div class="col-12 col-sm-8 col-md-10 mb-2 text-thin">
+              <div class="text-black">{{ headerText }}</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-2">
+              <label class="text-black"> เหตุผล </label>
+            </div>
+            <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+              <div class="text-black">{{ reasonCode }}</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-2">
+              <label class="text-black"> รายละเอียดเหตุผล </label>
+            </div>
+            <div class="col-12 col-sm-8 col-md-10 mb-2 text-thin">
+              <div class="text-black">{{ reasonDescription }}</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-2">
+              <label class="text-black"> เหตุผลในการขอยกเลิก </label>
+            </div>
+
+            <div class="col-12 col-sm-8 col-md-10 mb-2 text-thin">
+              <div class="text-black">{{ cancelReason }}</div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab [disabled]="checkHideTab" label="ข้อมูลสัญญา">
+          <div [ngClass]="{ open: isOpenCollapseDetail }"></div>
+          <div [ngClass]="{ show: isOpenCollapseDetail }">
+            <div class="row">
+              <div class="col-12 col-md-2">
+                <label> ลำดับที่ {{ documentNo }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-2">
+                <label class="text-black"> ชื่อ อปท. </label>
+              </div>
+              <div class="col-12 col-sm-8 col-md-10 mb-2 text-thin">
+                <div class="text-black">{{ localName }}</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-2">
+                <label class="text-black"> เลขที่สัญญา </label>
+              </div>
+              <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                <div class="text-black">{{ contractNo }}</div>
+              </div>
+              <div class="col-12 col-md-2">
+                <label class="text-black"> เลขที่ L/C </label>
+              </div>
+              <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                <div class="text-black">{{ lcNo }}</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-2">
+                <label class="text-black"> รายการ </label>
+              </div>
+              <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                <div class="text-black">{{ description }}</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-2">
+                <label class="text-black"> รายชื่อเจ้าหนี้ </label>
+              </div>
+              <div class="col-12 col-sm-8 col-md-10 mb-2 text-thin">
+                <div class="text-black">{{ vendorName }}</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-2">
+                <label class="text-black"> วันที่ลงนาม </label>
+              </div>
+              <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                <div class="text-black">{{ signDate | thaidate }}</div>
+              </div>
+              <div class="col-12 col-md-2">
+                <label class="text-black"> วันที่ครบกำหนด </label>
+              </div>
+              <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+                <div class="text-black">{{ dueDate | thaidate }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="long-data-table mb-2" *ngIf="listDocument.length > 0 && listDocument !== null">
+            <table border="0" class="table-result">
+              <tr>
+                <th style="width: 5%;">เลือก</th>
+                <th class="sort" style="width: 5%;">ลำดับ</th>
+                <th class="sort" style="width: 10%;">เลขที่สัญญา</th>
+                <th class="sort" style="width: 10%;">เลขที่ L/C</th>
+                <th class="sort" style="width: 35%;">รายการ</th>
+                <th class="sort" style="width: 15%;">รายชื่อเจ้าหนี้</th>
+                <th class="sort" style="width: 10%;">วันลงนาม</th>
+                <th class="sort" style="width: 10%;">วันที่ครบกำหนด</th>
+              </tr>
+              <tbody>
+              <tr
+                *ngFor="let order of listDocument | paginate: { itemsPerPage: constant.PER_PAGINATION, currentPage: p }; let i = index"
+                [ngClass]="{ selected: selectListOrder === (p - 1) * constant.PER_PAGINATION + (i + 1) }"
+              >
+                <td>
+                  <img
+                    (click)="selectOrder(order, (p - 1) * constant.PER_PAGINATION + i)"
+                    class="icon pointer"
+                    src="assets/images/icon/record.gif"
+                  />
+                </td>
+                <td>{{ (p - 1) * constant.PER_PAGINATION + (i + 1) }}</td>
+                <td>
+                  <span class="break-word-text">{{ order.contractNo }}</span>
+                </td>
+                <td>
+                  <span class="break-word-text">{{ order.lcNo }}</span>
+                </td>
+                <td class="text-left px-1">
+                  <span class="break-word-text">{{ order.description }} </span>
+                </td>
+                <td class="text-left px-1">
+                  <span class="break-word-text">{{ order.vendorName }} </span>
+                </td>
+                <td>{{ order.signDate | thaidate }}</td>
+                <td>{{ order.dueDate | thaidate }}</td>
+              </tr>
+              </tbody>
+            </table>
+            <pagination-controls (pageChange)="p = $event" nextLabel=">" previousLabel="<"></pagination-controls>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </form>
+    <!--    <pagination-controls-->
+    <!--      (pageChange)="p = $event"-->
+    <!--      nextLabel=">"-->
+    <!--      previousLabel="<"-->
+    <!--    ></pagination-controls>-->
+    <!-- <div *ngIf="checkHideTab" class="d-flex my-4">
+      <div class="tab-button prev" *ngIf="tabSelectedIndex !== 0">
+        <button class="button" (click)="checkTab('prev')">
+          <span class="arrow"></span>
+          ก่อนหน้า
+        </button>
+      </div>
+      <div class="tab-button next" *ngIf="!(tabSelectedIndex + 1 === tabAmount)">
+        <button class="button" (click)="checkTab('next')">
+          ถัดไป
+          <span class="arrow"></span>
+        </button>
+      </div>
+    </div> -->
+  </div>
+</div>

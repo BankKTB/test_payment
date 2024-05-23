@@ -1,0 +1,113 @@
+<div>
+  <ol class="breadcrumb">
+    <li class="current"><em>ตั้งค่า</em></li>
+  </ol>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="container-fluid">
+      <div class="submenu">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12">
+            <h2>ค่าธรรมเนียม SWIFT</h2>
+          </div>
+        </div>
+      </div>
+      <mat-card>
+        <div class="row d-flex-center">
+          <div class="col-12 col-md-2 mb-4">
+            <button
+              (click)="openDialogSaveSwiftFee()"
+              class="btn btn-primary"
+              type="button"
+              type="button"
+            >
+              สร้าง
+            </button>
+          </div>
+          <div class="col-12 col-md-2 mb-4">
+            <button (click)="exportExcel()" class="btn btn-primary" type="button" type="button">
+              Export excel
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="example-item">
+              <table [dataSource]="dataSource" id="excel-table" class="mat-elevation-z8" mat-table>
+                <ng-container matColumnDef="bankKey">
+                  <th *matHeaderCellDef class="info no-wrap th-bg-blue" mat-header-cell>
+                    Bank Key
+                  </th>
+                  <td class="td-bg-blue" *matCellDef="let element" mat-cell>
+                    {{ element.bankKey }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="baseAmount">
+                  <th *matHeaderCellDef class="info no-wrap" mat-header-cell>จำนวนเงินพื้นฐาน</th>
+                  <td *matCellDef="let element" mat-cell>{{ element.baseAmount | bigdecimal }}</td>
+                </ng-container>
+                <ng-container matColumnDef="baseFee">
+                  <th *matHeaderCellDef class="info no-wrap" mat-header-cell>
+                    ค่าธรรมเนียมพื้นฐาน
+                  </th>
+                  <td *matCellDef="let element" mat-cell>{{ element.baseFee | bigdecimal }}</td>
+                </ng-container>
+                <ng-container matColumnDef="varAmount">
+                  <th *matHeaderCellDef class="info no-wrap" mat-header-cell>จำนวนเงิน</th>
+                  <td *matCellDef="let element" mat-cell>{{ element.varAmount | bigdecimal }}</td>
+                </ng-container>
+                <ng-container matColumnDef="varFee">
+                  <th *matHeaderCellDef class="info no-wrap" mat-header-cell>ค่าธรรมเนียม</th>
+                  <td *matCellDef="let element" mat-cell>{{ element.varFee | bigdecimal }}</td>
+                </ng-container>
+                <ng-container matColumnDef="maxFee">
+                  <th *matHeaderCellDef class="info no-wrap" mat-header-cell>ค่าธรรมเนียมสูงสุด</th>
+                  <td *matCellDef="let element" mat-cell>{{ element.maxFee | bigdecimal }}</td>
+                </ng-container>
+                <ng-container matColumnDef="smart">
+                  <th *matHeaderCellDef class="info no-wrap" mat-header-cell>Smart member</th>
+                  <td *matCellDef="let element" mat-cell>
+                    <p *ngIf="element.smart">X</p>
+                    <p *ngIf="!element.smart"></p>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="edit">
+                  <th *matHeaderCellDef class="info no-wrap" mat-header-cell></th>
+                  <td *matCellDef="let element" mat-cell>
+                    <div class="no-wrap">
+                      <button
+                        (click)="openDialogEditSwiftFee(element)"
+                        class="btn btn-success"
+                        type="button"
+                      >
+                        <i class="material-icons">edit</i>
+                      </button>
+                      <button (click)="copy(element)" class="btn btn-secondary" type="button">
+                        <i class="material-icons">file_copy</i>
+                      </button>
+                      <button (click)="deleteInput(element)" class="btn btn-danger" type="button">
+                        <i class="material-icons">clear</i>
+                      </button>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+                <tr
+                  (click)="row.highlighted = !row.highlighted"
+                  (mouseout)="row.hovered = false"
+                  (mouseover)="row.hovered = true"
+                  *matRowDef="let row; columns: displayedColumns"
+                  [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                  mat-row
+                ></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>

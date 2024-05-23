@@ -1,0 +1,14 @@
+<ng-container *ngIf="overlay;else progressSpinner">
+  <div [hidden]="!loading" class="overlay">
+    <div class="center">
+      <ng-template [ngTemplateOutlet]="progressSpinner"></ng-template>
+    </div>
+  </div>
+</ng-container>
+<ng-template #progressSpinner>
+  <div class="uploader-status">
+    <mat-progress-spinner [diameter]="diameter" [mode]="mode" [strokeWidth]="strokeWidth" [value]="value">
+    </mat-progress-spinner>
+    <span class="loading-text">... Loading ...</span>
+  </div>
+</ng-template>

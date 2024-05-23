@@ -1,0 +1,9 @@
+<textarea
+    (keyup)="onKeyUpValue($event)"
+  (blur)="onBlurValue($event)"
+  [maxLength]="maxLength"
+  [disabled]="isDisabled"
+  [value]="value"
+  class="form-control"
+></textarea>
+<p class="remain-text text-right">{{ remainingText }}</p>

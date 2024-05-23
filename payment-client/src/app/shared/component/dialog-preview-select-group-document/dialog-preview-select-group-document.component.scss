@@ -1,0 +1,55 @@
+.long-data-table.table-result-comfirm {
+  tr.theadinfo {
+    td {
+      text-align: center;
+    }
+  }
+
+  tr.none-border-bottom,
+  tr.summary-total {
+    td {
+      text-align: center;
+
+      &:nth-child(5) {
+        text-align: right;
+      }
+    }
+  }
+}
+
+table.table-result-success {
+  tr.theadinfo {
+    td {
+      text-align: center;
+    }
+  }
+
+  tr.none-border-bottom,
+  tr.summary-total {
+    td {
+      text-align: center;
+
+      &:nth-child(4) {
+        text-align: right;
+      }
+    }
+  }
+}
+
+table.table-result-not-success {
+  tr.theadinfo {
+    td {
+      text-align: center;
+    }
+  }
+  tr.none-border-bottom,
+  tr.summary-total {
+    td {
+      text-align: center;
+
+      &:nth-child(4) {
+        text-align: right;
+      }
+    }
+  }
+}

@@ -1,0 +1,980 @@
+<mat-toolbar class="header-toolbar" color="primary">
+  <h3 class="title">{{ headerText }}</h3>
+</mat-toolbar>
+<div class="body">
+  <div *ngIf="vendorReport" class="container-fluid">
+    <div class="panel panel-primary">
+      <div class="panel-heading pointer">
+        <h3>{{ headerText }}</h3>
+      </div>
+      <div *ngIf="companyData != null" class="panel-body">
+        <div class="content-item">
+          <div class="content-detail mb-4">
+            <div class="row">
+              <div class="col-title-md">
+                <label class="text-black input-head"> ชื่อบริษัท : </label>
+              </div>
+              <div class="col-12 col-md-2">
+                <p class="c-blue">{{ companyData?.companyName }}</p>
+              </div>
+              <div class="col-12 col-md-5">
+                <label class="text-black input-head"
+                  >รายการชำระบัญชีการจ่ายเพื่อประมวลผลการชำระ :
+                  {{ companyData?.paymentDate | thaidate }} / {{ companyData?.paymentName }}</label
+                >
+              </div>
+              <div class="col-12 col-md-3">
+                <p class="c-blue">
+                  {{ currentDate | thaidate }} /
+                  {{ currentDate | date: 'HH:mm:ss' }}
+                </p>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-title-md">
+                <label class="text-black input-head">เมือง :</label>
+              </div>
+              <div class="col-12 col-md-2">
+                <p class="c-blue">{{ companyData?.city }}</p>
+              </div>
+              <div class="col-12 col-md-5"></div>
+              <div class="col-title-sm">
+                <label class="text-black input-head">ผู้ใช้ :</label>
+              </div>
+              <div class="col-12 col-md-2">
+                <p class="c-blue">{{ userProfile.userdata.username }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-title-md">
+                <label class="text-black input-head">รหัสบริษัท :</label>
+              </div>
+              <div class="col-12 col-md-2">
+                <p class="c-blue">{{ companyData?.companyCode }}</p>
+              </div>
+              <div class="col-12 col-md-5"></div>
+              <div class="col-title-sm">
+                <label class="text-black input-head">หน้า :</label>
+              </div>
+              <div class="col-12 col-md-2">
+                <p class="c-blue">1</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let vendor of vendorReport; let vendorIndex = index">
+      <div class="panel panel-primary">
+        <div (click)="onClickPanel(vendorIndex, vendor)" class="panel-heading pointer">
+          <h3>ผู้ขาย : {{ vendor?.vendorCode }} ({{ vendor?.vendorName }})</h3>
+        </div>
+        <div *ngIf="activePanelIndex === vendorIndex" class="panel-body">
+          <div class="row">
+            <div class="col-md-12 table-responsive">
+              <table border="1">
+                <tr class="theadinfo">
+                  <th colspan="2">การชำระ</th>
+                  <th colspan="2">ธ.ตัวแทน</th>
+                  <th colspan="2">รหัสบัญชี</th>
+                  <th colspan="4">P ชื่อ (ในภาษาของประเทศ)</th>
+                  <th colspan="3" style="width: 100px;">ผู้ถือบัญชี</th>
+                  <th colspan="2">จำนวนเงินที่จ่าย</th>
+                  <th colspan="3">สง.</th>
+                </tr>
+                <tr class="theadinfo">
+                  <th colspan="1">รหัส</th>
+                  <th colspan="2">รหัส</th>
+                  <th colspan="2">เลขเอกสาร</th>
+                  <th colspan="1">ประเภท</th>
+                  <th colspan="1" style="width: 100px;">วันที่เอกสาร</th>
+                  <th colspan="1" style="width: 100px;">วันที่ฐาน</th>
+                  <th colspan="1">PayT</th>
+                  <th colspan="1">PK</th>
+                  <th colspan="2" style="width: 100px;">จำนวนเงินรวม LC</th>
+                  <th colspan="2">รวมการหักใน LC</th>
+                  <th colspan="2">จำนวนเงินสุทธิ LC</th>
+                  <th colspan="1">สง.</th>
+                  <th colspan="1">Err</th>
+                </tr>
+                <tr>
+                  <td colspan="18">
+                    <div class="row">
+                      <div class="col">
+                        <fieldset class="scheduler-border">
+                          <legend class="scheduler-border" style="font-size: 14px !important;">
+                            ผู้ขาย {{ vendorHeader?.vendorCode }}
+                          </legend>
+                          <div class="control-group">
+                            <p class="c-blue">
+                              {{ vendorHeader?.name1 }}
+                              <br />{{ vendorHeader?.name2 }} <br />{{ vendorHeader?.address }}
+                            </p>
+                          </div>
+                        </fieldset>
+                      </div>
+                      <div class="col" *ngIf="vendorHeader.payeeCode">
+                        <fieldset class="scheduler-border">
+                          <legend class="scheduler-border" style="font-size: 14px !important;">
+                            จ่ายให้แก่ {{ vendorHeader?.payeeCode }}
+                          </legend>
+                          <div class="control-group">
+                            <p class="c-blue">
+                              {{ vendorHeader?.payeeName1 }}
+                              <br />{{ vendorHeader?.payeeName2 }} <br />{{
+                                vendorHeader?.payeeAddress
+                              }}
+                            </p>
+                          </div>
+                        </fieldset>
+                      </div>
+                      <div class="col">
+                        <fieldset class="scheduler-border">
+                          <legend class="scheduler-border" style="font-size: 14px !important;">
+                            รายละเอียดธนาคาร
+                          </legend>
+                          <div class="control-group">
+                            <p class="c-blue">
+                              {{ vendorHeader?.payeeBankReference }}
+                              <br />เลขที่ธนาคาร : {{ vendorHeader?.payeeBankKey }}
+                              <br />เลขที่บัญชี :
+                              {{ vendorHeader?.payeeBankAccountNo }}
+                            </p>
+                          </div>
+                        </fieldset>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <ng-container *ngFor="let glLine of vendors; let i = index">
+                  <tr *ngIf="glLine?.status === 'S'">
+                    <td colspan="2">
+                      <span
+                        [ngClass]="{
+                          'pointer bg-payment': glLine?.paymentDocumentNo != null && type === '2'
+                        }"
+                        class="td-color"
+                        (click)="viewDocument(glLine)"
+                        >{{ glLine?.paymentDocumentNo }}</span
+                      >
+                    </td>
+                    <td colspan="2">{{ glLine?.payingHouseBank }}</td>
+                    <td colspan="2">{{ glLine?.payingBankCode }}</td>
+                    <td colspan="4">
+                      {{ glLine?.paymentMethod }} - {{ glLine?.paymentMethodName }}
+                    </td>
+                    <td colspan="3" style="width: 100px;">{{ glLine?.name2 }}</td>
+                    <td colspan="2">{{ glLine?.amountPay | bigdecimal }} -</td>
+                    <td colspan="3">{{ glLine?.currency }}</td>
+                  </tr>
+                  <tr *ngIf="glLine?.status === 'S'">
+                    <td colspan="1" (click)="repairDocument(glLine)">{{ glLine?.fiArea }}</td>
+                    <td colspan="2">{{ glLine?.invoiceCompanyCode }}</td>
+                    <td colspan="2" (click)="openDialogPaymentRunErrorDetail(glLine)">
+                      <div class="flex-1 tooltip-box">
+                        {{ glLine?.invoiceDocumentNo }}
+                        <div *ngIf="type === '2'" class="tooltip-text">
+                          <p>
+                            เลขที่เอกสารตั้งเบิก: {{ glLine?.originalDocumentNo }}
+                            {{ glLine?.originalDocumentType }} {{ glLine?.originalFiscalYear }}
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <td colspan="1">
+                      {{ glLine?.invoiceDocumentType }}
+                    </td>
+                    <td colspan="1" style="width: 100px;">{{ glLine?.dateDoc | thaidate }}</td>
+                    <td colspan="1" style="width: 100px;">{{ glLine?.dateBaseLine | thaidate }}</td>
+                    <td colspan="1">{{ glLine?.paymentTerm }}</td>
+                    <td colspan="1">{{ glLine?.postingKey }}</td>
+                    <td colspan="2" style="width: 100px;">
+                      {{ glLine?.invoiceAmount | bigdecimal }}-
+                    </td>
+                    <td colspan="2">{{ glLine?.invoiceWtxAmount | bigdecimal }}-</td>
+                    <td colspan="2">
+                      {{ glLine?.invoiceAmount - glLine?.invoiceWtxAmount | bigdecimal }}-
+                    </td>
+                    <td colspan="1">{{ glLine?.currency }}</td>
+                    <td colspan="1"></td>
+                  </tr>
+                  <ng-container
+                    *ngFor="let special of glLine?.paymentReportListChild; let x = index"
+                  >
+                    <tr *ngIf="glLine?.status === 'S'">
+                      <td colspan="1">{{ special?.fiArea }}</td>
+                      <td colspan="2">{{ special?.invoiceCompanyCode }}</td>
+                      <td colspan="2">
+                        <div class="flex-1 tooltip-box">
+                          {{ special?.invoiceDocumentNo }}
+                          <div *ngIf="type === '2'" class="tooltip-text">
+                            <p>
+                              เลขที่เอกสารตั้งเบิก: {{ special?.originalDocumentNo }}
+                              {{ special?.originalDocumentType }} {{ special?.originalFiscalYear }}
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                      <td colspan="1">{{ special?.invoiceDocumentType }}</td>
+                      <td colspan="1" style="width: 100px;">
+                        {{ special?.dateDoc | thaidate }}
+                      </td>
+                      <td colspan="1" style="width: 100px;">
+                        {{ special?.dateBaseLine | thaidate }}
+                      </td>
+                      <td colspan="1">{{ special?.paymentTerm }}</td>
+                      <td colspan="1">{{ special?.postingKey }}</td>
+                      <td colspan="2" style="width: 100px;">
+                        {{ special?.invoiceAmount | bigdecimal }}
+                      </td>
+                      <td colspan="2">{{ special?.invoiceWtxAmount | bigdecimal }}</td>
+                      <td colspan="2">
+                        {{ special?.invoiceAmount - special?.invoiceWtxAmount | bigdecimal }}
+                      </td>
+                      <td colspan="1">{{ special?.currency }}</td>
+                      <td colspan="1"></td>
+                    </tr>
+                  </ng-container>
+
+                  <tr *ngIf="glLine?.status === 'S'">
+                    <td colspan="18">*</td>
+                  </tr>
+                  <tr *ngIf="glLine?.status === 'S'">
+                    <td colspan="1"></td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="1"></td>
+                    <td colspan="1" style="width: 100px;"></td>
+                    <td colspan="1" style="width: 100px;"></td>
+                    <td colspan="1"></td>
+                    <td colspan="1"></td>
+                    <td colspan="2" style="width: 100px;">
+                      {{ glLine?.summaryAmountSumFc | bigdecimal }}-
+                    </td>
+                    <td colspan="2">{{ glLine?.summaryAmountMinusFc | bigdecimal }}-</td>
+                    <td colspan="2">{{ glLine?.summaryAmountNet | bigdecimal }}-</td>
+                    <td colspan="1">{{ glLine?.currency }}</td>
+                    <td colspan="1"></td>
+                  </tr>
+
+                  <tr *ngIf="glLine?.status === 'E'">
+                    <td colspan="2">ข้อยกเว้น</td>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="4">ไม่มีการชำระเงิน</td>
+                    <td colspan="3" style="width: 100px;"></td>
+                    <td colspan="2"></td>
+                    <td colspan="3"></td>
+                  </tr>
+                  <tr *ngIf="glLine?.status === 'E'">
+                    <td colspan="1">{{ glLine?.fiArea }}</td>
+                    <td colspan="2">{{ glLine?.invoiceCompanyCode }}</td>
+                    <td colspan="2">{{ glLine?.invoiceDocumentNo }}</td>
+                    <td colspan="1">{{ glLine?.invoiceDocumentType }}</td>
+                    <td colspan="1" style="width: 100px;">{{ glLine?.dateDoc | thaidate }}</td>
+                    <td colspan="1" style="width: 100px;">{{ glLine?.dateBaseLine | thaidate }}</td>
+                    <td colspan="1">{{ glLine?.paymentTerm }}</td>
+                    <td colspan="1">{{ glLine?.postingKey }}</td>
+                    <td colspan="2" style="width: 100px;">
+                      {{ glLine?.invoiceAmount | bigdecimal }}-
+                    </td>
+                    <td colspan="2">{{ glLine?.invoiceWtxAmount | bigdecimal }}-</td>
+                    <td colspan="2">
+                      {{ glLine?.invoiceAmount - glLine?.invoiceWtxAmount | bigdecimal }}-
+                    </td>
+                    <td colspan="1">{{ glLine?.currency }}</td>
+                    <td colspan="1">{{ glLine?.errorCode }}</td>
+                  </tr>
+                </ng-container>
+              </table>
+              <mat-paginator
+                #paginator
+                (page)="onPageChange($event)"
+                [length]="vendorsPagination?.totalElements"
+                [pageSizeOptions]="[5, 10, 20]"
+                showFirstLastButtons
+              >
+              </mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 2 -->
+    <div>
+      <div class="panel panel-primary">
+        <div class="panel-heading pointer">
+          <h3>คำอธิบายเครื่องหมาย</h3>
+        </div>
+        <div class="panel-body" *ngIf="companyData != null">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="content-item">
+                <div class="content-detail mb-4">
+                  <div class="row">
+                    <div class="col-title-md">
+                      <label class="text-black input-head"> ชื่อบริษัท :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ companyData?.companyName }}</p>
+                    </div>
+                    <div class="col-12 col-md-5">
+                      <label class="text-black input-head"
+                        >รายการชำระบัญชีการจ่ายเพื่อประมวลผลการชำระ :
+                        {{ companyData?.paymentDate | thaidate }} /
+                        {{ companyData?.paymentName }}</label
+                      >
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <p class="c-blue">
+                        {{ currentDate | thaidate }} /
+                        {{ currentDate | date: 'HH:mm:ss' }}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-title-md">
+                      <label class="text-black input-head">เมือง :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ companyData?.city }}</p>
+                    </div>
+                    <div class="col-12 col-md-5"></div>
+                    <div class="col-title-sm">
+                      <label class="text-black input-head">ผู้ใช้ :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ userProfile.userdata.username }}</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-title-md">
+                      <label class="text-black input-head">รหัสบริษัท :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ companyData?.companyCode }}</p>
+                    </div>
+                    <div class="col-12 col-md-5"></div>
+                    <div class="col-title-sm">
+                      <label class="text-black input-head">หน้า :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">2</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 table-responsive">
+              <table *ngIf="type === '0'" border="1" style="width: 800px;">
+                <!-- Row A -->
+                <tr class="theadinfo">
+                  <td colspan="2" style="width: 200px;">Err</td>
+                  <td colspan="2" style="width: 600px;">ข้อความข่าวสาร</td>
+                </tr>
+                <ng-container *ngFor="let error of errorReport">
+                  <tr>
+                    <td colspan="2" style="width: 200px;">{{ error?.errorCode }}</td>
+                    <td colspan="2" style="width: 600px;">
+                      {{ error?.description }}
+                    </td>
+                  </tr>
+                </ng-container>
+              </table>
+              <table *ngIf="type === '1'" border="1" style="width: 800px;">
+                <!-- Row A -->
+                <tr class="theadinfo">
+                  <td colspan="2" style="width: 200px;">Err</td>
+                  <td colspan="2" style="width: 400px;">Text</td>
+                  <td colspan="2" style="width: 200px;">เลขที่เอกสาร</td>
+                </tr>
+                <ng-container *ngFor="let error of errorReportRealRun">
+                  <tr>
+                    <td colspan="2" style="width: 200px;">{{ error?.errorCode }}</td>
+                    <td colspan="2" style="width: 400px;">{{ error?.text }}</td>
+                    <td colspan="2" style="width: 200px;">
+                      {{ error?.invoiceDocumentNo }}
+                    </td>
+                  </tr>
+                </ng-container>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 3 -->
+    <div [ngClass]="{ show: isOpenCollapseDetail }">
+      <div class="panel panel-primary">
+        <div class="panel-heading pointer">
+          <h3>ผลรวมต่อเขตธุรกิจ</h3>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="content-item">
+                <div class="content-detail mb-4">
+                  <div class="row">
+                    <div class="col-title-md">
+                      <label class="text-black input-head"> ชื่อบริษัท :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ companyData?.companyName }}</p>
+                    </div>
+                    <div class="col-12 col-md-5">
+                      <label class="text-black input-head"
+                        >รายการชำระบัญชีการจ่ายเพื่อประมวลผลการชำระ :
+                        {{ companyData?.paymentDate | thaidate }} /
+                        {{ companyData?.paymentName }}</label
+                      >
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <p class="c-blue">
+                        {{ currentDate | thaidate }} /
+                        {{ currentDate | date: 'HH:mm:ss' }}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-title-md">
+                      <label class="text-black input-head">เมือง :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ companyData?.city }}</p>
+                    </div>
+                    <div class="col-12 col-md-5"></div>
+                    <div class="col-title-sm">
+                      <label class="text-black input-head">ผู้ใช้ :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ userProfile.userdata.username }}</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-title-md">
+                      <label class="text-black input-head">รหัสบริษัท :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ companyData?.companyCode }}</p>
+                    </div>
+                    <div class="col-12 col-md-5"></div>
+                    <div class="col-title-sm">
+                      <label class="text-black input-head">หน้า :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">3</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 table-responsive">
+              <table border="1">
+                <!-- Row A -->
+                <tr class="theadinfo">
+                  <td colspan="2" style="width: 100px;">รหัส</td>
+                  <td colspan="2" style="width: 300px;">วิธีการชำระเงิน</td>
+                  <td colspan="2" style="width: 100px;">สง.</td>
+                  <td colspan="2" style="width: 300px;">จำนวนเงินที่จ่าย</td>
+                  <td colspan="2" style="width: 300px;">รวมการหักใน LC</td>
+                  <td colspan="2" style="width: 100px;">LCurr</td>
+                  <td colspan="2" style="width: 300px;">จำนวนเงินจ่ายตาม LC</td>
+                </tr>
+                <ng-container *ngFor="let area of areaReport?.area">
+                  <tr *ngFor="let detail of area?.detail" class="none-border-bottom">
+                    <td colspan="2" style="width: 100px;">{{ detail?.code }}</td>
+                    <td colspan="2" style="width: 300px;">{{ detail?.paymentMethod }}</td>
+                    <td colspan="2" style="width: 100px;">{{ detail?.currency }}</td>
+                    <td colspan="2" style="width: 300px;">{{ detail?.amountPay | bigdecimal }}-</td>
+                    <td colspan="2" style="width: 300px;">
+                      {{ detail?.amountMinusFc | bigdecimal }}-
+                    </td>
+                    <td colspan="2" style="width: 100px;">{{ detail?.Lcurrency }}</td>
+                    <td colspan="2" style="width: 300px;">{{ detail?.amountLc | bigdecimal }}-</td>
+                  </tr>
+                  <tr class="summary">
+                    <td colspan="4" style="width: 400px;">* {{ area?.areaName }}</td>
+                    <td colspan="2" style="width: 100px;">{{ area?.sumCurrency }}</td>
+                    <td colspan="2" style="width: 300px;">
+                      {{ area?.sumAmountPay | bigdecimal }}-
+                    </td>
+                    <td colspan="2" style="width: 300px;">
+                      {{ area?.sumAmountMinusFc | bigdecimal }}-
+                    </td>
+                    <td colspan="2" style="width: 100px;">{{ area?.sumLcurrency }}</td>
+                    <td colspan="2" style="width: 300px;">{{ area?.sumAmountLc | bigdecimal }}-</td>
+                  </tr>
+                </ng-container>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div [ngClass]="{ show: isOpenCollapseDetail }">
+      <div class="panel panel-primary">
+        <div class="panel-heading pointer">
+          <h3>ยอดรวมต่อประเทศ</h3>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="content-item">
+                <div class="content-detail mb-4">
+                  <div class="row">
+                    <div class="col-title-md">
+                      <label class="text-black input-head"> ชื่อบริษัท :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ companyData?.companyName }}</p>
+                    </div>
+                    <div class="col-12 col-md-5">
+                      <label class="text-black input-head"
+                        >รายการชำระบัญชีการจ่ายเพื่อประมวลผลการชำระ :
+                        {{ companyData?.paymentDate | thaidate }} /
+                        {{ companyData?.paymentName }}</label
+                      >
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <p class="c-blue">
+                        {{ currentDate | thaidate }} /
+                        {{ currentDate | date: 'HH:mm:ss' }}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-title-md">
+                      <label class="text-black input-head">เมือง :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ companyData?.city }}</p>
+                    </div>
+                    <div class="col-12 col-md-5"></div>
+                    <div class="col-title-sm">
+                      <label class="text-black input-head">ผู้ใช้ :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ userProfile.userdata.username }}</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-title-md">
+                      <label class="text-black input-head">รหัสบริษัท :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ companyData?.companyCode }}</p>
+                    </div>
+                    <div class="col-12 col-md-5"></div>
+                    <div class="col-title-sm">
+                      <label class="text-black input-head">หน้า :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">4</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 table-responsive">
+              <table border="1">
+                <tr class="theadinfo">
+                  <td>ปท.</td>
+                  <td>วิธีการชำระเงิน</td>
+                  <td>สง.</td>
+                  <td>จำนวนเงินที่จ่าย</td>
+                  <td>รวมการหักใน LC</td>
+                  <td>LCurr</td>
+                  <td>จำนวนเงินจ่ายตาม LC</td>
+                </tr>
+                <ng-container *ngFor="let country of countryReport?.country">
+                  <tr *ngFor="let detail of country?.detail" class="none-border-bottom">
+                    <td>{{ detail.code }}</td>
+                    <td>{{ detail.paymentMethod }}</td>
+                    <td>{{ detail.currency }}</td>
+                    <td>{{ detail.amountPay | bigdecimal }}-</td>
+                    <td>{{ detail.amountMinusFc | bigdecimal }}-</td>
+                    <td>{{ detail.Lcurrency }}</td>
+                    <td>{{ detail.amountLc | bigdecimal }}-</td>
+                  </tr>
+
+                  <tr class="summary">
+                    <td colspan="2">* {{ country?.name }}</td>
+                    <td>{{ country?.sumCurrency }}</td>
+                    <td>{{ country?.sumAmountPay | bigdecimal }}-</td>
+                    <td>{{ country?.sumAmountMinusFc | bigdecimal }}-</td>
+                    <td>{{ country?.sumLcurrency }}</td>
+                    <td>{{ country?.sumAmountLc | bigdecimal }}-</td>
+                  </tr>
+                  <tr class="summary">
+                    <td colspan="2">**</td>
+                    <td>{{ country?.sumCurrency }}</td>
+                    <td>{{ country?.sumAmountPay | bigdecimal }}-</td>
+                    <td>{{ country?.sumAmountMinusFc | bigdecimal }}-</td>
+                    <td>{{ country?.sumLcurrency }}</td>
+                    <td>{{ country?.sumAmountLc | bigdecimal }}-</td>
+                  </tr>
+                </ng-container>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 5 -->
+    <div *ngIf="currencyReport !== null">
+      <div class="panel panel-primary">
+        <div class="panel-heading pointer">
+          <h3>ยอดรวมต่อสกุลเงิน</h3>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="content-item">
+                <div class="content-detail mb-4">
+                  <div class="row">
+                    <div class="col-title-md">
+                      <label class="text-black input-head"> ชื่อบริษัท :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ companyData?.companyName }}</p>
+                    </div>
+                    <div class="col-12 col-md-5">
+                      <label class="text-black input-head"
+                        >รายการชำระบัญชีการจ่ายเพื่อประมวลผลการชำระ :
+                        {{ companyData?.paymentDate | thaidate }} /
+                        {{ companyData?.paymentName }}</label
+                      >
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <p class="c-blue">
+                        {{ currentDate | thaidate }} /
+                        {{ currentDate | date: 'HH:mm:ss' }}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-title-md">
+                      <label class="text-black input-head">เมือง :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ companyData?.city }}</p>
+                    </div>
+                    <div class="ol-12 col-md-5"></div>
+                    <div class="col-title-sm">
+                      <label class="text-black input-head">ผู้ใช้ :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ userProfile.userdata.username }}</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-title-md">
+                      <label class="text-black input-head">รหัสบริษัท :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ companyData?.companyCode }}</p>
+                    </div>
+                    <div class="col-12 col-md-5"></div>
+                    <div class="col-title-sm">
+                      <label class="text-black input-head">หน้า :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">5</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 table-responsive">
+              <table border="1">
+                <tr class="theadinfo">
+                  <td class="none-border-right"></td>
+                  <td>สง.</td>
+                  <td>ปท.</td>
+                  <td>วิธีการชำระเงิน</td>
+                  <td>จำนวนเงินที่จ่าย</td>
+                  <td>รวมการหักใน LC</td>
+                  <td>LCurr</td>
+                  <td>จำนวนเงินจ่ายตาม LC</td>
+                </tr>
+                <ng-container *ngFor="let currency of currencyReport?.currency">
+                  <tr *ngFor="let detail of currency?.detail" class="none-border-bottom">
+                    <td class="none-border-right"></td>
+                    <td>{{ detail?.code }}</td>
+                    <td>{{ detail?.country }}</td>
+                    <td>{{ detail?.paymentMethod }}</td>
+                    <td>{{ detail?.amountPay | bigdecimal }}-</td>
+                    <td>{{ detail?.amountMinusFc | bigdecimal }}-</td>
+                    <td>{{ detail?.Lcurrency }}</td>
+                    <td>{{ detail?.amountLc | bigdecimal }}-</td>
+                  </tr>
+                  <tr class="summary">
+                    <td class="none-border-right">*</td>
+                    <td>{{ currency?.currencyCode }}</td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ currency?.sumAmountPay | bigdecimal }}-</td>
+                    <td>{{ currency?.sumAmountMinusFc | bigdecimal }}-</td>
+                    <td>{{ currency?.sumLcurrency }}</td>
+                    <td>{{ currency?.sumAmountLc | bigdecimal }}-</td>
+                  </tr>
+                  <tr class="summary">
+                    <td class="none-border-right">**</td>
+                    <td>{{ currency?.currencyCode }}</td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ currency?.sumAmountPay | bigdecimal }}-</td>
+                    <td>{{ currency?.sumAmountMinusFc | bigdecimal }}-</td>
+                    <td>{{ currency?.sumLcurrency }}</td>
+                    <td>{{ currency?.sumAmountLc | bigdecimal }}-</td>
+                  </tr>
+                </ng-container>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 6 -->
+    <div *ngIf="paymentReport != null">
+      <div class="panel panel-primary">
+        <div class="panel-heading pointer">
+          <h3>ผลรวมตามวิธีชำระเงิน</h3>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="content-item">
+                <div class="content-detail mb-4">
+                  <div class="row">
+                    <div class="col-title-md">
+                      <label class="text-black input-head"> ชื่อบริษัท :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ companyData?.companyName }}</p>
+                    </div>
+                    <div class="col-12 col-md-5">
+                      <label class="text-black input-head"
+                        >รายการชำระบัญชีการจ่ายเพื่อประมวลผลการชำระ :
+                        {{ companyData?.paymentDate | thaidate }} /
+                        {{ companyData?.paymentName }}</label
+                      >
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <p class="c-blue">
+                        {{ currentDate | thaidate }} /
+                        {{ currentDate | date: 'HH:mm:ss' }}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-title-md">
+                      <label class="text-black input-head">เมือง :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ companyData?.city }}</p>
+                    </div>
+                    <div class="col-12 col-md-5"></div>
+                    <div class="col-title-sm">
+                      <label class="text-black input-head">ผู้ใช้ :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ userProfile.userdata.username }}</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-title-md">
+                      <label class="text-black input-head">รหัสบริษัท :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ companyData?.companyCode }}</p>
+                    </div>
+                    <div class="col-12 col-md-5"></div>
+                    <div class="col-title-sm">
+                      <label class="text-black input-head">หน้า :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">6</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 table-responsive">
+              <table border="1">
+                <tr class="theadinfo">
+                  <td>วิธีการชำระเงิน</td>
+                  <td>จำนวนของ</td>
+                  <td>สง.</td>
+                  <td>จำนวนเงินที่จ่าย</td>
+                  <td>รวมการหักใน LC</td>
+                  <td>LCurr</td>
+                  <td>จำนวนเงินจ่ายตาม LC</td>
+                </tr>
+                <ng-container *ngFor="let paymentMethod of paymentReport?.paymentMethod">
+                  <tr>
+                    <td>{{ paymentMethod?.paymentMethodCode }}</td>
+                    <td>{{ paymentMethod?.totalOrder }}</td>
+                    <td>{{ paymentMethod?.currency }}</td>
+                    <td>{{ paymentMethod?.amountPay | bigdecimal }}-</td>
+                    <td>{{ paymentMethod?.amountMinusFc | bigdecimal }}-</td>
+                    <td>{{ paymentMethod?.Lcurrency }}</td>
+                    <td>{{ paymentMethod?.amountLc | bigdecimal }}-</td>
+                  </tr>
+                  <tr class="summary">
+                    <td>* {{ paymentMethod?.paymentMethodName }}</td>
+                    <td>{{ paymentMethod?.totalOrder }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ paymentMethod?.Lcurrency }}</td>
+                    <td>{{ paymentMethod?.amountLc | bigdecimal }}-</td>
+                  </tr>
+                </ng-container>
+
+                <tr class="summary">
+                  <td>**</td>
+                  <td>{{ paymentReport?.sumTotalOrder }}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>{{ paymentReport?.sumLcurrency }}</td>
+                  <td>{{ paymentReport?.sumAmountLc | bigdecimal }}-</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 7 -->
+    <div *ngIf="bankReport != null">
+      <div class="panel panel-primary">
+        <div class="panel-heading pointer">
+          <h3>ผลรวมตามบัญชีธนาคาร</h3>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="content-item">
+                <div class="content-detail mb-4">
+                  <div class="row">
+                    <div class="col-title-md">
+                      <label class="text-black input-head"> ชื่อบริษัท :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ companyData?.companyName }}</p>
+                    </div>
+                    <div class="col-12 col-md-5">
+                      <label class="text-black input-head"
+                        >รายการชำระบัญชีการจ่ายเพื่อประมวลผลการชำระ :
+                        {{ companyData?.paymentDate | thaidate }} /
+                        {{ companyData?.paymentName }}</label
+                      >
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <p class="c-blue">
+                        {{ currentDate | thaidate }} /
+                        {{ currentDate | date: 'HH:mm:ss' }}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-title-md">
+                      <label class="text-black input-head">เมือง :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ companyData?.city }}</p>
+                    </div>
+                    <div class="col-12 col-md-5"></div>
+                    <div class="col-title-sm">
+                      <label class="text-black input-head">ผู้ใช้ :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ userProfile.userdata.username }}</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-title-md">
+                      <label class="text-black input-head">รหัสบริษัท :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">{{ companyData?.companyCode }}</p>
+                    </div>
+                    <div class="col-12 col-md-5"></div>
+                    <div class="col-title-sm">
+                      <label class="text-black input-head">หน้า :</label>
+                    </div>
+                    <div class="col-12 col-md-2">
+                      <p class="c-blue">7</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 table-responsive">
+              <table border="1">
+                <tr class="theadinfo">
+                  <td>ปท.</td>
+                  <td>คีย์ธ.ตัวแทน</td>
+                  <td>เลขที่บัญชีของเรา</td>
+                  <td>CS</td>
+                  <td>P</td>
+                  <td>จำนวนของ</td>
+                  <td>สง.</td>
+                  <td>จำนวนเงินที่จ่าย</td>
+                  <td>รวมการหักใน LC</td>
+                  <td>LCurr</td>
+                  <td>จำนวนเงินจ่ายตาม LC</td>
+                </tr>
+                <ng-container *ngFor="let bank of bankReport?.bank">
+                  <tr *ngFor="let detail of bank?.detail" class="none-border-bottom">
+                    <td>{{ detail.country }}</td>
+                    <td>{{ detail.bankKey }}</td>
+                    <td>{{ detail.bankAccountNo }}</td>
+                    <td>{{ detail.cs }}</td>
+                    <td>{{ detail.paymentMethod }}</td>
+                    <td>{{ detail.totalOrder }}</td>
+                    <td>{{ detail.currency }}</td>
+                    <td>{{ detail.amountPay | bigdecimal }}-</td>
+                    <td>{{ detail.amountMinusFc | bigdecimal }}-</td>
+                    <td>{{ detail.Lcurrency }}</td>
+                    <td>{{ detail.amountLc | bigdecimal }}-</td>
+                  </tr>
+                  <tr class="summary">
+                    <td colspan="5">* {{ bank?.bankName }}</td>
+                    <td>{{ bank?.sumTotalOrder }}</td>
+                    <td>{{ bank?.sumCurrency }}</td>
+                    <td>{{ bank?.sumAmountPay | bigdecimal }}-</td>
+                    <td>{{ bank?.sumAmountMinusFc | bigdecimal }}-</td>
+                    <td>{{ bank?.sumLcurrency }}</td>
+                    <td>{{ bank?.sumAmountLc | bigdecimal }}-</td>
+                  </tr>
+                </ng-container>
+                <tr class="summary">
+                  <td colspan="5">*</td>
+                  <td>{{ bankReport?.sumTotalOrder }}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>{{ bankReport?.sumLcurrency }}</td>
+                  <td>{{ bankReport?.sumAmountLc | bigdecimal }}-</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-back-to-top></app-back-to-top>

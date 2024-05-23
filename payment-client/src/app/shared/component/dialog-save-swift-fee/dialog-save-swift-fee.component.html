@@ -1,0 +1,86 @@
+<div mat-dialog-title>
+  <button (click)="clickCancel()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane">
+    <b>ค่าธรรมเนียม SWIFT</b>
+  </h1>
+</div>
+
+<div mat-dialog-content>
+  <form (keydown.enter)="$event.preventDefault()" [formGroup]="swiftFeeConfigForm">
+    <div class="panel panel-primary">
+      <div class="panel-heading pointer">
+        <h4>ข้อมูลควบคุม</h4>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-12">
+            <label class="text-black input-head"><b>Bank Key</b></label>
+            <input class="form-control" formControlName="bankKey" type="text" maxlength="3" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="text-black input-head"><b>จำนวนเงินพื้นฐาน</b></label>
+            <div class="d-flex input-with-unit">
+              <input appCurrency class="form-control" formControlName="baseAmount" type="text" />
+              <span> บาท </span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="text-black input-head"><b>ค่าธรรมเนียมพื้นฐาน</b></label>
+            <div class="d-flex input-with-unit">
+              <input appCurrency class="form-control" formControlName="baseFee" type="text" />
+              <span> บาท </span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="text-black input-head"><b>จำนวนเงิน</b></label>
+            <div class="d-flex input-with-unit">
+              <input appCurrency class="form-control" formControlName="varAmount" type="text" />
+              <span> บาท </span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="text-black input-head"><b>ค่าธรรมเนียม</b></label>
+            <div class="d-flex input-with-unit">
+              <input appCurrency class="form-control" formControlName="varFee" type="text" />
+              <span> บาท </span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="text-black input-head"><b>ค่าธรรมเนียมสูงสุด</b></label>
+            <div class="d-flex input-with-unit">
+              <input appCurrency class="form-control" formControlName="maxFee" type="text" />
+              <span> บาท </span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <mat-checkbox formControlName="smart">Smart Member</mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="d-flex justify-content-center mb-2">
+    <button
+      (click)="clickSave(swiftFeeConfigForm.value)"
+      class="btn btn-success btn-w120"
+      type="button"
+    >
+      บันทึก
+    </button>
+    <button (click)="clickCancel()" class="btn btn-danger btn-w120" type="button">
+      ยกเลิก
+    </button>
+  </div>
+</div>

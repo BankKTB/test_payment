@@ -1,0 +1,151 @@
+@import "variables.scss";
+
+.sidebar {
+  display: inline-flex;
+  height: auto;
+  width: 100%;
+  min-height: 100%;
+  border-right: 1px solid $color-light-gray;
+  font-size: $font-base;
+
+  a {
+    color: $color-Sblue;
+    font-size: 15px;
+    font-weight: bold;
+
+    &:hover, &.active {
+      opacity: .5;
+      text-decoration: none;
+    }
+  }
+
+  .user-box {
+    background: url('assets/images/img_headers/sidebar-bg02.jpg');
+    width: $size-menu;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    color: $color-black;
+    font-size: 16px;
+    padding: 20px 15px;
+    border-bottom: 2px solid $color-light-blue;
+
+    label {
+      color: $color-primary;
+      margin: 0;
+      font-weight: bold;
+      font-size: 16px;
+      font-family: 'SarabunRegular', "ms Sans Serif" !important;
+    }
+
+    span {
+      font-size: 15px;
+    }
+  }
+
+  .menu {
+    color: #fff;
+    min-width: $size-menu;
+    width: $size-menu;
+    background-image: $gradient-white-Lblue_bottom;
+    position: relative;
+
+    @media screen and (max-width: $break-ipadpro) {
+      background-image: none;
+    }
+
+    .bg-menu-2 {
+      //background-image: $gradient-green-Bgreen_bottom;
+      background-image: $gradient-Gblue-LGreen_bottom;
+      //border-bottom: 3px solid $color-strong-green;
+      border-bottom: 3px solid $color-blue-green;
+      font-size: 18px;
+      padding: 10px 0px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0px;
+
+      li {
+        cursor: pointer;
+        border-bottom: 2px solid $color-light-blue;
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), $color-light-blue);
+
+        &:hover, &.active {
+          background-color: #fff;
+        }
+
+        .item {
+          padding: 10px 10px;
+
+          &:hover, &.active {
+            background-color: #fff;
+          }
+        }
+      }
+    }
+
+    ul.sub-menu {
+      margin-left: -30px
+    }
+
+    .menu-list {
+      font-size: $font-base;
+
+      .item {
+        color: $color-primary;
+        font-weight: bold;
+        text-decoration: none;
+        font-family: 'SarabunRegular', "ms Sans Serif" !important;
+      }
+
+      span {
+        color: $color-black;
+        font-size: $font-base;
+        font-family: 'SarabunLight', "ms Sans Serif" !important;
+      }
+
+      hr {
+        margin: 0px;
+        border-bottom: 2px solid $color-light-blue;
+        //border-top: 1px solid #7386b6;
+        //padding: 1px;
+      }
+    }
+
+    .menu-footer {
+      text-align: right;
+      padding: 0 10px 10px 10px;
+      color: $color-bright-green;
+      font-weight: bold;
+
+      span, a {
+        color: $color-bright-green;
+
+        &:hover, &.active {
+          opacity: .7;
+          text-decoration: none;
+        }
+      }
+
+    }
+
+    // @media screen and (max-width: $break-ipadpro) {
+    //   display: none;
+    // }
+  }
+
+  .content {
+    width: 100%;
+  }
+
+  @media screen and (max-width: $break-ipadpro) {
+    display: none;
+    background-image: $gradient-white-Lblue_bottom;
+    &.opened {
+      display: block;
+    }
+  }
+}

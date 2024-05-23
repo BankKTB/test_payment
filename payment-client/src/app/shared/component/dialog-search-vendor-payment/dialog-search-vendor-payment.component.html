@@ -1,0 +1,66 @@
+<!--<button class="close" mat-button (click)="closeDialog()">X</button>-->
+<!--<h1 mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle><b>ข้อจำกัด</b></h1>-->
+<!--<hr>-->
+<!--<div class="row">-->
+<!--  <div class="col-12 col-md-1" style="padding-top: 5px;">-->
+<!--    <span>ค้นหา :</span>-->
+<!--  </div>-->
+<!--  <div class="col-md-4">-->
+<!--    <input type="text" class="form-control" #searchValue />-->
+<!--    <p class="text-red">{{ errorMessage }}</p>-->
+<!--  </div>-->
+<!--  <div class="col-12 col-md-2">-->
+<!--    <button mat-icon-button class="btn btn-info" (click)="loadVendor(searchValue)">-->
+<!--      <span>เริ่มค้นหา</span>-->
+<!--    </button>&nbsp;-->
+<!--    <span class="tooltip-container btn-with-tooltip">-->
+<!--      <img src="assets/images/icon/question.png">-->
+<!--      <span class="tooltip-content">-->
+<!--        <p>ตัวอย่าง-->
+<!--          <br>- ต้องการหา เลข ที่ตามหลังด้วย 011 : พิมพ์ *011-->
+<!--          <br>- ต้องการหา เลข ที่ขึ้นต้นด้วย 011 : พิมพ์ 011*-->
+<!--          <br>- ต้องการหา เลข ที่ขึ้นต้นด้วย 01 ลงท้ายด้วย 1 : พิมพ์ 01*1</p>-->
+<!--      </span>-->
+<!--    </span>-->
+<!--    &lt;!&ndash;img src="assets/images/icon/question.png" data-toggle="tooltip" data-placement="bottom" title=" ตัวอย่าง -->
+<!--       - ต้องการหา เลข ที่ตามหลังด้วย 011 : พิมพ์ *011-->
+<!--       - ต้องการหา เลข ที่ขึ้นต้นด้วย 011 : พิมพ์ 011* -->
+<!--       - ต้องการหา เลข ที่ขึ้นต้นด้วย 01 ลงท้ายด้วย 1 : พิมพ์ 01*1"&ndash;&gt;-->
+<!--  </div>-->
+<!--  <div class="col-12 col-md-5">-->
+<!--    <input (keyup)="applyFilter($event.target.value)" placeholder="Filter" class="form-control">-->
+<!--  </div>-->
+
+<!--</div>-->
+<!--<div mat-dialog-content class="date_dialog">-->
+<!--  <div class="example-item">-->
+<!--    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">-->
+<!--      <ng-container matColumnDef="choose">-->
+<!--        <th mat-header-cell *matHeaderCellDef class="info"> เลือก </th>-->
+<!--        <td mat-cell *matCellDef="let element" (click)="chooseDataSearch(element)">-->
+<!--          <mat-icon class="icon pointer">folder_open</mat-icon>-->
+<!--        </td>-->
+<!--      </ng-container>-->
+<!--      <ng-container matColumnDef="taxId">-->
+<!--        <th mat-header-cell *matHeaderCellDef mat-sort-header class="info"> รหัสประจำตัวผู้เสียภาษี </th>-->
+<!--        <td mat-cell *matCellDef="let element"> {{element.taxId}} </td>-->
+<!--      </ng-container>-->
+
+<!--      <ng-container matColumnDef="valueCode">-->
+<!--        <th mat-header-cell *matHeaderCellDef mat-sort-header class="info"> รหัสผู้ขาย </th>-->
+<!--        <td mat-cell *matCellDef="let element"> {{element.valueCode}} </td>-->
+<!--      </ng-container>-->
+
+<!--      <ng-container matColumnDef="name">-->
+<!--        <th mat-header-cell *matHeaderCellDef mat-sort-header class="info"> ชื่อผู้ขาย-->
+<!--        </th>-->
+<!--        <td mat-cell *matCellDef="let element"> {{element.name}} </td>-->
+<!--      </ng-container>-->
+
+<!--      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>-->
+<!--      <tr mat-row *matRowDef="let row; columns: displayedColumns;"-->
+<!--        [ngClass]="{hovered: row.hovered, highlighted: row.highlighted}" (click)="row.highlighted = !row.highlighted"-->
+<!--        (mouseover)="row.hovered = true" (mouseout)="row.hovered = false"></tr>-->
+<!--    </table>-->
+<!--  </div>-->
+<!--</div>-->

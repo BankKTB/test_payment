@@ -1,0 +1,90 @@
+@import "variables.scss";
+
+.detail-user {
+  left: 0;
+  right: 0;
+}
+
+.menu-page {
+  background-color: #fff;
+  padding: 15px 30px;
+  min-height: 100vh;
+
+  .menu-list {
+    margin: 15px 0px;
+
+    @media screen and (max-width: $break-smallest) {
+      flex-direction: column;
+    }
+  }
+
+  .menu-img {
+    @media screen and (max-width: $break-smallest) {
+      margin: 0 auto;
+    }
+  }
+
+  .menu-img img {
+    width: 110px;
+    border: 2px solid $color-strong-green;
+    border-radius: 10px;
+    box-shadow: 1px 2px 2px 1px $color-light-gray;
+
+    @media screen and (max-width: $break-smallest) {
+      width: 220px;
+      margin-bottom: 20px;
+    }
+  }
+
+  .menu-desc {
+    .pointer {
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    p {
+      color: $color-primary;
+      font-weight: bold;
+      font-size: 20px;
+      margin: 0;
+
+      &:hover {
+        opacity: .8;
+      }
+    }
+
+    span {
+      color: $color-black;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    ul {
+      list-style: none;
+
+      li {
+        cursor: pointer;
+        padding: 2px;
+
+        p {
+          font-size: 15px;
+
+          &:hover {
+            opacity: .8;
+          }
+        }
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: $color-black;
+      font-size: 15px;
+
+      &:hover {
+        color: $color-bright-green;
+      }
+    }
+  }
+}

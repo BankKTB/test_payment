@@ -1,0 +1,38 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragRootElement=".cdk-overlay-pane"><b>ประวัติใบสั่งซื้อ</b></h1>
+</div>
+<br />
+<div mat-dialog-content style="min-height: 10px;">
+  <div class="content-dialog" style="padding-left: 15px; padding-right: 15px;">
+    <div *ngIf="listDocument.length > 0 && listDocument !== null">
+      <table class="table-normal">
+        <tr>
+          <th>รายการ</th>
+          <th>ออบเจค</th>
+          <th>ข้อความแบบสั้น</th>
+          <th>การปฎิบัติ</th>
+          <th>ค่าใหม่</th>
+          <th>ค่าเดิม</th>
+          <th>ผู้แก้ไข</th>
+          <th>วันที่</th>
+          <th>เวลา</th>
+        </tr>
+        <tr *ngFor="let item of listDocument; let i = index">
+          <td>{{ item.line }}</td>
+          <td *ngIf="item.objectType === 'H'">ส่วนหัว</td>
+          <td *ngIf="item.objectType === 'L'">รายการ</td>
+          <td>{{ item.fieldName }}</td>
+          <td *ngIf="item.eventType === 'U'">เปลี่ยน</td>
+          <td *ngIf="item.eventType === 'I'">บันทึก</td>
+          <td *ngIf="item.eventType === 'D'">ลบ</td>
+          <td>{{ item.newValue }}</td>
+          <td>{{ item.oldValue }}</td>
+          <td>{{ item.userName }}</td>
+          <td>{{ item.changeDate | thaidate }}</td>
+          <td>{{ item.changeDate | date: 'shortTime' }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

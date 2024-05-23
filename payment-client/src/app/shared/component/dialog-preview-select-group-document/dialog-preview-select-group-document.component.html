@@ -1,0 +1,114 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane">
+    <b>ยืนยันการเปลี่ยนแปลงเลขที่การกำหนด</b>
+  </h1>
+</div>
+<div [hidden]="isConfirm" mat-dialog-content style="width: 1200px;">
+  <div class="content-box">
+    <div class="row">
+      <div class="col-md-12 table-responsive long-data-table table-result-comfirm">
+        <table border="1">
+          <tr class="theadinfo">
+            <td colspan="2" style="width: 200px;">หน่วยงาน</td>
+            <td colspan="2" style="width: 100px;">ปีบัญชี</td>
+            <td colspan="2" style="width: 100px;">ประเภทเอกสาร</td>
+            <td colspan="2" style="width: 300px;">เลขเอกสาร</td>
+            <td colspan="2" style="width: 150px;">จำนวนเงิน</td>
+            <td colspan="2" style="width: 100px;">เลขที่การกำหนด</td>
+          </tr>
+
+          <tr *ngFor="let item of listPreviewDocument" class="none-border-bottom">
+            <td colspan="2" style="width: 200px;">{{ item.companyCode }}</td>
+            <td colspan="2" style="width: 100px;">{{ item.originalFiscalYear | thaiyear }}</td>
+            <td colspan="2" style="width: 100px;">{{ item.documentType }}</td>
+            <td colspan="2" style="width: 300px;">{{ item.originalDocumentNo }}</td>
+            <td colspan="2" style="width: 150px;">{{ item.amount | bigdecimal }}</td>
+            <td colspan="2" style="width: 150px;">{{ item.selectGroupDocument }}</td>
+          </tr>
+          <!--          <tr class="summary">-->
+          <!--            <td colspan="24">สรุปยอดตามหน่วยงาน {{ item.companyName }}</td>-->
+          <!--            <td colspan="2" style="width: 300px;">{{ item.sumAmount | bigdecimal }}</td>-->
+          <!--            <td colspan="2" style="width: 300px;">{{ item.sumTaxFee | bigdecimal }}</td>-->
+          <!--            <td colspan="2" style="width: 300px;">{{ item.sumNetPrice | bigdecimal }}</td>-->
+          <!--            <td colspan="4" style="width: 500px;"></td>-->
+          <!--          </tr>-->
+          <tr class="summary-total">
+            <td colspan="2" style="width: 200px;"></td>
+            <td colspan="2" style="width: 100px;"></td>
+            <td colspan="2" style="width: 100px;"></td>
+            <td colspan="2" style="width: 300px;"></td>
+            <td colspan="2" style="width: 150px;">{{ sumTotalAmount | bigdecimal }}</td>
+            <td colspan="2" style="width: 150px;"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <hr class="under-title" />
+    <div class="mx-auto d-flex">
+      <button (click)="clickConfirm()" class="btn btn-success btn-lg" type="button">
+        ใช่
+      </button>
+      <button (click)="clickCancel()" class="btn btn-danger btn-lg" type="button">
+        ไม่ใช่
+      </button>
+    </div>
+  </div>
+</div>
+
+<div [hidden]="!isConfirm" mat-dialog-content style="width: 1200px;">
+  <div class="content-box">
+    <div class="row">
+      <div class="col-md-12 table-responsive long-data-table">
+        <b>เปลี่ยนแปลงการกำหนดสำเร็จ</b>
+        <table border="1" class="table-result-success">
+          <tr class="theadinfo">
+            <td colspan="2" style="width: 200px;">หน่วยงาน</td>
+            <td colspan="2" style="width: 100px;">ปีบัญชี</td>
+            <!--            <td colspan="2" style="width: 100px;">ปภ.</td>-->
+            <td colspan="2" style="width: 300px;">เลขเอกสาร</td>
+            <td colspan="2" style="width: 150px;">จำนวนเงิน</td>
+            <td colspan="2" style="width: 150px;">เลขที่การกำหนดใหม่</td>
+          </tr>
+
+          <tr *ngFor="let item of listSuccessDocument" class="none-border-bottom">
+            <td colspan="2" style="width: 200px;">{{ item.companyCode }}</td>
+            <td colspan="2" style="width: 100px;">{{ item.originalFiscalYear | thaiyear }}</td>
+            <!--            <td colspan="2" style="width: 100px;">{{ item.originalDocumentType }}</td>-->
+            <td colspan="2" style="width: 300px;">{{ item.originalDocumentNo }}</td>
+            <td colspan="2" style="width: 150px;">{{ item.amount | bigdecimal }}</td>
+            <td colspan="2" style="width: 150px;">{{ item.newAssignment }}</td>
+          </tr>
+        </table>
+        <b>เปลี่ยนแปลงการกำหนดไม่สำเร็จ</b>
+        <table border="1" class="table-result-not-success">
+          <tr class="theadinfo">
+            <td colspan="2" style="width: 200px;">หน่วยงาน</td>
+            <td colspan="2" style="width: 100px;">ปีบัญชี</td>
+            <!--            <td colspan="2" style="width: 100px;">ปภ.</td>-->
+            <td colspan="2" style="width: 300px;">เลขเอกสาร</td>
+            <td colspan="2" style="width: 150px;">จำนวนเงิน</td>
+            <td colspan="2" style="width: 150px;">เลขที่การกำหนด</td>
+            <td colspan="2" style="width: 150px;">หมายเหตุ</td>
+          </tr>
+
+          <tr *ngFor="let item of listUnSuccessDocument" class="none-border-bottom">
+            <td colspan="2" style="width: 200px;">{{ item.companyCode }}</td>
+            <td colspan="2" style="width: 100px;">{{ item.originalFiscalYear | thaiyear }}</td>
+            <!--            <td colspan="2" style="width: 100px;">{{ item.originalDocumentType }}</td>-->
+            <td colspan="2" style="width: 300px;">{{ item.originalDocumentNo }}</td>
+            <td colspan="2" style="width: 150px;">{{ item.amount | bigdecimal }}</td>
+            <td colspan="2" style="width: 150px;">{{ item.oldAssignment }}</td>
+            <td colspan="2" style="width: 150px;">{{ item.remark }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <hr class="under-title" />
+    <div class="mx-auto d-flex">
+      <button (click)="clickCancel()" class="btn btn-danger btn-lg" type="button">
+        ปิด
+      </button>
+    </div>
+  </div>
+</div>

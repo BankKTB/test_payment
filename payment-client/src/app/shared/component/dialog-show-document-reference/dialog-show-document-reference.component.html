@@ -1,0 +1,113 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane"><b>เอกสารอ้างอิง</b></h1>
+</div>
+<div mat-dialog-content>
+  <div class="content-box">
+    <div class="position-relative" style="overflow-y: auto; max-height: 500px;">
+      <div style="overflow-x: auto;">
+        <table [dataSource]="dataSource" class="mat-elevation-z8 long-data-table" mat-table matSort>
+          <!--          <ng-container matColumnDef="choose">-->
+          <!--            <th *matHeaderCellDef class="info" mat-header-cell>เลือก</th>-->
+          <!--            <td *matCellDef="let element" mat-cell>-->
+          <!--              <mat-icon (click)="chooseDataSearchDetail(element)" class="icon pointer">-->
+          <!--                folder_open-->
+          <!--              </mat-icon>-->
+          <!--            </td>-->
+          <!--          </ng-container>-->
+          <ng-container matColumnDef="docType">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ประเภทเอกสาร</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.docType }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="compCode">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>รหัสหน่วยงาน</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.compCode }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="accDocNo">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>เลขที่เอกสาร</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.accDocNo }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="fiscalYear">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ปีบัญชี</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.fiscalYear | thaiyear }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="headerReference">
+            <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>เลขที่เอกสาร</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.headerReference }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="dateDoc">
+            <th *matHeaderCellDef class="info" mat-header-cell>วันที่เอกสาร</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.dateDoc | thaidate }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="dateAcct">
+            <th *matHeaderCellDef class="info" mat-header-cell>วันที่ผ่านรายการ</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.dateAcct | thaidate }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="vendorName">
+            <th *matHeaderCellDef class="info" mat-header-cell>ชื่อผู้ขาย</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.vendorName }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="amount">
+            <th *matHeaderCellDef class="info" mat-header-cell>จำนวนเงิน</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.amount | bigdecimal }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="paymentMethod">
+            <th *matHeaderCellDef class="info" mat-header-cell>วิธีชำระเงิน</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.paymentMethod }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="clearingDocNo">
+            <th *matHeaderCellDef class="info" mat-header-cell>Clearing DocumentNo</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.clearingDocNo }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="clearingFiscalYear">
+            <th *matHeaderCellDef class="info" mat-header-cell>Clearing Year</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.clearingFiscalYear }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="clearingDateAcct">
+            <th *matHeaderCellDef class="info" mat-header-cell>Clearing Account Date</th>
+            <td *matCellDef="let element" mat-cell>
+              {{ element.clearingDateAcct | thaidate }}
+            </td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+          <tr
+            (click)="row.highlighted = !row.highlighted"
+            (mouseout)="row.hovered = false"
+            (mouseover)="row.hovered = true"
+            *matRowDef="let row; columns: displayedColumns"
+            [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+            mat-row
+          ></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

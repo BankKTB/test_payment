@@ -1,0 +1,14 @@
+@import "variables.scss";
+
+.main-wrapper {
+  min-height: 100vh;
+}
+
+.wrapper {
+  display: block;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  overflow: hidden;
+  // margin-bottom: $footer-height;
+}

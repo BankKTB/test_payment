@@ -1,0 +1,140 @@
+<div mat-dialog-title>
+  <button (click)="closeDialog()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane"><b>ตารางแสดงผล</b></h1>
+</div>
+
+<div mat-dialog-content>
+  <div cdkDropListGroup class="sorting-dialog mb-4">
+    <div class="row">
+      <div class="col-5 col-md-5">
+        <h2 class="submenu">เกณฑ์การจัดเรียง</h2>
+      </div>
+
+      <div class="col-2 col-md-2"></div>
+      <div class="col-5 col-md-5">
+        <h2 class="submenu">ชุดคอลัมน์</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-5 col-md-5">
+        <div class="sorting-box">
+          <table>
+            <tr>
+              <th class="w-10">เลือก</th>
+              <th>ชื่อคอลัมน์</th>
+              <th class="w-10">Pos.</th>
+              <th class="w-10 text-center">
+                <span class="material-icons sort-asc"> filter_list </span>
+              </th>
+              <th class="w-10 text-center">
+                <span class="material-icons sort-desc"> filter_list </span>
+              </th>
+            </tr>
+            <ng-container *ngFor="let item of listShow; let index = index">
+              <tr
+                class="pointer"
+                [ngClass]="{ 'row-hightlight': selectionForNotShow.isSelected(item) }"
+              >
+                <td>
+                  <mat-checkbox
+                    (change)="$event ? selectionForNotShow.toggle(item) : null"
+                    [aria-label]="checkboxLabelForNotShow(item)"
+                    [checked]="selectionForNotShow.isSelected(item)"
+                  ></mat-checkbox>
+                </td>
+                <td (click)="$event ? selectionForNotShow.toggle(item) : null">
+                  {{ item.text }}
+                </td>
+                <td (click)="$event ? selectionForNotShow.toggle(item) : null">{{ item.seq }}</td>
+                <td class="text-center">
+                  <mat-checkbox
+                    class="radio-btn"
+                    (change)="checkSort(index, 'ASC')"
+                    [checked]="item.sortType == 'ASC'"
+                  ></mat-checkbox>
+                </td>
+                <td class="text-center">
+                  <mat-checkbox
+                    class="radio-btn"
+                    (change)="checkSort(index, 'DESC')"
+                    [checked]="item.sortType == 'DESC'"
+                  ></mat-checkbox>
+                </td>
+              </tr>
+            </ng-container>
+          </table>
+        </div>
+      </div>
+
+      <div class="col-2 col-md-2 arrange-btn-box">
+        <div class="text-center">
+          <button (click)="up()" class="btn btn-arrange" type="button">
+            <i class="material-icons">keyboard_arrow_up</i>
+          </button>
+          <button (click)="showAll()" class="btn btn-arrange btn-arrange-double" type="button">
+            <i class="material-icons">arrow_left</i>
+            <i class="material-icons btn-sorting-double">arrow_left</i>
+          </button>
+          <button (click)="showSelected()" class="btn btn-arrange" type="button">
+            <i class="material-icons">arrow_left</i>
+          </button>
+        </div>
+
+        <div class="text-center mt-5">
+          <button (click)="notShowSelected()" class="btn btn-arrange" type="button">
+            <i class="material-icons">arrow_right</i>
+          </button>
+          <button (click)="notShowAll()" class="btn btn-arrange btn-arrange-double" type="button">
+            <i class="material-icons">arrow_right</i>
+            <i class="material-icons btn-sorting-double">arrow_right</i>
+          </button>
+          <button (click)="down()" class="btn btn-arrange" type="button">
+            <i class="material-icons">keyboard_arrow_down</i>
+          </button>
+        </div>
+      </div>
+
+      <div class="col-5 col-md-5">
+        <div class="sorting-box">
+          <table>
+            <tr>
+              <th class="w-10">เลือก</th>
+              <th>ชื่อคอลัมน์</th>
+            </tr>
+            <ng-container *ngFor="let data of listNotShow">
+              <tr
+                class="pointer"
+                [ngClass]="{ 'row-hightlight': selectionForShow.isSelected(data) }"
+              >
+                <td>
+                  <mat-checkbox
+                    (change)="$event ? selectionForShow.toggle(data) : null"
+                    [aria-label]="checkboxLabelForShow(data)"
+                    [checked]="selectionForShow.isSelected(data)"
+                  >
+                  </mat-checkbox>
+                </td>
+                <td (click)="$event ? selectionForShow.toggle(data) : null">
+                  {{ data.text }}
+                </td>
+              </tr>
+            </ng-container>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-end">
+    <div class="col-md-1">
+      <button (click)="clickSave()" class="btn btn-success btn-lg" type="button">
+        บันทึก
+      </button>
+    </div>
+    <div class="col-md-1">
+      <button (click)="closeDialog()" class="btn btn-danger btn-lg" type="button">
+        ปิด
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,252 @@
+<div class="content-menu-top">
+  <app-head-content></app-head-content>
+  <div class="topic">
+    <h4>Simple Job Selection</h4>
+  </div>
+</div>
+<div class="body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 text-right">
+        <span class="fill-remaining-space">
+          <button mat-icon-button class="btn btn-info" (click)="edit()">
+            <mat-icon>description</mat-icon>
+            <span>แก้ไข</span>
+          </button>
+        </span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <span class="fill-remaining-space">
+          <button mat-icon-button class="btn btn-info">
+            <mat-icon>description</mat-icon>
+            <span>Start con...</span>
+          </button>
+        </span>
+        <span class="fill-remaining-space">
+          <button mat-icon-button class="btn btn-info">
+            <mat-icon>description</mat-icon>
+            <span>???</span>
+          </button>
+        </span>
+        <span class="fill-remaining-space">
+          <button mat-icon-button class="btn btn-info">
+            <mat-icon>description</mat-icon>
+            <span>Predecessor job</span>
+          </button>
+        </span>
+        <span class="fill-remaining-space">
+          <button mat-icon-button class="btn btn-info">
+            <mat-icon>description</mat-icon>
+            <span>Successor job</span>
+          </button>
+        </span>
+        <span class="fill-remaining-space">
+          <button mat-icon-button class="btn btn-info">
+            <mat-icon>description</mat-icon>
+            <span>Job selection</span>
+          </button>
+        </span>
+      </div>
+    </div>
+    <form [formGroup]="jobFormCreate" [ngClass]="{ 'submited-form': isSubmitedForm }">
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black input-head"> General ??? </label>
+        </div>
+        <div class="col-md-10">
+          <input class="form-control" formControlName="general" type="text" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black input-head"> Job name </label>
+        </div>
+        <div class="col-md-10">
+          <input class="form-control" formControlName="jobName" type="text" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black input-head"> Job class </label>
+        </div>
+        <div class="col-md-10">
+          <input class="form-control" formControlName="jobClass" type="text" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black input-head"> Status </label>
+        </div>
+        <div class="col-md-10">
+          <input class="form-control" formControlName="jobStatus" type="text" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black input-head"> Exec. Target </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control" formControlName="jobExecTarget" type="text" />
+        </div>
+        <div class="col-md-6">
+          <button mat-icon-button class="btn btn-info">
+            <span>Spool list reciplent</span>
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-8">
+          <mat-card>
+            <mat-card-content>
+              <div class="panel panel-primary">
+                <div
+                  (click)="panelExpandedJobStatus = !panelExpandedJobStatus"
+                  class="panel-heading pointer"
+                >
+                  <h3 class="panel-head">
+                    Job status
+                    <span class="float-right"
+                      ><i *ngIf="!panelExpandedJobStatus" class="material-icons">add</i></span
+                    >
+                    <span class="float-right"
+                      ><i *ngIf="panelExpandedJobStatus" class="material-icons">remove</i></span
+                    >
+                  </h3>
+                </div>
+                <div *ngIf="panelExpandedJobStatus" class="panel-body">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label class="text-black input-head"> Start Date </label>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="input-group datetime-input">
+                        <div class="box-instead-input">
+                          <input
+                            [matDatepicker]="jobStartTime"
+                            class="form-control"
+                            formControlName="jobStartDate"
+                            type="text"
+                            appDateInput
+                          />
+                        </div>
+                        <div class="datetime-input-append">
+                          <button
+                            (click)="jobStartTime.open()"
+                            class="btn-calendar-icon"
+                            type="button"
+                          >
+                            <img src="assets/images/icon/calendar.svg" width="12px" />
+                            <mat-datepicker #jobStartTime></mat-datepicker>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <kendo-timepicker
+                        [format]="'HH:mm'"
+                        formControlName="jobStartTime"
+                      ></kendo-timepicker>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label class="text-black input-head"> No Start After </label>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="input-group datetime-input">
+                        <div class="box-instead-input">
+                          <input
+                            [matDatepicker]="jobNoStartAfterDate"
+                            class="form-control"
+                            formControlName="jobNoStartAfterDate"
+                            type="text"
+                            appDateInput
+                          />
+                        </div>
+                        <div class="datetime-input-append">
+                          <button
+                            (click)="jobNoStartAfterDate.open()"
+                            class="btn-calendar-icon"
+                            type="button"
+                          >
+                            <img src="assets/images/icon/calendar.svg" width="12px" />
+                            <mat-datepicker #jobNoStartAfterDate></mat-datepicker>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <kendo-timepicker
+                        [format]="'HH:mm'"
+                        formControlName="jobNoStartAfterTime"
+                      ></kendo-timepicker>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-12 col-md-4">
+          <mat-card>
+            <mat-card-content>
+              <div class="panel panel-primary">
+                <div
+                  (click)="panelExpandedJobStart = !panelExpandedJobStart"
+                  class="panel-heading pointer"
+                >
+                  <h3 class="panel-head">
+                    Job frequency
+                    <span class="float-right"
+                      ><i *ngIf="!panelExpandedJobStart" class="material-icons">add</i></span
+                    >
+                    <span class="float-right"
+                      ><i *ngIf="panelExpandedJobStart" class="material-icons">remove</i></span
+                    >
+                  </h3>
+                </div>
+                <div *ngIf="panelExpandedJobStart" class="panel-body"></div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <div clasc="row">
+        <div class="col-12">
+          <mat-card>
+            <mat-card-content>
+              <div class="panel panel-primary">
+                <div
+                  (click)="panelExpandedJobStep = !panelExpandedJobStep"
+                  class="panel-heading pointer"
+                >
+                  <h3 class="panel-head">
+                    Job step
+                    <span class="float-right"
+                      ><i *ngIf="!panelExpandedJobStep" class="material-icons">add</i></span
+                    >
+                    <span class="float-right"
+                      ><i *ngIf="panelExpandedJobStep" class="material-icons">remove</i></span
+                    >
+                  </h3>
+                </div>
+                <div *ngIf="panelExpandedJobStep" class="panel-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <input class="form-control" formControlName="jobStep" type="text" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+            <ul class="warning-box">
+              <li *ngFor="let c of listValidate">{{ c }}</li>
+            </ul>
+          </mat-card>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

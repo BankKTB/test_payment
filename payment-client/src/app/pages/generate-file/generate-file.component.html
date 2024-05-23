@@ -1,0 +1,339 @@
+<div class="content-menu-top">
+  <app-head-content></app-head-content>
+  <div class="topic">
+    <h4>Proposal file for upload KTB System Version 2.0</h4>
+  </div>
+</div>
+<div class="body">
+  <div class="container-fluid home-page">
+    <span class="fill-remaining-space">
+      <button
+        [hidden]="hiddenButtonGenerateFile"
+        (click)="generateFile()"
+        class="btn btn-info"
+        mat-icon-button
+      >
+        <mat-icon>description</mat-icon>
+        <span>สร้างไฟล์คำสั่งการโอนเงิน</span>
+      </button>
+    </span>
+    <form
+      (keydown.enter)="$event.preventDefault()"
+      [formGroup]="generateFileForm"
+      [ngClass]="{ 'submited-form': isSubmitedForm }"
+    >
+      <div class="row font-filter">
+        <div class="col-md-3 col-left">
+          <h3 class="text-black">วันที่ประมวลผล</h3>
+          <div class="input-group datetime-input">
+            <input
+              (dateChange)="onGenerateFileDate()"
+              [ngClass]="{ active: generateFileForm.controls.generateFileDate.value }"
+              [matDatepicker]="generateFileDatePicker"
+              class="form-control"
+              formControlName="generateFileDate"
+              type="text"
+              appDateInput
+            />
+            <div class="datetime-input-append">
+              <button
+                (click)="generateFileDatePicker.open()"
+                class="btn-calendar-icon"
+                type="button"
+              >
+                <img src="assets/images/icon/calendar.svg" width="12px" />
+                <mat-datepicker #generateFileDatePicker></mat-datepicker>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <h3 class="text-black">การกำหนด</h3>
+          <div class="input-group">
+            <input
+              (blur)="onBlurGenerateFileName()"
+              [ngClass]="{ active: generateFileForm.controls.generateFileName.value }"
+              class="form-control"
+              formControlName="generateFileName"
+              maxLength="5"
+              type="text"
+              appUpperCaseDirective
+            />
+            <!-- <span class="clear-input-icon" (click)="clearInput('reference')"> x </span> -->
+            <div class="input-group-append">
+              <button
+                (click)="openDialogParameterGenerateFile('search')"
+                class="btn btn-default"
+                type="button"
+              >
+                <img src="assets/images/icon/menu.svg" width="12px" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 forclear-parameter">
+          <span>เคลียร์ พารามิเตอร์ : </span>&nbsp;
+          <span class="fill-remaining-space">
+            <button (click)="clearInputAll()" class="btn_menu1 btn-refresh" mat-icon-button>
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </span>
+        </div>
+      </div>
+
+      <input class="form-control" formControlName="id" type="text" [hidden]="true" />
+
+      <div [hidden]="!generateFileForm.controls.createAgain.value" class="row font-filter">
+        <div class="col-md-3 col-left">
+          <h3 class="text-black">ชื่อไฟล์ที่ต้องการสร้างใหม่</h3>
+          <input
+            [ngClass]="{ active: generateFileForm.controls.fileName.value }"
+            class="form-control"
+            formControlName="fileName"
+            type="text"
+          />
+          <ul class="warning-box" *ngIf="listValidateFileName.length > 0">
+            <li *ngFor="let c of listValidateFileName">{{ c }}</li>
+          </ul>
+        </div>
+      </div>
+
+      <br />
+      <!--      <div [ngClass]="{ 'readonly-input': isReadonly }">-->
+      <div class="generate-file">
+        <div class="panel panel-primary">
+          <div class="panel-heading pointer">
+            <h3 class="panel-head">
+              SWIFT Format
+            </h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> จำนวนวันที่มีผล </label>
+              </div>
+              <div class="col-md-3">
+                <input
+                  [ngClass]="{ active: generateFileForm.controls.swiftAmountDay.value }"
+                  appNumberOnly
+                  class="form-control text-right"
+                  formControlName="swiftAmountDay"
+                  maxLength="2"
+                  type="text"
+                  (change)="onChangeDate('swiftAmountDay', 'swiftDate')"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> วันที่จ่าย/โอนเงิน </label>
+              </div>
+              <div class="col-md-3">
+                <div class="input-group datetime-input">
+                  <input
+                    [ngClass]="{ active: generateFileForm.controls.swiftDate.value }"
+                    [matDatepicker]="swiftDate"
+                    [min]="generateFileForm.controls.swiftDate.value"
+                    [max]="generateFileForm.controls.swiftDate.value"
+                    class="form-control"
+                    formControlName="swiftDate"
+                    type="text"
+                    appDateInput
+                    disabled
+                  />
+                  <div class="datetime-input-append">
+                    <button (click)="swiftDate.open()" class="btn-calendar-icon" type="button">
+                      <img src="assets/images/icon/calendar.svg" width="12px" />
+                      <mat-datepicker #swiftDate disabled="false"></mat-datepicker>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-primary">
+          <div class="panel-heading pointer">
+            <h3 class="panel-head">
+              SMART Format
+            </h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> จำนวนวันที่มีผล </label>
+              </div>
+              <div class="col-md-3">
+                <input
+                  [ngClass]="{ active: generateFileForm.controls.smartAmountDay.value }"
+                  appNumberOnly
+                  class="form-control text-right"
+                  formControlName="smartAmountDay"
+                  maxLength="2"
+                  type="text"
+                  (change)="onChangeDate('smartAmountDay', 'smartDate')"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> วันที่จ่าย/โอนเงิน </label>
+              </div>
+              <div class="col-md-3">
+                <div class="input-group datetime-input">
+                  <input
+                    [ngClass]="{ active: generateFileForm.controls.smartDate.value }"
+                    [matDatepicker]="smartDate"
+                    [min]="generateFileForm.controls.smartDate.value"
+                    [max]="generateFileForm.controls.smartDate.value"
+                    class="form-control"
+                    formControlName="smartDate"
+                    type="text"
+                    appDateInput
+                    disabled
+                  />
+                  <div class="datetime-input-append">
+                    <button (click)="smartDate.open()" class="btn-calendar-icon" type="button">
+                      <img src="assets/images/icon/calendar.svg" width="12px" />
+                      <mat-datepicker #smartDate disabled="false"></mat-datepicker>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-primary">
+          <div class="panel-heading pointer">
+            <h3 class="panel-head">
+              GIRO Format
+            </h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> จำนวนวันที่มีผล </label>
+              </div>
+              <div class="col-md-3">
+                <input
+                  [ngClass]="{ active: generateFileForm.controls.giroAmountDay.value }"
+                  appNumberOnly
+                  class="form-control text-right"
+                  formControlName="giroAmountDay"
+                  maxLength="2"
+                  type="text"
+                  (change)="onChangeDate('giroAmountDay', 'giroDate')"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> วันที่จ่าย/โอนเงิน </label>
+              </div>
+              <div class="col-md-3">
+                <div class="input-group datetime-input">
+                  <input
+                    [ngClass]="{ active: generateFileForm.controls.giroDate.value }"
+                    [matDatepicker]="giroDate"
+                    [min]="generateFileForm.controls.giroDate.value"
+                    [max]="generateFileForm.controls.giroDate.value"
+                    class="form-control"
+                    formControlName="giroDate"
+                    type="text"
+                    appDateInput
+                    disabled
+                  />
+                  <div class="datetime-input-append">
+                    <button (click)="giroDate.open()" class="btn-calendar-icon" type="button">
+                      <img src="assets/images/icon/calendar.svg" width="12px" />
+                      <mat-datepicker #giroDate disabled="false"></mat-datepicker>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-primary">
+          <div class="panel-heading pointer">
+            <h3 class="panel-head">
+              Inhouse Format
+            </h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> จำนวนวันที่มีผล </label>
+              </div>
+              <div class="col-md-3">
+                <input
+                  [ngClass]="{ active: generateFileForm.controls.inhouseAmountDay.value }"
+                  appNumberOnly
+                  class="form-control text-right"
+                  formControlName="inhouseAmountDay"
+                  maxLength="2"
+                  type="text"
+                  (change)="onChangeDate('inhouseAmountDay', 'inhouseDate')"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> วันที่จ่าย/โอนเงิน </label>
+              </div>
+              <div class="col-md-3">
+                <div class="input-group datetime-input">
+                  <input
+                    [ngClass]="{ active: generateFileForm.controls.inhouseDate.value }"
+                    [matDatepicker]="inhouseDate"
+                    [min]="generateFileForm.controls.inhouseDate.value"
+                    [max]="generateFileForm.controls.inhouseDate.value"
+                    class="form-control"
+                    formControlName="inhouseDate"
+                    type="text"
+                    appDateInput
+                    disabled
+                  />
+                  <div class="datetime-input-append">
+                    <button (click)="inhouseDate.open()" class="btn-calendar-icon" type="button">
+                      <img src="assets/images/icon/calendar.svg" width="12px" />
+                      <mat-datepicker #inhouseDate disabled="false"></mat-datepicker>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" [hidden]="!isReadonly">
+          <div class="col-12">
+            <mat-checkbox formControlName="createAgain" (change)="changeCreateFileAgain()">
+              สร้างไฟล์อีกครั้ง
+            </mat-checkbox>
+          </div>
+          <!--          <div class="col-12">-->
+          <!--            <mat-checkbox-->
+          <!--              [hidden]="!generateFileForm.controls.createAgain.value"-->
+          <!--              formControlName="testRun"-->
+          <!--            >-->
+          <!--              Test Regen-->
+          <!--            </mat-checkbox>-->
+          <!--          </div>-->
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <mat-checkbox formControlName="testRun">
+              Test Run
+            </mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,149 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane">
+    <b>แสดงข้อเสนอการชำระเงิน</b>
+  </h1>
+</div>
+
+<div mat-dialog-content>
+  <div *ngIf="data.paymentAlias != null" class="content-box">
+    <div class="content-item">
+      <div class="content-detail mb-4">
+        <div class="row">
+          <div class="col-12 col-md-2">
+            <label class="text-black input-head">ประมวลผลบน :</label>
+          </div>
+          <div class="col-12 col-md-3">
+            <input
+              [value]="data.paymentAlias.paymentDate | thaidate"
+              class="form-control"
+              readonly
+              type="text"
+            />
+          </div>
+          <div class="col-12 col-md-3">
+            <input
+              [value]="data.paymentAlias.paymentName"
+              class="form-control"
+              readonly
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-primary">
+      <div class="panel-heading pointer">
+        <h3>การชำระ</h3>
+      </div>
+      <div class="row">
+        <div class="col-12 example-item">
+          <table [dataSource]="dataSource" mat-table matSort>
+            <ng-container matColumnDef="proposalBlock">
+              <th *matHeaderCellDef class="info" mat-header-cell>Block</th>
+              <td *matCellDef="let element" mat-cell>
+                <mat-checkbox
+                  (change)="$event ? selectionApprove.toggle(element) : null"
+                  (click)="onClickCheckedDocument($event, 'approve', element)"
+                  [aria-label]="checkboxLabelApproved(element)"
+                  [checked]="selectionApprove.isSelected(element)"
+                  [disabled]="element.proposalBlock"
+                >
+                </mat-checkbox>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="invoiceDocumentNo">
+              <th *matHeaderCellDef class="info" mat-header-cell>เลขที่เอกสาร</th>
+              <td *matCellDef="let element" mat-cell>
+                {{ element.invoiceDocumentNo }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="invoiceAmountPaid">
+              <th *matHeaderCellDef class="info" mat-header-cell>จำนวนเงิน</th>
+              <td *matCellDef="let element" mat-cell>
+                {{ element.invoiceAmountPaid | bigdecimal }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="companyCode">
+              <th *matHeaderCellDef class="info" mat-header-cell>รหัสบริษัท</th>
+              <td *matCellDef="let element" mat-cell>
+                {{ element.companyCode }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="currency">
+              <th *matHeaderCellDef class="info" mat-header-cell>สกุลเงิน</th>
+              <td *matCellDef="let element" mat-cell>
+                {{ element.currency }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="payingBankCode">
+              <th *matHeaderCellDef class="info" mat-header-cell>รหัสบัญชี</th>
+              <td *matCellDef="let element" mat-cell>
+                {{ element.payingBankCode }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="payingHouseBank">
+              <th *matHeaderCellDef class="info" mat-header-cell>ธนาคารตัวแทน</th>
+              <td *matCellDef="let element" mat-cell>
+                {{ element.payingHouseBank }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="paymentMethod">
+              <th *matHeaderCellDef class="info" mat-header-cell>วิธีชำระเงิน</th>
+              <td *matCellDef="let element" mat-cell>
+                {{ element.paymentMethod }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="vendorCode">
+              <th *matHeaderCellDef class="info" mat-header-cell>ผู้ขาย</th>
+              <td *matCellDef="let element" mat-cell>
+                {{ element.vendorCode }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+              <th *matHeaderCellDef class="info" mat-header-cell>สถานะ</th>
+              <td *matCellDef="let element" mat-cell>
+                <p *ngIf="element.proposalBlock">บล็อก</p>
+                <p *ngIf="!element.proposalBlock">ปกติ</p>
+              </td>
+            </ng-container>
+
+            <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+            <tr
+              (click)="row.highlighted = !row.highlighted"
+              (mouseout)="row.hovered = false"
+              (mouseover)="row.hovered = true"
+              *matRowDef="let row; columns: displayedColumns"
+              [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+              mat-row
+            ></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <ul class="warning-box">
+      <li *ngFor="let c of listValidate">{{ c }}</li>
+    </ul>
+    <div class="row mx-auto mt-3 border-t-black">
+      <div class="mx-auto d-flex">
+        <button (click)="selectAllApproved()" class="btn-light" type="button">
+          บล็อก ทุกรายการ
+        </button>
+        <button (click)="unselectAllApproved()" class="btn-light" type="button">
+          ยกเลิก บล็อก ทุกรายการ
+        </button>
+      </div>
+    </div>
+    <div class="row mx-auto mt-3 border-t-black">
+      <div class="mx-auto d-flex">
+        <button (click)="onSave()" class="btn-light" type="button">ยืนยัน</button>
+      </div>
+    </div>
+  </div>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+</div>

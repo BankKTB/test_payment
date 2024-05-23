@@ -1,0 +1,192 @@
+<div class="content-menu-top">
+  <app-head-content></app-head-content>
+  <div class="topic">
+    <h4>โปรแกรมการเลือกเอกสารเพื่อ Run payment</h4>
+  </div>
+</div>
+<div class="body">
+  <div class="container-fluid">
+    <form [formGroup]="selectForm" [ngClass]="{ 'submited-form': isSubmitedForm }">
+      <div class="row font-filter">
+        <div class="col-md-3 col-left">
+          <h3 class="text-underline-blue">ปีบัญชี</h3>
+          <div class="input-group">
+            <input
+              class="form-control"
+              formControlName="fiscalYear"
+              maxLength="4"
+              type="text"
+              name="fiscalYear"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <h3 class="text-underline-red">การกำหนด</h3>
+          <div class="input-group">
+            <input
+              class="form-control"
+              formControlName="defineName"
+              maxLength="18"
+              type="text"
+              name="defineName"
+            />
+          </div>
+        </div>
+        <div class="col-md-3 forclear-parameter">
+          <span>เคลียร์ พารามิเตอร์ : </span>&nbsp;
+          <span class="fill-remaining-space">
+            <button (click)="clearInput()" class="btn_menu1 btn-refresh" mat-icon-button>
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </span>
+        </div>
+      </div>
+      <mat-card>
+        <mat-card-content>
+          <div class="panel panel-primary">
+            <div class="panel-heading pointer">
+              <h3>
+                เลือกเอกสาร
+              </h3>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-12 col-md-12">
+                  <button
+                    (click)="addInputVendor()"
+                    class="btn btn-default float-right"
+                    type="button"
+                  >
+                    เพิ่มฟิลด์
+                  </button>
+                </div>
+              </div>
+              <div
+                *ngFor="let item of groupDocumentList; let i = index"
+                class="row mb-5 d-flex align-items-center"
+              >
+                <div class="col-12 col-md-1">
+                  <label class="input-head text-underline-red">หน่วยงาน </label>
+                </div>
+                <div class="col-12 col-md-2">
+                  <div class="input-group">
+                    <input
+                      #companyCode
+                      (blur)="setData(i)"
+                      [ngClass]="{
+                        active: item.companyCode,
+                        'error-input': isErrorGroupDocumentInputCompCode(item, i)
+                      }"
+                      (input)="copyFromExcel($event, i, 'companyCode', 5)"
+                      [value]="item.companyCode"
+                      appUpperCase
+                      class="form-control"
+                      maxLength="5"
+                      type="text"
+                    />
+                    <div class="input-group-append button-group-search">
+                    <button
+                      (click)="openDialogSearchCompanyCode(i, 'companyCode')"
+                      class="btn btn-default"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/fa-search.svg" width="12px" />
+                    </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-2 text-left text-md-center">
+                  <label class="input-head text-underline-red">เลขที่เอกสาร </label>
+                </div>
+                <div class="col-12 col-md-3">
+                  <ng-container *ngFor="let data of item.list">
+                    <span *ngIf="data.optionExclude" class="badge badge-include">Not include</span>
+                  </ng-container>
+
+                  <div class="input-group">
+                    <!--                      'error-input': checkDocument,-->
+                    <input
+                      #from
+                      (blur)="setData(i)"
+                      [ngClass]="{
+                        active: item.list[0].from,
+                        'error-input': isErrorGroupDocumentInputDocument(item)
+                      }"
+                      (input)="copyFromExcel($event, i, 'from', 10)"
+                      [value]="item.list[0].from"
+                      appUpperCase
+                      class="form-control"
+                      maxLength="10"
+                      type="text"
+                    />
+                    <div class="input-group-append">
+                    <button
+                      (click)="openDialogMultipleSelectDocument(i)"
+                      class="btn btn-default"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/menu.svg" width="12px" />
+                    </button>
+                    </div>
+                  </div>
+                </div>
+                <label class="input-head pt-15">ถึง </label>
+                <div class="col-12 col-md-3">
+                  <div class="input-group mr-2">
+                    <input
+                      #to
+                      (blur)="setData(i)"
+                      [ngClass]="{ active: item.list[0].to }"
+                      (input)="copyFromExcel($event, i, 'from', 10)"
+                      [value]="item.list[0].to"
+                      appUpperCase
+                      class="form-control"
+                      maxLength="10"
+                      type="text"
+                    />
+                    <div class="input-group-append">
+                    <button
+                      (click)="openDialogMultipleSelectDocument(i)"
+                      class="btn btn-default"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/menu.svg" width="12px" />
+                    </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex-center">
+                  <!--                  <div class="input-group mr-2">-->
+                  <!--                    <mat-checkbox-->
+                  <!--                      #optionExclude-->
+                  <!--                      (change)="setOptionInclude(i)"-->
+                  <!--                      [checked]="item.optionExclude"-->
+                  <!--                      >ไม่รวมค่า-->
+                  <!--                    </mat-checkbox>-->
+                  <!--                  </div>-->
+                  <button
+                    (click)="deleteInputVendor(i)"
+                    class="btn btn-danger btn-close btn-with-icon"
+                    type="button"
+                  >
+                    <i class="material-icons">clear</i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mx-auto mt-3 border-t-black mb-2">
+            <div class="mx-auto d-flex">
+              <button (click)="onPreview()" class="btn-light" type="button">ยืนยัน</button>
+              <!--              <button (click)="onPreview()" class="btn-light" type="button">preview</button>-->
+            </div>
+          </div>
+          <ul class="warning-box">
+            <li *ngFor="let c of listValidate">{{ c }}</li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    </form>
+  </div>
+</div>

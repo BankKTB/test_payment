@@ -1,0 +1,361 @@
+@import "../variables.scss";
+
+/* Payment-Page Add Class*/
+.tabbody {
+  padding-top: 15px;
+}
+
+.para-textarea {
+  height: 230px;
+  border: 0px solid $color-black;
+}
+
+/* Margin & Padding Add Class*/
+.pt-15 {
+  @media screen and (max-width: $break-ipad) {
+    padding: 0 15px;
+  }
+}
+
+.pt-20 {
+  padding: 20px;
+}
+
+.pr-min20 {
+  padding-right: -20px;
+}
+
+.margin-tb-size {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.col-title-md {
+  -ms-flex: 0 0 110px;
+  flex: 0 0 110px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.col-title-sm {
+  -ms-flex: 0 0 70px;
+  flex: 0 0 70px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* Height Add Class*/
+.max-h-400 {
+  max-height: 400px
+}
+
+.min-h-100 {
+  min-height: 100px
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+
+/* BG Add Class*/
+.headmenu {
+  background: $color-bright-green;
+  color: #fff;
+  padding: 10px;
+}
+
+.submenu {
+  color: $color-black;
+  padding: 10px;
+  border-bottom: 3px solid $color-blue-green;
+}
+
+.submenu-title {
+  padding: 10px;
+  border-bottom: 2px solid $color-blue-green;
+  font-size: 16px;
+  font-family: 'SarabunSemiBold', sans-serif;
+  color: $color-black;
+  margin-bottom: 10px;
+}
+
+.active-list-item {
+  background-color: #fffae6 !important;
+}
+
+.bg-secondcolor {
+   background-color: $color-light-blue;
+ }
+
+.bg-payment {
+  background-color: $color-lime-green;
+}
+
+.bg-menu-2 {
+  background-color: $color-primary;
+}
+
+.bg-topic-1 {
+  background-color: $color-primary;
+}
+
+.bg-yellow-light {
+  background-color: $color-yellow-light;
+}
+
+.bg-light-blue {
+  background-color: $color-light-blue;
+}
+
+.bg-content-search {
+  background-color: $color-light-purple;
+  margin: -5px;
+  padding: 5px;
+}
+
+.link {
+  cursor: pointer;
+
+  &:hover {
+    color: $color-primary;;
+  }
+}
+
+//From om//
+.flex-1 {
+  flex: 1;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.col-left {
+  text-align: left;
+}
+
+.col-right {
+  text-align: right;
+}
+
+.col-center {
+  text-align: center;
+}
+
+.d-flex-center {
+  display: flex;
+  align-items: center;
+}
+
+.border-t-black {
+  border-top: 1px solid #e6e6e6;
+}
+
+//Example//
+.example-container {
+  width: 100%;
+  height: 100%;
+}
+
+.example-viewport {
+  height: 400px;
+  border: 0px solid $color-black;
+}
+
+//Table - Width//
+.mat-column-choose {
+  min-width: 90px;
+}
+
+.mat-column-info {
+  min-width: 90px !important;
+}
+
+.mat-column-diff {
+  min-width: 50px !important;
+}
+
+.mat-column-referenceNo {
+  min-width: 90px !important;
+}
+
+.mat-column-referenceText {
+  min-width: 150px !important;
+}
+
+.mat-column-dateDoc {
+  min-width: 90px !important;
+}
+
+.mat-column-datePost {
+  min-width: 90px !important;
+}
+
+.mat-column-approve {
+  //flex: 0 0 25% !important;
+  min-width: 74px !important;
+}
+
+.mat-column-notapprove {
+  //flex: 0 0 25% !important;
+  min-width: 90px !important;
+}
+
+.mat-column-accDocNo {
+  min-width: 150px;
+}
+
+.mat-column-dateDoc {
+  min-width: 150px !important;
+}
+
+.mat-column-datePost {
+  min-width: 150px !important;
+}
+
+.mat-column-Mtext {
+  min-width: 450px !important;
+}
+
+.mat-column-fiscYear {
+  min-width: 150px !important;
+}
+
+.mat-column-test1 {
+  min-width: 90px !important;
+}
+
+.mat-column-test2 {
+  min-width: 85px !important;
+}
+
+.mat-column-test3 {
+  min-width: 90px !important;
+}
+
+.mat-column-test4 {
+  min-width: 85px !important;
+}
+
+.mat-column-test6 {
+  min-width: 130px !important;
+}
+
+.mat-column-test9 {
+  min-width: 85px !important;
+}
+
+.mat-column-test10 {
+  min-width: 95px !important;
+}
+
+.mat-column-test11 {
+  min-width: 150px !important;
+}
+
+.mat-column-test12 {
+  min-width: 95px !important;
+}
+
+.mat-column-test15 {
+  min-width: 95px !important;
+}
+
+.mat-column-test18 {
+  min-width: 95px !important;
+}
+
+.mat-column-test19 {
+  min-width: 95px !important;
+}
+
+.mat-column-test20 {
+  min-width: 95px !important;
+}
+
+.mat-column-test21 {
+  min-width: 95px !important;
+}
+
+.mat-column-test23 {
+  min-width: 150px !important;
+}
+
+.mat-column-test24 {
+  min-width: 150px !important;
+}
+
+.mat-column-test25 {
+  min-width: 120px !important;
+}
+
+.mat-column-test26 {
+  min-width: 170px !important;
+}
+
+.mat-column-test27 {
+  min-width: 160px !important;
+}
+
+.mat-column-test28 {
+  min-width: 120px !important;
+}
+
+.mat-column-test29 {
+  min-width: 120px !important;
+}
+
+.mat-column-test30 {
+  min-width: 120px !important;
+}
+
+.mat-column-test33 {
+  min-width: 120px !important;
+}
+
+.mat-column-test34 {
+  min-width: 120px !important;
+}
+
+.mat-column-test35 {
+  min-width: 120px !important;
+}
+
+.mat-column-test36 {
+  min-width: 120px !important;
+}
+
+.mat-column-test37 {
+  min-width: 150px !important;
+}
+
+.mat-column-test38 {
+  min-width: 150px !important;
+}
+
+.mat-column-test39 {
+  min-width: 150px !important;
+}
+
+.mat-column-test40 {
+  min-width: 120px !important;
+}
+
+.mat-column-test41 {
+  min-width: 120px !important;
+}
+
+.mat-column-test42 {
+  min-width: 120px !important;
+}
+
+.mat-column-test43 {
+  min-width: 120px !important;
+}
+
+.white-space-pre {
+  white-space: pre;
+  text-indent: -0.25em;
+}
+

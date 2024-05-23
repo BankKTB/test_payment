@@ -1,0 +1,158 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane"><b>รายละเอียดเอกสาร</b></h1>
+</div>
+<div mat-dialog-content>
+  <div *ngIf="header != null" class="content-box">
+    <div class="content-item">
+      <div class="content-detail mb-4">
+        <div class="row">
+          <div class="col-12 col-md-2">
+            <label class="text-black input-head">เลขที่เอกสาร :</label>
+          </div>
+          <div class="col-12 col-md-2">
+            <p class="c-blue">{{ header.accDocNo }}</p>
+          </div>
+          <div class="col-12 col-md-2">
+            <label class="text-black input-head">รหัสบริษัท :</label>
+          </div>
+          <div class="col-12 col-md-2">
+            <p class="c-blue">{{ header.compCode }}</p>
+          </div>
+          <div class="col-12 col-md-2"><label class="text-black input-head">ปีบัญชี :</label></div>
+          <div class="col-12 col-md-2">
+            <p class="c-blue">{{ header.fiscalYear }}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-2">
+            <label class="text-black input-head">วันที่เอกสาร:</label>
+          </div>
+          <div class="col-12 col-md-2">
+            <p class="c-blue">{{ header.dateDoc | thaidate }}</p>
+          </div>
+          <div class="col-12 col-md-2">
+            <label class="text-black input-head">วันผ่านรายการ :</label>
+          </div>
+          <div class="col-12 col-md-2">
+            <p class="c-blue">{{ header.dateAcct | thaidate }}</p>
+          </div>
+          <div class="col-12 col-md-2">
+            <label class="text-black input-head">งวดผ่านรายการ :</label>
+          </div>
+          <div class="col-12 col-md-2">
+            <p class="c-blue">{{ header.period }}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-2">
+            <label class="text-black input-head">เอกสารอ้างอิง :</label>
+          </div>
+          <div class="col-12 col-md-2">
+            <p class="c-blue">{{ header.headerReference }}</p>
+          </div>
+          <div class="col-12 col-md-2">
+            <label class="text-black input-head">สกุลเงินในเอกสาร : </label>
+          </div>
+          <div class="col-12 col-md-2">
+            <p class="c-blue">{{ header.currency }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4" class="long-data-table">
+      <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
+        <ng-container matColumnDef="list">
+          <th *matHeaderCellDef class="info" mat-header-cell>รายการ</th>
+          <td *matCellDef="let element; let i = index" mat-cell>
+            {{ i + 1 }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="postingKey">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>คีย์ผ่านรายการ</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.postingKey }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="glAccount">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>รหัสบัญชีแยกประเภท</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.glAccount }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="lineDescription">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>รายละเอียดรายการ</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.lineDescription }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>จำนวนเงิน</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.amount | bigdecimal }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="costCenter">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ศูนย์ต้นทุน</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.costCenter }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentCenter">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>หน่วยเบิกจ่าย</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.paymentCenter }}
+          </td>
+        </ng-container>
+        <!--        <ng-container matColumnDef="lineDescription1">-->
+        <!--          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header> วันที่</th>-->
+        <!--          <td *matCellDef="let element" mat-cell>-->
+        <!--            {{element.lineDescription}}-->
+        <!--          </td>-->
+        <!--        </ng-container>-->
+        <!--        <ng-container matColumnDef="lineDescription2">-->
+        <!--          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header> Tr.Prt</th>-->
+        <!--          <td *matCellDef="let element" mat-cell>-->
+        <!--            {{element.lineDescription}}-->
+        <!--          </td>-->
+        <!--        </ng-container>-->
+        <ng-container matColumnDef="reference1">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>อ้างอิง1</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.reference1 }}
+          </td>
+        </ng-container>
+        <!--        <ng-container matColumnDef="lineDescription4">-->
+        <!--          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header> Ref.ke</th>-->
+        <!--          <td *matCellDef="let element" mat-cell>-->
+        <!--            {{element.lineDescription}}-->
+        <!--          </td>-->
+        <!--        </ng-container>-->
+        <!--        <ng-container matColumnDef="lineDescription5">-->
+        <!--          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header> คีย์การอ</th>-->
+        <!--          <td *matCellDef="let element" mat-cell>-->
+        <!--            {{element.lineDescription}}-->
+        <!--          </td>-->
+        <!--        </ng-container>-->
+
+        <tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+        <tr
+          (click)="row.highlighted = !row.highlighted"
+          (mouseout)="row.hovered = false"
+          (mouseover)="row.hovered = true"
+          *matRowDef="let row; columns: getDisplayedColumns()"
+          [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+          mat-row
+        ></tr>
+      </table>
+    </div>
+    <div class="row mx-auto mt-3 border-t-black">
+      <div class="mx-auto d-flex">
+        <button (click)="openDialogDetailDocumentColumnTable()" class="btn-light" type="button">
+          table
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

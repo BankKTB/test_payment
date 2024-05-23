@@ -1,0 +1,66 @@
+<div mat-dialog-title>
+  <button (click)="clickCancel()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane"><b>ตั้งเวลา</b></h1>
+</div>
+<div mat-dialog-content>
+  <form (keydown.enter)="$event.preventDefault()" [formGroup]="runProposalForm">
+    <div class="row margin-tb-size">
+      <div class="col-md-12 text-left">
+        <label class="text-black input-head">วันที่ประมวลผล</label>
+      </div>
+      <div class="col-md-12">
+        <div class="input-group datetime-input">
+          <div class="box-instead-input">
+            <input
+              [matDatepickerFilter]="minFilter"
+              [matDatepicker]="dateRunPicker"
+              [ngClass]="{ active: runProposalForm.controls.dateRun.value }"
+              class="form-control"
+              formControlName="dateRun"
+              type="text"
+              appDateInput
+            />
+          </div>
+          <div class="datetime-input-append">
+            <button (click)="dateRunPicker.open()" class="btn-calendar-icon" type="button">
+              <img src="assets/images/icon/calendar.svg" width="12px" />
+              <mat-datepicker #dateRunPicker></mat-datepicker>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row margin-tb-size">
+      <div class="col-md-12 text-left">
+        <label class="text-black input-head">เวลาประมวลผล</label>
+      </div>
+      <div class="col-md-12">
+        <kendo-timepicker [format]="'HH:mm'" formControlName="timeRun"></kendo-timepicker>
+      </div>
+    </div>
+
+    <div class="row margin-tb-size" style="padding-top: 10px;">
+      <div class="col-md-12" style="padding-bottom: 10px;">
+        <mat-checkbox formControlName="adjustNow">
+          รันตอนนี้
+        </mat-checkbox>
+      </div>
+    </div>
+    <div class="pl-3" *ngIf="listValidate.length > 0">
+      <h3 *ngFor="let item of listValidate" class="text-red">{{ item }}</h3>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-md-6">
+        <button (click)="clickSave()" class="btn btn-success" style="width: 100%;" type="button">
+          <i class="material-icons">done</i>
+        </button>
+      </div>
+      <div class="col-md-6">
+        <button (click)="clickCancel()" class="btn btn-danger" style="width: 100%;" type="button">
+          <i class="material-icons">clear</i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

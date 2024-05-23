@@ -1,0 +1,185 @@
+<div class="content-menu-top">
+  <app-head-content></app-head-content>
+  <div class="topic">
+    <h4>กลับรายการเอกสารตั้งเบิก</h4>
+  </div>
+</div>
+<div class="body">
+  <div class="container-fluid">
+    <mat-card>
+      <mat-card-content>
+        <div class="template-btn text-right mb-2">
+          <button class="text-white" type="button">
+            <div class="d-flex-center">
+              <i class="material-icons mr-2">file_download</i>
+              <a
+                download
+                href="../../../assets/spreadsheet/payment/template-กลับรายการ.xlsx"
+                class="text-black"
+              >
+                Download template file
+              </a>
+            </div>
+          </button>
+          <button (click)="openDialogUploadFile()" class="text-white" type="button">
+            <div class="d-flex-center">
+              <i class="material-icons mr-2">file_upload</i>
+              Upload file
+            </div>
+          </button>
+        </div>
+        <form [formGroup]="reversePaymentDocForm" [ngClass]="{ 'submited-form': isSubmitedForm }">
+          <div class="panel panel-primary">
+            <div class="panel-body">
+              <!-- ชื่อเอกสาร -->
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-black input-head"> ชื่อเอกสาร </label>
+                </div>
+                <div class="col-md-4">
+                  เอกสารตั้งเบิก
+                </div>
+              </div>
+              <!-- รหัสหน่วยงาน-->
+              <div class="row">
+                <div class="col-md-2">
+                  <label class="text-underline-red input-head"> รหัสหน่วยงาน </label>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group">
+                    <input
+                      class="form-control"
+                      formControlName="departmentCodeFrom"
+                      maxLength="5"
+                      type="text"
+                      (blur)="onBlurSearch('departmentCodeFrom')"
+                    />
+                    <div class="input-group-append button-group-search">
+                      <button
+                        (click)="openDialogSearchMaster('departmentCodeFrom')"
+                        class="btn btn-default"
+                        type="button"
+                      >
+                        <img src="assets/images/icon/fa-search.svg" width="12px" />
+                      </button>
+                    </div>
+                  </div>
+                  {{ departmentCodeFromBindingName }}
+                </div>
+              </div>
+              <!-- เลขที่ใบขอกลับรายการ && ปีงบประมาณ -->
+              <div class="row">
+                <!-- เลขที่ใบขอกลับรายการ -->
+                <div class="col-md-2">
+                  <label class="text-underline-red input-head"> เลขที่ใบขอกลับรายการ </label>
+                </div>
+                <div class="col-md-4">
+                  <input
+                    class="form-control"
+                    formControlName="documentNo"
+                    maxLength="10"
+                    type="text"
+                    (blur)="searchDetailDocument()"
+                  />
+                </div>
+                <!-- ปีงบประมาณ -->
+                <div class="col-md-2">
+                  <label class="text-underline-blue input-head"> ปีงบประมาณ </label>
+                </div>
+                <div class="col-md-2">
+                  <input
+                    class="form-control"
+                    formControlName="fiscalYear"
+                    maxLength="4"
+                    type="text"
+                    (blur)="searchDetailDocument()"
+                  />
+                </div>
+                <div class="col-md-2">
+                  <button class="btn-light w-100" (click)="openDetailFi()">แสดงเอกสาร</button>
+                </div>
+              </div>
+              <!-- เหตุผลการกลับรายการ && วันที่ผ่านรายการ -->
+              <div class="row">
+                <!-- เหตุผลการกลับรายการ -->
+                <div class="col-md-2">
+                  <label class="text-underline-red input-head"> เหตุผลการกลับรายการ </label>
+                </div>
+                <div class="col-md-4">
+                  <select
+                    class="form-control"
+                    formControlName="reasonReverse"
+                    (ngModelChange)="onChangeReason($event)"
+                  >
+                    <option
+                      *ngFor="let item of constant.LIST_REASON_BACK_LIST"
+                      [ngValue]="item.id"
+                      >{{ item.name }}</option
+                    >
+                  </select>
+                </div>
+                <!-- วันที่ผ่านรายการ -->
+                <div class="col-md-2">
+                  <label class="text-underline-blue input-head"> วันผ่านรายการ </label>
+                </div>
+                <div class="col-md-4">
+                  <div class="input-group datetime-input">
+                    <input
+                      (dateChange)="onChangePostDate($event)"
+                      [matDatepicker]="dateAcctPicker"
+                      class="form-control"
+                      formControlName="dateAcct"
+                      type="text"
+                      appDateInput
+                    />
+                    <div class="datetime-input-append">
+                      <button
+                        (click)="dateAcctPicker.open()"
+                        class="btn-calendar-icon"
+                        type="button"
+                      >
+                        <img src="assets/images/icon/calendar.svg" width="12px" />
+                        <mat-datepicker #dateAcctPicker></mat-datepicker>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <!-- เหตุผลการกลับรายการ -->
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-12 col-md-2"><label> งวด </label></div>
+                <div class="col-md-3">
+                  <input
+                    *ngIf="utils.fiscPeriod.length === 1"
+                    class="input-none-border"
+                    formControlName="fiscPeriod"
+                    name="fiscPeriod"
+                    type="text"
+                    readonly
+                  />
+                  <select *ngIf="utils.fiscPeriod.length > 1" class="form-control" formControlName="fiscPeriod"
+                          name="fiscPeriod">
+                    <option *ngFor="let item of utils.fiscPeriod" [ngValue]="item">{{ item }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mx-auto mt-3 mb-2">
+            <div class="mx-auto d-flex">
+              <button (click)="onPreSave()" class="btn-light" type="button">กลับรายการ</button>
+            </div>
+          </div>
+        </form>
+        <ul class="warning-box">
+          <li *ngFor="let c of listValidate">{{ c }}</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

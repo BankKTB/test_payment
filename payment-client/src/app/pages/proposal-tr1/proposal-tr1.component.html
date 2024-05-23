@@ -1,0 +1,236 @@
+<div class="content-menu-top">
+  <app-head-content></app-head-content>
+  <div class="topic">
+    <h4>PROPLOG_TR1 - สรุปยอดรายจ่ายรวมจาก TR1</h4>
+  </div>
+</div>
+<div class="body">
+  <div class="container-fluid">
+    <form [formGroup]="formGroup" [hidden]="!isSearch">
+      <!--     Period-->
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-red input-head"> Period </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control" formControlName="period" type="text" />
+        </div>
+      </div>
+      <!--     Year-->
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-red input-head"> ปีบัญชี </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control" formControlName="fiscalYear" type="text" />
+        </div>
+      </div>
+      <!--      Ref number index-->
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-green input-head"> Ref number index </label>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group">
+            <input class="form-control" formControlName="refNumberFrom" type="text" />
+            <span
+              (click)="openDialogDateParameter('refNumber')"
+              class="clear-input-icon not-search"
+            >
+              <img src="assets/images/icon/menu.svg" width="12px" />
+            </span>
+          </div>
+        </div>
+        <label class="input-head pt-15">ถึง </label>
+        <div class="col-12 col-md-4">
+          <input class="form-control" formControlName="refNumberTo" type="text" />
+        </div>
+      </div>
+      <!--      วันที่ประมวลผล-->
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-green input-head"> วันที่ประมวลผล </label>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group datetime-input">
+            <input
+              [matDatepicker]="paymentDateFrom"
+              class="form-control"
+              formControlName="paymentDateFrom"
+              type="text"
+              appDateInput
+            />
+            <span (click)="openDialogDateParameter('paymentDate')" class="clear-input-icon">
+              <img src="assets/images/icon/menu.svg" width="12px" />
+            </span>
+            <div class="datetime-input-append">
+              <button (click)="paymentDateFrom.open()" class="btn-calendar-icon" type="button">
+                <img src="assets/images/icon/calendar.svg" width="12px" />
+                <mat-datepicker #paymentDateFrom></mat-datepicker>
+              </button>
+            </div>
+          </div>
+        </div>
+        <label class="input-head pt-15">ถึง </label>
+        <div class="col-12 col-md-4">
+          <div class="input-group datetime-input">
+            <input
+              [matDatepicker]="paymentDateTo"
+              class="form-control"
+              formControlName="paymentDateTo"
+              type="text"
+              appDateInput
+            />
+            <div class="datetime-input-append">
+              <button (click)="paymentDateTo.open()" class="btn-calendar-icon" type="button">
+                <img src="assets/images/icon/calendar.svg" width="12px" />
+                <mat-datepicker #paymentDateTo></mat-datepicker>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--      การกำหนด-->
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-green input-head"> การกำหนด </label>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group">
+            <input
+              appUpperCaseDirective
+              [ngClass]="{ active: formGroup.controls.paymentNameFrom.value }"
+              class="form-control"
+              formControlName="paymentNameFrom"
+              type="text"
+            />
+            <span
+              (click)="openDialogDateParameter('paymentName')"
+              class="clear-input-icon not-search"
+            >
+              <img src="assets/images/icon/menu.svg" width="12px" />
+            </span>
+          </div>
+        </div>
+        <label class="input-head pt-15">ถึง </label>
+        <div class="col-12 col-md-4">
+          <input
+            appUpperCaseDirective
+            [ngClass]="{ active: formGroup.controls.paymentNameTo.value }"
+            class="form-control"
+            formControlName="paymentNameTo"
+            type="text"
+          />
+        </div>
+      </div>
+      <!--      Update Table PROPOSAL_LOG_TR1 ? -->
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <mat-checkbox formControlName="updateTablePropLogTr1">
+            Update Table PROPOSAL_LOG_TR1 ?
+          </mat-checkbox>
+        </div>
+      </div>
+
+      <div class="row mx-auto mt-3 border-t-black mb-2">
+        <div class="mx-auto d-flex">
+          <button (click)="onSearch()" class="btn-light" type="button">ค้นหา</button>
+        </div>
+      </div>
+      <ul class="warning-box">
+        <li *ngFor="let c of listValidate">{{ c }}</li>
+      </ul>
+    </form>
+    <div [hidden]="isSearch">
+      <button (click)="back()" type="button" class="btn-light">กลับ</button>
+      <table class="table-tr1">
+        <thead>
+          <th>RefIndex</th>
+          <th>mm</th>
+          <th>YYYY</th>
+          <th>วันที่สั่งโอน</th>
+          <th></th>
+          <th>หน่วยงาน</th>
+          <th>หน่วยงาน</th>
+          <th>แหล่งของเงิน</th>
+          <th>หน่วยรับงบ</th>
+          <th>จำนวนเงิน</th>
+          <th>การกำหนด</th>
+          <th>วันที่รัน</th>
+          <th>รหัสผู้ขาย</th>
+          <th>Ref LIne</th>
+          <th>เลขที่เอกสาร</th>
+          <th>ปีบัญชี</th>
+          <th>เลขที่เอกสาร</th>
+          <th>ปีบัญชี</th>
+          <th>ประเภทเอกสาร</th>
+          <th>บัญชีแยกประเภท</th>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let item of result; let i = index">
+            <tr *ngIf="item.rowLevel === 'LEVEL1'" style="background-color: #f5cba7;">
+              <td>{{ item.refRunning }}</td>
+              <td>{{ item.periodNo }}</td>
+              <td></td>
+              <td>{{ item.transferDate | datePattern: 'full' }}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="text-right">{{ item.amount | bigdecimal }}</td>
+              <td>{{ item.paymentName }}</td>
+              <td>{{ item.paymentDate | datePattern: 'full' }}</td>
+              <td>{{ item.vendor }}</td>
+              <td>{{ item.refLine }}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr *ngIf="item.rowLevel === 'LEVEL3'">
+              <td class="text-right">{{ item.refRunning }}</td>
+              <td>{{ item.periodNo }}</td>
+              <td>{{ item.year }}</td>
+              <td>{{ item.transferDate | datePattern: 'full' }}</td>
+              <td>{{ item.flag }}</td>
+              <td>{{ item.originalCompCode }}</td>
+              <td>{{ item.invoiceCompCode }}</td>
+              <td>{{ item.fundSource }}</td>
+              <td>{{ item.fundCenter }}</td>
+              <td class="text-right">{{ item.amount | bigdecimal }}</td>
+              <td>{{ item.paymentName }}</td>
+              <td>{{ item.paymentDate | datePattern: 'full' }}</td>
+              <td>{{ item.vendor }}</td>
+              <td>{{ item.refLine }}</td>
+              <td>{{ item.originalDocNo }}</td>
+              <td>{{ item.originalFiscalYear }}</td>
+              <td>{{ item.paymentDocument }}</td>
+              <td>{{ item.paymentFiscalYear }}</td>
+              <td>{{ item.docType }}</td>
+              <td>{{ item.glAccount }}</td>
+            </tr>
+            <tr
+              *ngIf="item.rowLevel === 'GROUP_SUM'"
+              style="background-color: #fcf3cf; border-bottom: 1px solid #283747;"
+            >
+              <td colspan="9" class="text-right">TOTAL</td>
+              <td class="text-right">{{ findSummaryGroup(item.refRunning) | bigdecimal }}</td>
+              <td colspan="10"></td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+      <mat-paginator
+        [length]="pageOption.rowTotal"
+        (page)="pageChange($event)"
+        [pageSize]="pageOption.size"
+        [pageSizeOptions]="[50, 100, 200, 500]"
+        aria-label="Select page"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>

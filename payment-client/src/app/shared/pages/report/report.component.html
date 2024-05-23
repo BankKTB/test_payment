@@ -1,0 +1,179 @@
+<mat-toolbar class="header-toolbar" color="primary">
+  <h3 class="title">รายงานผลการปลด block เอกสารขอเบิก</h3>
+</mat-toolbar>
+<div class="body">
+  <div class="container-fluid">
+    <div class="panel panel-primary">
+      <div class="panel-heading pointer">
+        <!--(click)="panelExpanded = !panelExpanded"-->
+        <h3>
+          Panel1
+          <!--span class="float-right"><i class="material-icons" *ngIf="!panelExpanded">add</i></!--span>
+          <span class="float-right"><i class="material-icons" *ngIf="panelExpanded">remove</i></span-->
+        </h3>
+      </div>
+      <div *ngIf="panelExpanded" class="panel-body">
+        <div class="row">
+          <div class="col-md-4 col-left margin-tb-size">
+            <div class="input-group input-group-lg">
+              <label class="text-black input-head mr-3">Message</label>
+              <!--              <input [ngClass]="{active: name1}" class="form-control" maxLength="5"-->
+              <!--                     type="text"/>-->
+            </div>
+          </div>
+          <div class="col-md-3"></div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-md-12">
+            <div style="overflow: auto; max-height: 500px;">
+              <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
+                <ng-container matColumnDef="Comp">
+                  <th *matHeaderCellDef class="info" mat-header-cell>Comp</th>
+                  <td *matCellDef="let element" mat-cell>
+                    {{ element.Comp }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="Year">
+                  <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>Year</th>
+                  <td *matCellDef="let element" mat-cell>
+                    {{ element.Year }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="DocNumber">
+                  <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>Doc.number</th>
+                  <td *matCellDef="let element" mat-cell>
+                    {{ element.DocNumber }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Vendor">
+                  <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>Vendor</th>
+                  <td *matCellDef="let element" mat-cell>{{ element.Vendor }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="InvoiceDoc">
+                  <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>InvoiceDoc</th>
+                  <td *matCellDef="let element" mat-cell>{{ element.InvoiceDoc }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Year1">
+                  <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>Year</th>
+                  <td *matCellDef="let element" mat-cell>{{ element.Year1 }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Message">
+                  <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>Message</th>
+                  <td *matCellDef="let element" mat-cell>{{ element.Message }}</td>
+                </ng-container>
+
+                <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+                <tr
+                  (click)="row.highlighted = !row.highlighted"
+                  (mouseout)="row.hovered = false"
+                  (mouseover)="row.hovered = true"
+                  *matRowDef="let row; columns: displayedColumns"
+                  [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                  mat-row
+                ></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <mat-paginator
+        #block1
+        [pageSizeOptions]="[5, 10, 20, 50, 100]"
+        showFirstLastButtons
+      ></mat-paginator>
+      <div *ngIf="panelExpanded" class="panel-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div style="overflow: auto; max-height: 500px;">
+              <table [dataSource]="dataSource1" class="mat-elevation-z8" mat-table matSort>
+                <ng-container matColumnDef="Date">
+                  <th *matHeaderCellDef class="info" mat-header-cell>วันที่</th>
+                  <td *matCellDef="let element" mat-cell>
+                    {{ element.Date | date: 'dd.MM.yyyy' }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="Time">
+                  <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>Year</th>
+                  <td *matCellDef="let element" mat-cell>
+                    {{ element.Time | date: 'h.mm.ss' }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Code">
+                  <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+                    รหัสหน่วยงาน
+                  </th>
+                  <td *matCellDef="let element" mat-cell>
+                    {{ element.Code }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="NoDoc">
+                  <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+                    เลขที่เอกสาร
+                  </th>
+                  <td *matCellDef="let element" mat-cell>{{ element.NoDoc }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Year">
+                  <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ปี</th>
+                  <td *matCellDef="let element" mat-cell>{{ element.Year }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="List">
+                  <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>รายการ</th>
+                  <td *matCellDef="let element" mat-cell>{{ element.List }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="OldList">
+                  <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ค่าเก่า</th>
+                  <td *matCellDef="let element" mat-cell>{{ element.OldList }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="NewList">
+                  <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>ค่าใหม่</th>
+                  <td *matCellDef="let element" mat-cell>{{ element.NewList }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="User">
+                  <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+                    ชื่อผู้ใช้งาน
+                  </th>
+                  <td *matCellDef="let element" mat-cell>{{ element.User }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="SyUser">
+                  <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>
+                    ชื่อผู้ใช้ในระบบ
+                  </th>
+                  <td *matCellDef="let element" mat-cell>{{ element.SyUser }}</td>
+                </ng-container>
+
+                <tr *matHeaderRowDef="displayedColumns1; sticky: true" mat-header-row></tr>
+                <tr
+                  (click)="row.highlighted = !row.highlighted"
+                  (mouseout)="row.hovered = false"
+                  (mouseover)="row.hovered = true"
+                  *matRowDef="let row; columns: displayedColumns1"
+                  [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                  mat-row
+                ></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <mat-paginator
+        #block2
+        [pageSizeOptions]="[5, 10, 20, 50, 100]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</div>

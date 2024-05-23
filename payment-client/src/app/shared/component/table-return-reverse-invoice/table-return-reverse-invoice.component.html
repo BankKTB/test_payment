@@ -1,0 +1,213 @@
+<div [hidden]="currentPageType !== nameComponent">
+  <ng-container>
+    <div class="alv-tool box-button-action">
+      <ng-container>
+        <div>
+          <button
+            (click)="openDialogReportSortColumn()"
+            class="btn btn-icon-white"
+            matTooltip="จัดการโครงร่าง"
+            type="button"
+          >
+            <mat-icon>filter_list</mat-icon>
+            <!-- จัดการโครงร่าง -->
+          </button>
+          <button
+            (click)="openDialogReportFilterColumn()"
+            class="btn btn-icon-white"
+            matTooltip="จัดการเกณฑ์ฟิลเตอร์"
+            type="button"
+          >
+            <mat-icon>filter_alt</mat-icon>
+            <!-- จัดการเกณฑ์ฟิลเตอร์ -->
+          </button>
+          <button
+            (click)="openDialogReportArrangeColumn()"
+            class="btn btn-icon-white"
+            matTooltip="จัดการเกณฑ์ฟิลเตอร์"
+            type="button"
+          >
+            <mat-icon>view_quilt</mat-icon>
+            <!-- จัดการเกณฑ์ฟิลเตอร์ -->
+          </button>
+          <button
+            (click)="openDialogReportDisplayArrangeColumn()"
+            class="btn btn-icon-white"
+            matTooltip="เลือกโครงร่าง"
+            type="button"
+          >
+            <mat-icon>ballot</mat-icon>
+            <!-- เลือกโครงร่าง -->
+          </button>
+          <button
+            (click)="openDialogReportSaveArrangeColumn()"
+            class="btn btn-icon-white"
+            matTooltip="บันทึกโครงร่าง"
+            type="button"
+          >
+            <mat-icon>save_alt</mat-icon>
+            <!-- บันทึกโครงร่าง -->
+          </button>
+          <button
+            (click)="openDialogReportUpdateArrangeColumn()"
+            class="btn btn-icon-white"
+            matTooltip="แก้ไขโครงร่าง"
+            type="button"
+            *ngIf="arrangeId"
+          >
+            <mat-icon>edit</mat-icon>
+            <!-- แก้ไขโครงร่าง -->
+          </button>
+        </div>
+      </ng-container>
+    </div>
+    <div class="row return-description">
+      <div class="col-12 col-md-4 d-flex align-items-center justify-content-center">
+        <span class="status-return-return">เอกสารที่ยังไม่ได้กลับรายการ</span>
+      </div>
+      <div class="col-12 col-md-4 d-flex align-items-center justify-content-center">
+        <span class="status-return-not-assign"
+          >เอกสารที่ผ่านการ Reset เรียบร้อยแล้วแต่ยังไม่กลับรายการ</span
+        >
+      </div>
+    </div>
+    <div class="long-data-table hide-scroll">
+      <table
+        [dataSource]="dataSource"
+        id="excel-table"
+        class="mat-elevation-z8 table-return"
+        mat-table
+      >
+        <ng-container matColumnDef="id">
+          <th *matHeaderCellDef mat-header-cell class="d-none"></th>
+          <td *matCellDef="let element; let i = index" mat-cell class="d-none"></td>
+        </ng-container>
+        <ng-container matColumnDef="isReverseInvoice">
+          <th *matHeaderCellDef mat-header-cell>
+            <mat-checkbox (change)="selectAll()" [checked]="isSelectedAll"></mat-checkbox>
+            เลือก
+          </th>
+          <td *matCellDef="let element; let i = index" mat-cell class="text-center">
+            <mat-checkbox
+              (change)="changeFileStatus(i, element)"
+              [checked]="selectionReversed.isSelected(element)"
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="revInvoiceStatus">
+          <th *matHeaderCellDef mat-header-cell>
+            สถานะ
+          </th>
+          <td *matCellDef="let element" mat-cell class="text-center">
+            <div [ngClass]="checkStatus(element.id)"></div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="reasonCode">
+          <th *matHeaderCellDef mat-header-cell>เหตุผลในการกลับรายการ</th>
+          <td *matCellDef="let element" mat-cell>
+            <input
+              [value]="element.reasonCode"
+              (change)="patchValueReason($event, element)"
+              class="form-control"
+              type="text"
+            />
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="originalCompCode">
+          <th *matHeaderCellDef mat-header-cell>CoCd</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.originalCompCode }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="originalDocumentNo">
+          <th *matHeaderCellDef mat-header-cell>เลขที่เอกสาร</th>
+          <td (click)="viewDocument(element, 'invoice')" *matCellDef="let element" mat-cell>
+            {{ element.originalDocumentNo }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="invoiceLine">
+          <th *matHeaderCellDef mat-header-cell>บรรทัดรายการ</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.invoiceLine }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="originalFiscalYear">
+          <th *matHeaderCellDef mat-header-cell>ปีบัญชี</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.originalFiscalYear | thaiyear }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentDate">
+          <th *matHeaderCellDef mat-header-cell>วันที่ประมวลผล</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.paymentDate | datePattern: 'full' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentName">
+          <th *matHeaderCellDef mat-header-cell>การกำหนด</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.paymentName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="vendor">
+          <th *matHeaderCellDef mat-header-cell>ผู้ขาย</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.vendor }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentCompCode">
+          <th *matHeaderCellDef mat-header-cell>รหัสบริษัทชำระเงิน</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.paymentCompCode }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentDocNo">
+          <th *matHeaderCellDef mat-header-cell>เลขที่เอกสารการชำระเงิน</th>
+          <td (click)="viewDocument(element, 'payment')" *matCellDef="let element" mat-cell>
+            {{ element.paymentDocNo }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentFiscalYear">
+          <th *matHeaderCellDef mat-header-cell>ปีบัญชี</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.paymentFiscalYear | thaiyear }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="transferDate">
+          <th *matHeaderCellDef mat-header-cell>วันที่สั่งโอน</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.transferDate | datePattern: 'full' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fileName">
+          <th *matHeaderCellDef mat-header-cell>ชื่อไฟล์</th>
+          <td *matCellDef="let element" mat-cell>
+            {{ element.fileName }}
+          </td>
+        </ng-container>
+        <tr *matHeaderRowDef="getDisplayedColumns(); sticky: true" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: getDisplayedColumns()" mat-row></tr>
+      </table>
+    </div>
+    <div>
+      <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
+      รายการทั้งหมด {{ dataSource.filteredData.length }} รายการ
+    </div>
+    <ul class="warning-box">
+      <li *ngFor="let c of listValidate">{{ c }}</li>
+    </ul>
+    <div class="mx-auto mt-3 border-t-black mb-2 pt-5">
+      <div class="d-flex justify-content-center">
+        <button (click)="onSubmit()" class="btn-light" type="button">บันทึก</button>
+        <button (click)="onBack()" class="btn-light" type="button">กลับ</button>
+      </div>
+      <div class="d-flex"></div>
+    </div>
+  </ng-container>
+  <ng-template #notFound>
+    <div class="box-not-found">
+      <h3 *ngIf="!this.loaderService.isLoading">ไม่พบเอกสาร</h3>
+    </div>
+  </ng-template>
+</div>

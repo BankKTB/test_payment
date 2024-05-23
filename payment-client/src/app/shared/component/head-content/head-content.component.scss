@@ -1,0 +1,36 @@
+@import "variables.scss";
+
+.detail-user {
+  width: 100%;
+  padding: 8px 200px 8px 10px;
+  background: white;
+  display: flex;
+  word-wrap: anywhere;
+
+  @media screen and (max-width: $break-ipad) {
+    padding: 8px 10px;
+  }
+
+  @media screen and (max-width: $break-small) {
+    display: block;
+  }
+
+  .detail-user-group {
+    display: flex;
+  }
+
+  label {
+    font-family: 'SarabunRegular', "ms Sans Serif" !important;
+    color: $color-black;
+    font-size: 16px;
+    margin-right: 5px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  span {
+    font-family: 'SarabunRegular', "ms Sans Serif" !important;
+    color: $color-primary;
+    font-size: 16px;
+  }
+}

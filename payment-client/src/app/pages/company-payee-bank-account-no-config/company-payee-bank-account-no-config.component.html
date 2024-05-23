@@ -1,0 +1,94 @@
+<ol class="breadcrumb">
+  <li><a [routerLink]="['/companyPayee']"> รหัสหน่วยงาน </a></li>
+  <li>
+    <a
+      [queryParams]="{ companyPayeeId: companyPayeeId }"
+      [routerLink]="['/companyPayeeHouseBankKeyConfig']"
+    >
+      ธนาคารตัวแทน
+    </a>
+  </li>
+  <li class="current"><em> บัญชีธนาคาร </em></li>
+</ol>
+<div class="row">
+  <div class="col-md-12">
+    <div class="container-fluid">
+      <div class="submenu">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12">
+            <h2>บัญชีธนาคาร</h2>
+          </div>
+        </div>
+      </div>
+      <form
+        (keydown.enter)="$event.preventDefault()"
+        [formGroup]="companyPayeeBankAccountNoConfigForm"
+      >
+        <div class="row">
+          <div class="col-md-4">
+            <label class="text-black input-head"><b>รหัสหน่วยงาน : </b></label>
+            <input
+              class="form-control"
+              formControlName="companyPayeeCode"
+              maxLength="5"
+              readonly
+              type="text"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <label class="text-black input-head"
+              ><b>ชื่อหน่วยงาน : {{ companyPayeeName }} </b></label
+            >
+          </div>
+        </div>
+        <br />
+      </form>
+      <hr />
+      <div class="row">
+        <div class="col-12 col-md-12">
+          <div class="example-item">
+            <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table>
+              <ng-container matColumnDef="valueCode">
+                <th *matHeaderCellDef class="info" mat-header-cell>ธนาคารตัวแทน</th>
+                <td *matCellDef="let element" mat-cell>{{ element.valueCode }}</td>
+              </ng-container>
+              <ng-container matColumnDef="accountCode">
+                <th *matHeaderCellDef class="info" mat-header-cell>รหัสบัญชี</th>
+                <td *matCellDef="let element" mat-cell>{{ element.accountCode }}</td>
+              </ng-container>
+              <ng-container matColumnDef="bankAccountNo">
+                <th *matHeaderCellDef class="info" mat-header-cell>เลขบัญชี</th>
+                <td *matCellDef="let element" mat-cell>{{ element.bankAccountNo }}</td>
+              </ng-container>
+              <ng-container matColumnDef="edit">
+                <th *matHeaderCellDef class="info" mat-header-cell></th>
+                <td *matCellDef="let element" mat-cell>
+                  <div class="d-flex-center">
+                    <button
+                      (click)="routeToCompanyPayingBankAccountNoConfig(element)"
+                      class="btn btn-detail"
+                      type="button"
+                    >
+                      รายละเอียด
+                    </button>
+                  </div>
+                </td>
+              </ng-container>
+              <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+              <tr
+                (click)="row.highlighted = !row.highlighted"
+                (mouseout)="row.hovered = false"
+                (mouseover)="row.hovered = true"
+                *matRowDef="let row; columns: displayedColumns"
+                [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                mat-row
+              ></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+@import "variables.scss";
+
+button {
+  border: none;
+  background-color: transparent;
+  // font-size: 15px;
+  // font-family: 'SarabunBold';
+  // padding: 0px 5px !important;
+  // &:hover {
+  //   opacity: 0.5;
+  //   transition: opacity 0.5s;
+  // }
+}
+
+.datepicker-header {
+  padding: 10px 5px;
+}
+
+.datepicker-header-label {
+  font-size: 15px;
+  font-family: 'SarabunBold';
+}
+
+.year-select-box,
+.month-select-box {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background-color: white;
+  bottom: 0;
+  top: 82px;
+  z-index: 100;
+  overflow: auto;
+}
+
+.year-select-box {
+  .year-items {
+    margin: 0px 11px;
+    font-size: 13px;
+
+    .year-item {
+      margin: 13px 0px;
+      padding: 0px;
+      cursor: pointer;
+      text-align: center;
+
+      div {
+        padding: 7px 0px;
+        border-radius: 18px;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, .04);
+        }
+
+        &.mat-calendar-body-selected:hover {
+          background-color: $color-primary;
+        }
+      }
+    }
+  }
+}
+
+.month-select-box {
+  .month-items {
+    margin: 0px 11px;
+    font-size: 13px;
+
+    .month-item {
+      margin: 7px 0px;
+      padding: 0px;
+      cursor: pointer;
+      text-align: center;
+
+      div {
+        padding: 7px 0px;
+        border-radius: 18px;
+
+        &:hover {
+          background-color: rgba(0, 0, 0, .04);
+        }
+      }
+    }
+  }
+}
+
+

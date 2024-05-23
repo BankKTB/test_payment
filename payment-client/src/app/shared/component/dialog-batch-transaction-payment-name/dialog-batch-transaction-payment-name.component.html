@@ -1,0 +1,82 @@
+<div mat-dialog-title>
+  <button (click)="closeDialog()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane">
+    <b>{{ title }}</b>
+  </h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-12 col-md-1" style="padding-top: 5px;">
+      <span>ค้นหา:</span>
+    </div>
+    <div class="col-12 col-md-4">
+      <input #searchValue class="form-control" type="text" />
+      <p class="text-red">{{ errorMessage }}</p>
+    </div>
+    <div class="col-12 col-md-3 btn-with-tooltip">
+      <button (click)="searchByValue(searchValue)" class="btn btn-info" mat-icon-button>
+        <span>เริ่มค้นหา</span></button
+      >&nbsp;
+      <span class="tooltip-container">
+        <img src="assets/images/icon/question.png" />
+        <span class="tooltip-content">
+          <p>
+            ตัวอย่าง <br />- ต้องการหา เลข ที่ตามหลังด้วย 011 : พิมพ์ *011 <br />- ต้องการหา เลข
+            ที่ขึ้นต้นด้วย 011 : พิมพ์ 011* <br />- ต้องการหา เลข ที่ขึ้นต้นด้วย 01 ลงท้ายด้วย 1 :
+            พิมพ์ 01*1
+          </p>
+        </span>
+      </span>
+      <!--img src="assets/images/icon/question.png" data-toggle="tooltip" data-placement="bottom" title=" ตัวอย่าง
+         - ต้องการหา เลข ที่ตามหลังด้วย 011 : พิมพ์ *011
+         - ต้องการหา เลข ที่ขึ้นต้นด้วย 011 : พิมพ์ 011*
+         - ต้องการหา เลข ที่ขึ้นต้นด้วย 01 ลงท้ายด้วย 1 : พิมพ์ 01*1"-->
+    </div>
+    <div class="col-12 col-md-4">
+      <input (keyup)="applyFilter($event.target.value)" class="form-control" placeholder="Filter" />
+    </div>
+  </div>
+
+  <div class="date_dialog">
+    <div class="example-item">
+      <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table matSort>
+        <ng-container matColumnDef="choose">
+          <th *matHeaderCellDef class="info th-width-20" mat-header-cell>เลือก</th>
+          <td (click)="chooseDataSearch(element)" *matCellDef="let element" mat-cell>
+            <mat-icon class="icon pointer">folder_open</mat-icon>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="generateFileDate">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>วันที่ประมวลผล</th>
+          <td *matCellDef="let element" mat-cell>{{ element.paymentDate | thaidate }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="generateFileName">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>รหัส</th>
+          <td *matCellDef="let element" mat-cell>{{ element.paymentName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="statusName">
+          <th *matHeaderCellDef class="info" mat-header-cell mat-sort-header>สถานะการดำเนินการ</th>
+          <td *matCellDef="let element" mat-cell>
+            <!--            <p *ngIf="element.generateFileRunStatusName ==='GENERATE_FILE_STATUS_WAIT'">รอดำเนินการสร้างไฟล์</p>-->
+            <!--            <p *ngIf="element.generateFileRunStatusName ==='GENERATE_FILE_STATUS_WAIT'">รอดำเนินการสร้างไฟล์</p>-->
+            {{ element.statusName }}
+          </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+        <tr
+          (click)="row.highlighted = !row.highlighted"
+          (mouseout)="row.hovered = false"
+          (mouseover)="row.hovered = true"
+          *matRowDef="let row; columns: displayedColumns"
+          [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+          mat-row
+        ></tr>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,87 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane">
+    <b> เอกสาร</b>
+  </h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="content-box">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-12 col-md-12">
+          <button (click)="addInputCompany()" class="btn btn-default float-right" type="button">
+            เพิ่มฟิลด์
+          </button>
+        </div>
+      </div>
+      <div *ngFor="let item of list; let i = index" class="row">
+        <div class="col-12 col-md-2 input-head">
+          <label>เลขที่เอกสาร</label>
+        </div>
+        <!--        <label class="col-12 col-sm-2 input-head p-0">เลขที่เอกสาร </label>-->
+        <div class="col-12 col-md-3">
+          <div class="input-group">
+            <input
+              #from
+              (blur)="setData(i)"
+              (input)="copyFromExcel($event, i, 'from')"
+              [ngClass]="{ active: item.from }"
+              [value]="item.from"
+              class="form-control"
+              maxLength="10"
+              type="text"
+            />
+          </div>
+        </div>
+        <div class="col-12 col-md-1 input-head pt-15">
+          <label>ถึง</label>
+        </div>
+        <!--        <label class="col-12 col-md-1 input-head pt-15">ถึง </label>-->
+        <div class="col-12 col-md-3">
+          <div class="input-group mr-2">
+            <input
+              #to
+              (blur)="setData(i)"
+              (input)="copyFromExcel($event, i, 'to')"
+              [ngClass]="{ active: item.to }"
+              [value]="item.to"
+              class="form-control"
+              maxLength="10"
+              type="text"
+            />
+          </div>
+        </div>
+        <div class="col-12 col-md-3 d-flex-center">
+          <div class="input-group mr-2">
+            <mat-checkbox
+              #optionExclude
+              (change)="setOptionInclude(i)"
+              [checked]="item.optionExclude"
+              >ไม่รวมค่า
+            </mat-checkbox>
+          </div>
+          <button
+            (click)="deleteInputSpecialType(i)"
+            class="btn btn-danger btn-close btn-with-icon"
+            type="button"
+          >
+            <i class="material-icons">clear</i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <button (click)="clickSave()" class="btn btn-success btn-lg" type="button">
+        <i class="material-icons">done</i>
+      </button>
+    </div>
+    <div class="col-md-6">
+      <button (click)="onNoClick()" class="btn btn-danger btn-lg" type="button">
+        <i class="material-icons">clear</i>
+      </button>
+    </div>
+  </div>
+</div>

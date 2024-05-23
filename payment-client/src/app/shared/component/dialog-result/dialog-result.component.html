@@ -1,0 +1,33 @@
+<div mat-dialog-title>
+  <button (click)="clickCancel()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragRootElement=".cdk-overlay-pane"><b>รายงานผล</b></h1>
+</div>
+<div mat-dialog-content class="d-flex align-items-center justify-content-center">
+  <div *ngIf="data.type === 'LIST_VALIDATE_TEXT'">
+    <div class="row">
+      <div class="col-md-12">
+        <p *ngFor="let item of data.listValidate">- {{ item }}</p>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="data.type === 'ERROR_DIALOG'">
+    <div class="row">
+      <div class="col-md-12">
+        <p>{{ data.textError }}</p>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center">
+      <button (click)="clickConfirm()" class="btn btn-primary btn-w120">ปิด</button>
+    </div>
+  </div>
+  <div *ngIf="data.type === 'TEXT_RESULT'">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <label class="text-black"> หมายเลขอ้างอิง : {{ data.referenceDoc }}</label>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center">
+      <button (click)="clickConfirm()" class="btn btn-primary btn-w120">ปิด</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,1243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="JU_DETAIL_EX" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="95042170-3836-4a0b-a1e8-65a4d597efe7">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="dev03"/>
+	<parameter name="loaderUser" class="java.lang.String"/>
+	<parameter name="userName" class="java.lang.String"/>
+	<parameter name="docStatus" class="java.lang.String"/>
+	<parameter name="source" class="java.lang.String"/>
+	<parameter name="summaryAmount" class="java.math.BigDecimal"/>
+	<parameter name="summaryDocument" class="java.lang.Integer"/>
+	<parameter name="summaryFile" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="companyCode" class="java.lang.String"/>
+	<field name="companyName" class="java.lang.String"/>
+	<field name="documentNo" class="java.lang.String"/>
+	<field name="fiscalYear" class="java.lang.String"/>
+	<field name="dateAcct" class="java.util.Date"/>
+	<field name="dateDoc" class="java.util.Date"/>
+	<field name="docType" class="java.lang.String"/>
+	<field name="reference" class="java.lang.String"/>
+	<field name="paymentCenter" class="java.lang.String"/>
+	<field name="costCenter" class="java.lang.String"/>
+	<field name="fundSource" class="java.lang.String"/>
+	<field name="refLine" class="java.lang.Integer"/>
+	<field name="credit" class="java.lang.Boolean"/>
+	<field name="glAccountDr" class="java.lang.String"/>
+	<field name="glAccountCr" class="java.lang.String"/>
+	<field name="glAccountDrName" class="java.lang.String"/>
+	<field name="glAccountCrName" class="java.lang.String"/>
+	<field name="assignment" class="java.lang.String"/>
+	<field name="bgCode" class="java.lang.String"/>
+	<field name="mainActivity" class="java.lang.String"/>
+	<field name="amountDr" class="java.math.BigDecimal"/>
+	<field name="amountCr" class="java.math.BigDecimal"/>
+	<field name="paymentDate" class="java.sql.Timestamp"/>
+	<field name="paymentName" class="java.lang.String"/>
+	<group name="G_PMD_PMN">
+		<groupExpression><![CDATA[$F{paymentDate}+$F{paymentName}]]></groupExpression>
+		<groupHeader>
+			<band height="26">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="560" y="0" width="80" height="26" backcolor="#E9FFFA" uuid="acf526e3-94b7-41a4-9c62-919f63f52e06"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Solid"/>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{paymentCenter}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="0" width="80" height="26" backcolor="#E9FFFA" uuid="8972f426-cc10-4c79-aa48-651646aedcbe"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Dashed"/>
+						<topPen lineWidth="1.0" lineStyle="Solid"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{companyCode}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="320" y="0" width="80" height="26" backcolor="#E9FFFA" uuid="3118ed53-5876-458f-b6ef-d1f43bf80b64"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Solid"/>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new SimpleDateFormat("dd.MM.yyyy",new Locale("TH","TH")).format($F{dateDoc})]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="80" y="0" width="80" height="26" backcolor="#E9FFFA" uuid="28f184f2-1191-4ac9-a2cb-fa6f38ebf506"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Solid"/>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{documentNo}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="480" y="0" width="80" height="26" backcolor="#E9FFFA" uuid="fde836c6-8cd6-4632-b52e-98af90d05a49"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Solid"/>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{reference}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="400" y="0" width="80" height="26" backcolor="#E9FFFA" uuid="a953c8e8-abb4-4788-8d93-c4797aeadaec"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Solid"/>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{docType}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="720" y="0" width="82" height="26" backcolor="#E9FFFA" uuid="3e88212b-60e2-4566-9c6b-b4163e808a5b"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Solid"/>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fundSource}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="240" y="0" width="80" height="26" backcolor="#E9FFFA" uuid="6cd76ffc-8e16-40a4-9522-0167f7cebcdd"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Solid"/>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new SimpleDateFormat("dd.MM.yyyy",new Locale("TH","TH")).format($F{dateAcct})]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="160" y="0" width="80" height="26" backcolor="#E9FFFA" uuid="5b83138a-7ab9-48f9-8a20-b8dd37c529f1"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Solid"/>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{fiscalYear} != null ? (Integer.parseInt($F{fiscalYear})+ 543) : ""]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="640" y="0" width="80" height="26" backcolor="#E9FFFA" uuid="70ba822d-b9b5-4a63-9ce8-42f972e47051"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Solid"/>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{costCenter}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="24" splitType="Prevent">
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="400" y="0" width="80" height="24" backcolor="#FFFFFA" uuid="ea1c8d16-b819-450d-a004-f4bec457b54e"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Solid"/>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{bgCode}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="480" y="0" width="80" height="24" backcolor="#FFFFFA" uuid="c6d21345-3fe5-47ee-b44d-b75101c96d0f"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Solid"/>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{mainActivity}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="560" y="0" width="80" height="24" backcolor="#FFFFFA" uuid="d2e09801-afd1-42bd-9bae-781ecedd371f"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Solid"/>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+					</textElement>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="320" y="0" width="80" height="24" backcolor="#FFFFFA" uuid="a8ac5f3c-1623-4a7c-92c2-6b6356a8eb1a"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Solid"/>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{assignment}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="240" y="0" width="80" height="24" backcolor="#FFFFFA" uuid="00c0d6c6-d86a-4c35-afc6-e434a943c1aa"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Solid"/>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{glAccountCrName}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="80" y="0" width="80" height="24" backcolor="#FFFFFA" uuid="c475063e-d4d7-43af-806c-a6ea24652ecc"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Solid"/>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["CR"]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" pattern="###" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="0" width="80" height="24" backcolor="#FFFFFA" uuid="0ad909a7-968f-4dee-bfcc-5d3e8501f019"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Dashed"/>
+						<topPen lineWidth="1.0" lineStyle="Solid"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{COLUMN_COUNT}+1) <10 ? ("00" + (($V{COLUMN_COUNT}+1) + "")) : ($V{COLUMN_COUNT}+1) >= 10 && ($V{COLUMN_COUNT}+1) < 100 ? ("0" + (($V{COLUMN_COUNT}+1) + "")) : (($V{COLUMN_COUNT}+1) + "")]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="640" y="0" width="80" height="24" backcolor="#FFFFFA" uuid="1fab00c5-8ffe-46ee-9cd9-a9824f99572f"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Solid"/>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{amountCr}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="160" y="0" width="80" height="24" backcolor="#FFFFFA" uuid="e4bdc943-405a-490c-b5ae-dbc8ec7badc0"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Solid"/>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{glAccountCr}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="720" y="0" width="82" height="24" backcolor="#FFFFFA" uuid="762f3cda-cb26-491b-8f3d-b4352d2db3d4"/>
+					<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+						<pen lineStyle="Solid"/>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{amountCr}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="67">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="0" width="80" height="20" backcolor="#E9FFFA" uuid="e80dce50-2eac-4b6a-b786-fb3c54e992f2"/>
+				<box leftPadding="5" rightPadding="3">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["วันที่รายงาน"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="20" width="80" height="20" backcolor="#E9FFFA" uuid="c5b24d27-4a25-4737-9aeb-5e3458dcf36a"/>
+				<box leftPadding="5" rightPadding="3">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["วันที่นำส่งข้อมูล"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="40" width="80" height="20" backcolor="#E9FFFA" uuid="235cd3d4-3c8e-4f92-b989-07e1dcc52337"/>
+				<box leftPadding="5" rightPadding="3">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["สถานะเอกสาร"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="80" y="0" width="100" height="20" backcolor="#E9FFFA" uuid="11b6fd36-2624-413c-b814-40906979a444"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd.MM.yyyy",new Locale("TH","TH")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="80" y="20" width="100" height="20" backcolor="#E9FFFA" uuid="a56aa7ce-b372-4b0d-831c-0f028e3e811d"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd.MM.yyyy",new Locale("TH","TH")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="80" y="40" width="100" height="20" backcolor="#E9FFFA" uuid="afbec166-8bbe-45b3-a774-ced5c17b4420"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{docStatus}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="622" y="0" width="80" height="20" backcolor="#E9FFFA" uuid="3f1696be-8e0c-49b1-9694-ebf68b4293b6"/>
+				<box leftPadding="5" rightPadding="3">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Loader user"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="622" y="20" width="80" height="20" backcolor="#E9FFFA" uuid="91263dd5-3add-4674-a578-093d8a45a3f5"/>
+				<box leftPadding="5" rightPadding="3">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Username"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="622" y="40" width="80" height="20" backcolor="#E9FFFA" uuid="91b7cc52-a512-4359-86be-564713492ae6"/>
+				<box leftPadding="5" rightPadding="3">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["แหล่งที่มา"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="702" y="0" width="100" height="20" backcolor="#E9FFFA" uuid="0e8eff7d-aed2-4b97-8290-6f6b8c5977ce"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{loaderUser}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="702" y="20" width="100" height="20" backcolor="#E9FFFA" uuid="2aa142c7-e704-4fae-b629-62793a4909f1"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{userName}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="702" y="40" width="100" height="20" backcolor="#E9FFFA" uuid="e4afc589-162c-4e2a-bf5a-c6018cd647e1"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{source}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="73" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="-7" width="802" height="80" uuid="d8ed5ff3-5890-487f-bf8d-88787ea187c3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["รายงานนำส่งแบบฟอร์ม" + "\n" + "แบบฟอร์มนำส่งสำเร็จ" + "\n" + "I- Interface J-บช.01"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="60" splitType="Stretch">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="0" width="80" height="30" backcolor="#E9FFFA" uuid="05059cc4-6119-4c5d-b101-19deea0814f5"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["รหัสหน่วยงาน"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="80" y="0" width="80" height="30" backcolor="#E9FFFA" uuid="4a9ddc3b-302b-46ff-a140-a32d6635b4c3"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Doc.no."]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="160" y="0" width="80" height="30" backcolor="#E9FFFA" uuid="cbb3b46c-0540-4cdf-a6f0-c66c8e5a8fc0"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Year"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="240" y="0" width="80" height="30" backcolor="#E9FFFA" uuid="15eb00ae-0a3a-484d-ad7b-8d79484b859a"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pst.Date"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="320" y="0" width="80" height="30" backcolor="#E9FFFA" uuid="6b1059f6-829a-4ea0-81b5-e1378702257e"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Doc.date"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="400" y="0" width="80" height="30" backcolor="#E9FFFA" uuid="48649421-3472-45b4-868a-e88bfcf49726"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DT"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="480" y="0" width="80" height="30" backcolor="#E9FFFA" uuid="b79be712-38d2-4e32-b484-ab97132115d1"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["เอกสารอ้างอิง"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="560" y="0" width="80" height="30" backcolor="#E9FFFA" uuid="7e081ee7-f4a4-41f8-99ab-e31906abf07c"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["หน่วยเบิกจ่าย"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="640" y="0" width="80" height="30" backcolor="#E9FFFA" uuid="5f09c817-f67a-4465-8756-c265b2920e8a"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ศูนย์ต้นทุน"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="720" y="0" width="82" height="30" backcolor="#E9FFFA" uuid="f2bcc073-232f-4ae4-aa4c-9ac02bb6d385"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["แหล่งของเงิน"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="720" y="30" width="82" height="30" backcolor="#F4F4C7" uuid="440506f8-df19-47a1-b75e-4d4a463ac061"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["จำนวนเงินขอรับ"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="240" y="30" width="80" height="30" backcolor="#F4F4C7" uuid="e5555d87-6443-40dc-8103-b3e2f025987c"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="160" y="30" width="80" height="30" backcolor="#F4F4C7" uuid="6572567c-ad37-47da-9007-3e55a2c18286"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["บัญชี"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="640" y="30" width="80" height="30" backcolor="#F4F4C7" uuid="163fdad1-6c46-4491-b10e-0a066903ee43"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["จำนวนเงินที่ขอเบิก"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="560" y="30" width="80" height="30" backcolor="#F4F4C7" uuid="7863fd34-221c-43e4-b43d-bd31ef260456"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="480" y="30" width="80" height="30" backcolor="#F4F4C7" uuid="86c6d0c4-1528-44af-87b4-3b9383963be7"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["กิจกรรมหลัก"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="30" width="40" height="30" backcolor="#F4F4C7" uuid="4773d781-8e6b-4f6c-9165-515921cdd3a7"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Ln"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="320" y="30" width="80" height="30" backcolor="#F4F4C7" uuid="46e101ec-9c09-479b-bfd6-b5d9eb608c93"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Assignment"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="40" y="30" width="40" height="30" backcolor="#F4F4C7" uuid="9a2d63c2-4b1c-442d-95ff-a1b7390cc733"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="400" y="30" width="80" height="30" backcolor="#F4F4C7" uuid="775a82eb-837c-4c23-af68-0156715665fd"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["รหัสงบประมาณ"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="80" y="30" width="80" height="30" backcolor="#F4F4C7" uuid="c6e94def-c722-49c2-9319-ca6fd765d382"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["D/C"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Prevent">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="480" y="0" width="80" height="24" backcolor="#FFFFFA" uuid="62ce6921-f52e-443a-8d1e-cba56cf6447c"/>
+				<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mainActivity}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="560" y="0" width="80" height="24" backcolor="#FFFFFA" uuid="7079096f-18ad-418e-816d-77d74962eea0"/>
+				<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="0" width="80" height="24" backcolor="#FFFFFA" uuid="f291617b-7662-4b60-9364-a6b1d4b2abfa"/>
+				<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT} <10 ? ("00" + $V{COLUMN_COUNT}.toString()) : $V{COLUMN_COUNT} >= 10 && $V{COLUMN_COUNT} < 100 ? ("0" + $V{COLUMN_COUNT}.toString()) : $V{COLUMN_COUNT}.toString()]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="400" y="0" width="80" height="24" backcolor="#FFFFFA" uuid="6b66ef5c-7d05-4629-b483-8a6749649770"/>
+				<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bgCode}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="160" y="0" width="80" height="24" backcolor="#FFFFFA" uuid="f4d58345-65cc-4104-953f-e0d58d5ea571"/>
+				<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{glAccountDr}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="640" y="0" width="80" height="24" backcolor="#FFFFFA" uuid="7ae890fc-896b-4a9a-a9ad-4d3f356a6c21"/>
+				<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amountDr}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="240" y="0" width="80" height="24" backcolor="#FFFFFA" uuid="02d81539-5f37-4318-b827-fcfb42011e7b"/>
+				<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{glAccountDrName}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="320" y="0" width="80" height="24" backcolor="#FFFFFA" uuid="2bd67589-2b95-4d8a-8759-80d870954e98"/>
+				<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{assignment}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="80" y="0" width="80" height="24" backcolor="#FFFFFA" uuid="796409ea-36e9-438c-a3a3-0661ffd5ff97"/>
+				<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DR"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="720" y="0" width="82" height="24" backcolor="#FFFFFA" uuid="a25e051b-7422-4248-bee6-3863040720db"/>
+				<box topPadding="5" leftPadding="3" bottomPadding="5" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amountDr}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="255" splitType="Stretch">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="10" width="160" height="20" backcolor="#FFFFE1" uuid="28c79d48-bbe4-47f2-9e0c-60b7f931f462"/>
+				<box leftPadding="5" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["รวมจำนวนไฟล์ : "]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="60" width="160" height="20" backcolor="#F1F18A" uuid="d1caf12b-b20a-4947-98e5-01509ae83aea"/>
+				<box leftPadding="5" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["รวมจำนวนไฟล์ทั้งสิ้น : "]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="20" y="120" width="80" height="20" backcolor="#E9FFFA" uuid="59b3abd3-60df-4eb2-982d-75174c07db15"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["วันที่รายงาน"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="100" y="120" width="100" height="20" backcolor="#E9FFFA" uuid="8563272d-740d-49e1-a409-75e4cdefc07d"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd.MM.yyyy",new Locale("TH","TH")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="20" y="140" width="80" height="20" backcolor="#E9FFFA" uuid="e5f01a02-eced-41e3-b7e8-64bd3f8de7b6"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["วันที่รายงาน"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="100" y="140" width="100" height="20" backcolor="#E9FFFA" uuid="cec4a4d7-53ad-4c79-8e37-42587babaad4"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineStyle="Dashed"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd.MM.yyyy",new Locale("TH","TH")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="322" y="120" width="159" height="30" uuid="ac9726a1-83c6-4d18-88f0-82563d341f96"/>
+				<box leftPadding="3" rightPadding="3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["สรุปรายการนำส่งแบบฟอร์ม"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="30" width="160" height="20" backcolor="#FFFFE1" uuid="610f2946-72ca-4684-aa83-a7cc289daf98"/>
+				<box leftPadding="5" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["รวมจำนวนเอกสาร : "]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="80" width="160" height="20" backcolor="#F1F18A" uuid="d392666b-33a8-4cb4-b1d2-189d8c232d47"/>
+				<box leftPadding="5" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["รวมจำนวนเอกสารทั้งสิ้น : "]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="240" y="60" width="562" height="20" backcolor="#F1F18A" uuid="01a4599c-7eaa-44cf-99e1-33dc148116ca"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="240" y="80" width="562" height="20" backcolor="#F1F18A" uuid="92b36699-a79b-4eb3-b6b1-2710840fffb7"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="160" y="60" width="80" height="20" backcolor="#F1F18A" uuid="a1a1ccd7-258b-44b5-a93c-cffed7b7666d"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{summaryFile}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="160" y="80" width="80" height="20" backcolor="#F1F18A" uuid="9708e6d6-6a3c-45e3-904e-ca8ef0460fad"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{summaryDocument}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="240" y="30" width="562" height="20" backcolor="#FFFFE1" uuid="25e62f0f-47c8-42bf-8834-a343b54e26f9"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="160" y="10" width="80" height="20" backcolor="#FFFFE1" uuid="78480388-4eed-4a07-b6a5-5872edcc3d60"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{summaryFile}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="240" y="10" width="562" height="20" backcolor="#FFFFE1" uuid="20fca447-2a1f-4588-a368-801e21ca27f9"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="160" y="30" width="80" height="20" backcolor="#FFFFE1" uuid="cc536663-302e-48c8-a4f2-4d79216cc6ad"/>
+				<box leftPadding="3" rightPadding="3">
+					<pen lineStyle="Solid"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{summaryDocument}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="170" width="130" height="20" backcolor="#CEF6ED" uuid="f191ecd4-fbc3-44e7-a3fe-caa312abbee5"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="130" y="170" width="130" height="20" backcolor="#CEF6ED" uuid="aada8557-a025-48f8-b0cb-dc85e590c5bc"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["สถานะของเอกสาร"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="260" y="170" width="130" height="20" backcolor="#CEF6ED" uuid="b0c46972-908d-4ee4-8fdf-fad0f9360961"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["จำนวนเอกสาร"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="390" y="170" width="232" height="20" backcolor="#CEF6ED" uuid="902ac201-03d6-4c3f-b066-ac2ba11c4528"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["จำนวนเงินที่ขอรับ"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="260" y="190" width="130" height="20" backcolor="#FFFFE1" uuid="1c9cf19d-067f-4055-85c9-f80b8d271130"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{summaryDocument}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="390" y="190" width="232" height="20" backcolor="#FFFFE1" uuid="9d1a4435-2b6b-407a-9171-3da179b9ae59"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{summaryAmount}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="190" width="130" height="20" backcolor="#FFFFE1" uuid="73efebae-5a1c-460d-af05-ee10b363dea6"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["เอกสารที่นำส่งสำเร็จ"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="130" y="190" width="130" height="20" backcolor="#FFFFE1" uuid="581d69bd-b27e-4c60-b964-a45dc2f4f331"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["รวม"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="260" y="210" width="130" height="20" backcolor="#E9FFFA" uuid="d08c844e-44e5-40b9-88aa-045d676bc3fa"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{summaryDocument}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="390" y="210" width="232" height="20" backcolor="#E9FFFA" uuid="2d3645e1-9538-473f-93f1-9afe30e9b667"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{summaryAmount}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="210" width="130" height="20" backcolor="#E9FFFA" uuid="dddbfc93-b6b3-458e-b677-05ca67814273"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="130" y="210" width="130" height="20" backcolor="#E9FFFA" uuid="938a36f4-dbfe-4d35-87b3-42216d608f4f"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["เอกสารผ่านรายการ"]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="260" y="230" width="130" height="25" backcolor="#F1F18A" uuid="277c9b34-8d26-4689-9402-2f3cb8012b52">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{summaryDocument}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="390" y="230" width="232" height="25" backcolor="#F1F18A" uuid="cad02426-5151-44d8-8e24-89482f55f3ae">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{summaryAmount}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="230" width="130" height="25" backcolor="#F1F18A" uuid="f51187e3-645e-448b-ace2-c71c411ac272">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="130" y="230" width="130" height="25" backcolor="#F1F18A" uuid="88b629b7-8a4d-4d9b-8916-6b6353a2740e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["รวมทั้งสิ้น"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

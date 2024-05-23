@@ -1,0 +1,604 @@
+<div class="content-menu-top">
+  <app-head-content></app-head-content>
+  <div class="topic">
+    <h4>โปรแกรมกลับรายการเอกสารและกำหนดรายการคืนกลับ</h4>
+  </div>
+</div>
+<div class="body">
+  <div class="container-fluid home-page">
+    <form
+      *ngIf="currentPageType === 'CRITERIA'"
+      (keydown.enter)="$event.preventDefault()"
+      [formGroup]="returnFileForm"
+      [ngClass]="{ 'submited-form': isSubmitedForm }"
+    >
+      <br />
+      <div>
+        <div class="panel panel-primary">
+          <div class="panel-heading pointer">
+            <h3 class="panel-head">
+              เงื่อนไขการทำงาน
+            </h3>
+          </div>
+          <div class="panel-body">
+            <!-- Step 1 -> radio  -->
+            <div class="row">
+              <div class="col-12 col-sm-12">
+                <mat-radio-group
+                  aria-label="Step"
+                  formControlName="step"
+                  (change)="changeStep('01')"
+                >
+                  <mat-radio-button [checked]="returnFileForm.controls.step.value === '01'">
+                    การอ่านข้อมูลรับกลับจากธนาคารแห่งประเทศไทย (Step 1)
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <!-- Step 1 -> Directory parameter  -->
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> Directory parameter </label>
+              </div>
+              <div class="col-md-3">
+                <input
+                  [ngClass]="{ active: returnFileForm.controls.directoryParameter.value }"
+                  class="form-control text-right"
+                  formControlName="directoryParameter"
+                  type="text"
+                  readonly
+                />
+              </div>
+            </div>
+            <!-- Step 1 -> Path  -->
+            <div class="row mb-5">
+              <div class="col-md-2">
+                <label class="text-black input-head"> Path </label>
+              </div>
+              <div class="col-md-3">
+                <input
+                  [ngClass]="{ active: returnFileForm.controls.path.value }"
+                  class="form-control text-right"
+                  formControlName="path"
+                  type="text"
+                  readonly
+                />
+              </div>
+            </div>
+
+            <!-- Step 2 -> radio  -->
+            <div class="row">
+              <div class="col-12 col-sm-12">
+                <mat-radio-group
+                  aria-label="Step"
+                  formControlName="step"
+                  (change)="changeStep('02')"
+                >
+                  <mat-radio-button [checked]="returnFileForm.controls.step.value === '02'">
+                    ตรวจสอบและแก้ไขสถานะ (Step 2)
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <!-- Step 2 -> วันที่ประมวลผล  -->
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> วันที่ประมวลผล </label>
+              </div>
+              <div class="col-md-4">
+                <div class="input-group datetime-input">
+                  <input
+                    (dateChange)="patchInputForm('paymentDateStep2From', 'from')"
+                    [ngClass]="{ active: returnFileForm.controls.paymentDateStep2From.value }"
+                    [matDatepicker]="paymentDateStep2FromPicker"
+                    class="form-control"
+                    formControlName="paymentDateStep2From"
+                    type="text"
+                    appDateInput
+                  />
+                  <div class="datetime-input-append">
+                    <button
+                      (click)="paymentDateStep2FromPicker.open()"
+                      class="btn-calendar-icon"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/calendar.svg" width="12px" />
+                      <mat-datepicker #paymentDateStep2FromPicker></mat-datepicker>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <label class="input-head pt-15">ถึง </label>
+              <div class="col-12 col-md-4">
+                <div class="input-group datetime-input">
+                  <input
+                    (dateChange)="patchInputForm('paymentDateStep2To', 'to')"
+                    [ngClass]="{ active: returnFileForm.controls.paymentDateStep2To.value }"
+                    [matDatepicker]="paymentDateStep2ToPicker"
+                    class="form-control"
+                    formControlName="paymentDateStep2To"
+                    type="text"
+                    appDateInput
+                  />
+                  <div class="datetime-input-append">
+                    <button
+                      (click)="paymentDateStep2ToPicker.open()"
+                      class="btn-calendar-icon"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/calendar.svg" width="12px" />
+                      <mat-datepicker #paymentDateStep2ToPicker></mat-datepicker>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Step 2 -> การกำหนด  -->
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> การกำหนด </label>
+              </div>
+              <div class="col-md-4">
+                <div class="input-group">
+                  <input
+                    [ngClass]="{ active: returnFileForm.controls.generateFileNameStep2From.value }"
+                    class="form-control"
+                    formControlName="generateFileNameStep2From"
+                    maxLength="5"
+                    type="text"
+                    appUpperCaseDirective
+                  />
+                  <span (click)="openDialogParameterGenerateFileRange()" class="clear-input-icon">
+                    <img src="assets/images/icon/menu.svg" width="12px" />
+                  </span>
+                  <div class="input-group-append button-group-search">
+                    <button
+                      (click)="openDialogParameterGenerateFile('from', '02')"
+                      class="btn btn-default"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/fa-search.svg" width="12px" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <label class="input-head pt-15">ถึง </label>
+              <div class="col-12 col-md-4">
+                <div class="input-group">
+                  <input
+                    [ngClass]="{ active: returnFileForm.controls.generateFileNameStep2To.value }"
+                    class="form-control"
+                    formControlName="generateFileNameStep2To"
+                    maxLength="5"
+                    type="text"
+                    appUpperCaseDirective
+                  />
+                  <div class="input-group-append button-group-search">
+                    <button
+                      (click)="openDialogParameterGenerateFile('to', '02')"
+                      class="btn btn-default"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/fa-search.svg" width="12px" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Step 2 -> วันที่สั่งโอน  -->
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> วันที่สั่งโอน </label>
+              </div>
+              <div class="col-md-4">
+                <div class="input-group datetime-input">
+                  <input
+                    (dateChange)="patchInputForm('transferDateFrom', 'from')"
+                    [ngClass]="{ active: returnFileForm.controls.transferDateFrom.value }"
+                    [matDatepicker]="transferDateFromPicker"
+                    class="form-control"
+                    formControlName="transferDateFrom"
+                    type="text"
+                    appDateInput
+                  />
+                  <div class="datetime-input-append">
+                    <button
+                      (click)="transferDateFromPicker.open()"
+                      class="btn-calendar-icon"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/calendar.svg" width="12px" />
+                      <mat-datepicker #transferDateFromPicker></mat-datepicker>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <label class="input-head pt-15">ถึง </label>
+              <div class="col-12 col-md-4">
+                <div class="input-group datetime-input">
+                  <input
+                    (dateChange)="patchInputForm('transferDateTo', 'to')"
+                    [matDatepicker]="transferDateToPicker"
+                    [ngClass]="{ active: returnFileForm.controls.transferDateTo.value }"
+                    class="form-control"
+                    formControlName="transferDateTo"
+                    type="text"
+                    appDateInput
+                  />
+                  <div class="datetime-input-append">
+                    <button
+                      (click)="transferDateToPicker.open()"
+                      class="btn-calendar-icon"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/calendar.svg" width="12px" />
+                      <mat-datepicker #transferDateToPicker></mat-datepicker>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Step 2 -> ผู้ขาย  -->
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> ผู้ขาย </label>
+              </div>
+              <div class="col-md-4">
+                <div class="input-group">
+                  <input
+                    [ngClass]="{ active: returnFileForm.controls.vendorFrom.value }"
+                    class="form-control"
+                    formControlName="vendorFrom"
+                    type="text"
+                    maxlength="10"
+                  />
+                  <span (click)="openDialogVendorRange()" class="clear-input-icon">
+                    <img src="assets/images/icon/menu.svg" width="12px" />
+                  </span>
+                  <div class="input-group-append button-group-search">
+                    <button
+                      (click)="openDialogSearchMaster('vendorTaxIdFrom', 'from')"
+                      class="btn btn-default"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/fa-search.svg" width="12px" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <label class="input-head pt-15">ถึง </label>
+              <div class="col-12 col-md-4">
+                <div class="input-group">
+                  <input
+                    [ngClass]="{ active: returnFileForm.controls.vendorTo.value }"
+                    class="form-control"
+                    formControlName="vendorTo"
+                    type="text"
+                    maxlength="10"
+                  />
+                  <div class="input-group-append button-group-search">
+                    <button
+                      (click)="openDialogSearchMaster('vendorTaxIdTo', 'to')"
+                      class="btn btn-default"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/fa-search.svg" width="12px" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Step 2 -> ประเภทไฟล์  -->
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> ประเภทไฟล์ </label>
+              </div>
+              <div class="col-md-10">
+                <mat-checkbox class="mr-4" formControlName="fileTypeSmart">
+                  SMART
+                </mat-checkbox>
+                <mat-checkbox class="mr-4" formControlName="fileTypeSwift">
+                  SWIFT
+                </mat-checkbox>
+                <mat-checkbox class="mr-4" formControlName="fileTypeGiro">
+                  GIRO
+                </mat-checkbox>
+                <mat-checkbox formControlName="fileTypeInHouse">
+                  IN HOUSE
+                </mat-checkbox>
+              </div>
+            </div>
+            <!-- Step 2 -> สถานะ File  -->
+            <div class="row mb-5">
+              <div class="col-md-2">
+                <label class="text-black input-head"> สถานะ File </label>
+              </div>
+              <div class="col-md-10">
+                <mat-checkbox class="mr-4" formControlName="fileStatusComplete">
+                  สมบูรณ์
+                </mat-checkbox>
+                <mat-checkbox class="mr-4" formControlName="fileStatusReturn">
+                  คืนกลับ
+                </mat-checkbox>
+                <mat-checkbox formControlName="fileStatusNotSet">
+                  ยังไม่ได้กำหนด
+                </mat-checkbox>
+              </div>
+            </div>
+
+            <!-- Step 3 -> radio  -->
+            <div class="row">
+              <div class="col-12 col-sm-12">
+                <mat-radio-group
+                  aria-label="Step"
+                  formControlName="step"
+                  (change)="changeStep('03')"
+                >
+                  <mat-radio-button [checked]="returnFileForm.controls.step.value === '03'">
+                    รีเซตการกลับรายการเอกสารจ่ายเงิน (Step 3)
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <!-- Step 3 -> วันที่ประมวลผล  -->
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> วันที่ประมวลผล </label>
+              </div>
+              <div class="col-md-4">
+                <div class="input-group datetime-input">
+                  <input
+                    [matDatepicker]="paymentDateStep3FromPicker"
+                    [ngClass]="{ active: returnFileForm.controls.paymentDateStep3From.value }"
+                    class="form-control"
+                    formControlName="paymentDateStep3From"
+                    type="text"
+                    appDateInput
+                  />
+                  <div class="datetime-input-append">
+                    <button
+                      (click)="paymentDateStep3FromPicker.open()"
+                      class="btn-calendar-icon"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/calendar.svg" width="12px" />
+                      <mat-datepicker #paymentDateStep3FromPicker></mat-datepicker>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <label class="input-head pt-15">ถึง </label>
+              <div class="col-12 col-md-4">
+                <div class="input-group datetime-input">
+                  <input
+                    [ngClass]="{ active: returnFileForm.controls.paymentDateStep3To.value }"
+                    [matDatepicker]="paymentDateStep3ToPicker"
+                    class="form-control"
+                    formControlName="paymentDateStep3To"
+                    type="text"
+                    appDateInput
+                  />
+                  <div class="datetime-input-append">
+                    <button
+                      (click)="paymentDateStep3ToPicker.open()"
+                      class="btn-calendar-icon"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/calendar.svg" width="12px" />
+                      <mat-datepicker #paymentDateStep3ToPicker></mat-datepicker>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Step 3 -> การกำหนด  -->
+            <div class="row mb-5">
+              <div class="col-md-2">
+                <label class="text-black input-head"> การกำหนด </label>
+              </div>
+              <div class="col-md-4">
+                <div class="input-group">
+                  <input
+                    [ngClass]="{ active: returnFileForm.controls.generateFileNameStep3From.value }"
+                    class="form-control"
+                    formControlName="generateFileNameStep3From"
+                    type="text"
+                    maxlength="5"
+                    appUpperCaseDirective
+                  />
+                  <span (click)="openDialogParameterGenerateFileRangeStep3()" class="clear-input-icon">
+                    <img src="assets/images/icon/menu.svg" width="12px" />
+                  </span>
+                  <div class="input-group-append button-group-search">
+                    <button
+                      (click)="openDialogParameterGenerateFile('from', '03')"
+                      class="btn btn-default"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/fa-search.svg" width="12px" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <label class="input-head pt-15">ถึง </label>
+              <div class="col-12 col-md-4">
+                <div class="input-group">
+                  <input
+                    [ngClass]="{ active: returnFileForm.controls.generateFileNameStep3To.value }"
+                    class="form-control"
+                    formControlName="generateFileNameStep3To"
+                    type="text"
+                    maxlength="5"
+                    appUpperCaseDirective
+                  />
+                  <div class="input-group-append button-group-search">
+                    <button
+                      (click)="openDialogParameterGenerateFile('to', '03')"
+                      class="btn btn-default"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/fa-search.svg" width="12px" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4 -> radio  -->
+            <div class="row">
+              <div class="col-12 col-sm-12">
+                <mat-radio-group
+                  aria-label="step"
+                  formControlName="step"
+                  (change)="changeStep('04')"
+                >
+                  <mat-radio-button [checked]="returnFileForm.controls.step.value === '04'">
+                    การกลับรายการเอกสารขอเบิก (Step 4)
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <!-- Step 3 -> วันที่ประมวลผล  -->
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> วันที่ประมวลผล </label>
+              </div>
+              <div class="col-md-4">
+                <div class="input-group datetime-input">
+                  <input
+                    [ngClass]="{ active: returnFileForm.controls.paymentDateStep4From.value }"
+                    [matDatepicker]="paymentDateStep4FromPicker"
+                    class="form-control"
+                    formControlName="paymentDateStep4From"
+                    type="text"
+                    appDateInput
+                  />
+                  <div class="datetime-input-append">
+                    <button
+                      (click)="paymentDateStep4FromPicker.open()"
+                      class="btn-calendar-icon"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/calendar.svg" width="12px" />
+                      <mat-datepicker #paymentDateStep4FromPicker></mat-datepicker>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <label class="input-head pt-15">ถึง </label>
+              <div class="col-12 col-md-4">
+                <div class="input-group datetime-input">
+                  <input
+                    [ngClass]="{ active: returnFileForm.controls.paymentDateStep4To.value }"
+                    [matDatepicker]="paymentDateStep4ToPicker"
+                    class="form-control"
+                    formControlName="paymentDateStep4To"
+                    type="text"
+                    appDateInput
+                  />
+                  <div class="datetime-input-append">
+                    <button
+                      (click)="paymentDateStep4ToPicker.open()"
+                      class="btn-calendar-icon"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/calendar.svg" width="12px" />
+                      <mat-datepicker #paymentDateStep4ToPicker></mat-datepicker>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Step 3 -> การกำหนด  -->
+            <div class="row mb-5">
+              <div class="col-md-2">
+                <label class="text-black input-head"> การกำหนด </label>
+              </div>
+              <div class="col-md-4">
+                <div class="input-group">
+                  <input
+                    [ngClass]="{ active: returnFileForm.controls.generateFileNameStep4From.value }"
+                    class="form-control"
+                    formControlName="generateFileNameStep4From"
+                    type="text"
+                    maxlength="5"
+                    appUpperCaseDirective
+                  />
+                  <span (click)="openDialogParameterGenerateFileRangeStep4()" class="clear-input-icon">
+                    <img src="assets/images/icon/menu.svg" width="12px" />
+                  </span>
+                  <div class="input-group-append button-group-search">
+                    <button
+                      (click)="openDialogParameterGenerateFile('from', '04')"
+                      class="btn btn-default"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/fa-search.svg" width="12px" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <label class="input-head pt-15">ถึง </label>
+              <div class="col-12 col-md-4">
+                <div class="input-group">
+                  <input
+                    [ngClass]="{ active: returnFileForm.controls.generateFileNameStep4To.value }"
+                    class="form-control"
+                    formControlName="generateFileNameStep4To"
+                    type="text"
+                    maxlength="5"
+                    appUpperCaseDirective
+                  />
+                  <div class="input-group-append button-group-search">
+                    <button
+                      (click)="openDialogParameterGenerateFile('to', '04')"
+                      class="btn btn-default"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/fa-search.svg" width="12px" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br />
+      <div class="row mx-auto mt-3 border-t-black mb-2">
+        <div class="mx-auto d-flex">
+          <button (click)="onSearch()" class="btn-light" type="button">ค้นหา</button>
+        </div>
+      </div>
+    </form>
+    <ul class="warning-box">
+      <li *ngFor="let c of listValidate">{{ c }}</li>
+    </ul>
+    <div class="">
+      <mat-card-content *ngIf="currentPageType === nameTableReturnUpdateStatus">
+        <app-table-return-update-status
+          (payBack)="updateSuccess($event)"
+          [currentPageType]="currentPageType"
+          [nameComponent]="nameTableReturnUpdateStatus"
+          [searchCriteria]="searchCriteria"
+        ></app-table-return-update-status>
+      </mat-card-content>
+      <mat-card-content *ngIf="currentPageType === nameTableReturnReversePayment">
+        <app-table-return-reverse-payment
+          (payBack)="updateSuccess($event)"
+          [currentPageType]="currentPageType"
+          [nameComponent]="nameTableReturnReversePayment"
+          [searchCriteria]="searchCriteria"
+        ></app-table-return-reverse-payment>
+      </mat-card-content>
+      <mat-card-content *ngIf="currentPageType === nameTableReturnReverseInvoice">
+        <app-table-return-reverse-invoice
+          (payBack)="updateSuccess($event)"
+          [currentPageType]="currentPageType"
+          [nameComponent]="nameTableReturnReverseInvoice"
+          [searchCriteria]="searchCriteria"
+        ></app-table-return-reverse-invoice>
+      </mat-card-content>
+    </div>
+  </div>
+</div>

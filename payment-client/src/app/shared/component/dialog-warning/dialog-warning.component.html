@@ -1,0 +1,16 @@
+<div mat-dialog-title>
+  <button (click)="onNoClick()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragRootElement=".cdk-overlay-pane"><b>ข้อความเพิ่มเติม</b></h1>
+</div>
+<br />
+<div mat-dialog-content style="min-height: 10px;">
+  <form (keydown.enter)="$event.preventDefault()">
+    <div>
+      <div class="row mx-auto">
+        <div class="mx-auto my-4">
+          <p class="text-black text-warning-dialog">{{ text }}</p>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

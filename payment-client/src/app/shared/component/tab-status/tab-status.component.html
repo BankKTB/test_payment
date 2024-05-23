@@ -1,0 +1,192 @@
+<div class="tabbody tabbody-status">
+  <div class="col-md-12 margin-tb-size for-btn-d-flex">
+    <span class="fill-remaining-space">
+      <button (click)="refreshStatus()" class="btn btn-info" mat-icon-button>
+        <mat-icon>sync</mat-icon>
+        <span>สถานะ</span>
+      </button>
+      &nbsp;
+    </span>
+
+    <span
+      *ngIf="parameterStatus && !proposalJobStatus && !proposalStatus && !runStatus"
+      class="fill-remaining-space"
+    >
+      <button (click)="deleteParameter()" class="btn btn-info" mat-icon-button>
+        <mat-icon>delete</mat-icon>
+        <span>ลบพารามิเตอร์</span>
+      </button>
+      &nbsp;</span
+    >
+    <span
+      *ngIf="parameterStatus && !proposalJobStatus && !proposalStatus && !runStatus"
+      class="fill-remaining-space"
+    >
+      <button (click)="createProposal()" class="btn btn-info" mat-icon-button>
+        <mat-icon>insert_drive_file</mat-icon>
+        <span>สร้างข้อเสนอ</span>
+      </button>
+      &nbsp;</span
+    >
+    <!--    <span-->
+    <!--      *ngIf="parameterStatus && !proposalJobStatus && !proposalStatus && !runStatus"-->
+    <!--      class="fill-remaining-space"-->
+    <!--    >-->
+    <!--      <button (click)="createProposalNew()" class="btn btn-info" mat-icon-button>-->
+    <!--        <mat-icon>insert_drive_file</mat-icon>-->
+    <!--        <span>สร้างข้อเสนอNew</span>-->
+    <!--      </button>-->
+    <!--      &nbsp;</span-->
+    <!--    >-->
+    <span
+      *ngIf="
+        (parameterStatus &&
+          proposalStatus &&
+          proposalStatus === 'S' &&
+          !runJobStatus &&
+          !runStatus) ||
+        (proposalStatus && proposalStatus === 'S' && runJobStatus === 'E' && !runStatus)
+      "
+      class="fill-remaining-space"
+    >
+      <button (click)="deleteProposal()" class="btn btn-info" mat-icon-button>
+        <mat-icon>delete</mat-icon>
+        <span>ลบข้อเสนอ</span>
+      </button>
+      &nbsp;
+    </span>
+    <!-- <span *ngIf="parameterStatus && proposalStatus === 'S' && !runStatus" class="fill-remaining-space"> -->
+    <span
+      *ngIf="parameterStatus && proposalStatus === 'S' && proposalTotalDocument > 0"
+      class="fill-remaining-space"
+    >
+      <button (click)="viewReportProposal()" class="btn btn-info" mat-icon-button>
+        <mat-icon>pageview</mat-icon>
+        <span>รายการข้อเสนอ</span>
+      </button>
+      &nbsp;
+    </span>
+    <!-- <span *ngIf="parameterStatus && proposalStatus === 'S' && !runStatus" class="fill-remaining-space"> -->
+    <span
+      *ngIf="parameterStatus && proposalStatus === 'S' && proposalTotalDocument > 0"
+      class="fill-remaining-space"
+    >
+      <button (click)="viewLogProposal()" class="btn btn-info" mat-icon-button>
+        <mat-icon>description</mat-icon>
+        <span>แสดงล็อกข้อเสนอ</span>
+      </button>
+      &nbsp;
+    </span>
+    <span
+      *ngIf="
+        (parameterStatus &&
+          proposalStatus === 'S' &&
+          proposalTotalDocument > 0 &&
+          !runJobStatus &&
+          runStatus != 'S') ||
+        (runJobStatus === 'E' &&
+          runStatus != 'S' &&
+          proposalTotalDocument > 0 &&
+          runStatus != 'P' &&
+          runStatus != 'R')
+      "
+      class="fill-remaining-space"
+    >
+      <button (click)="viewProposalDocument()" class="btn btn-info" mat-icon-button>
+        <mat-icon>description</mat-icon>
+        <span>แก้ไขข้อเสนอ</span>
+      </button>
+      &nbsp;
+    </span>
+    <span
+      *ngIf="
+        (parameterStatus &&
+          proposalStatus &&
+          proposalStatus === 'S' &&
+          !runStatus &&
+          !runJobStatus &&
+          proposalTotalDocument > 0) ||
+        (runJobStatus === 'E' && proposalTotalDocument > 0)
+      "
+      class="fill-remaining-space"
+    >
+      <button (click)="createRun()" class="btn btn-info" mat-icon-button>
+        <mat-icon>play_arrow</mat-icon>
+        <span>ดำเนินการชำระเงิน</span>
+      </button>
+      &nbsp;
+    </span>
+    <!--    <span-->
+    <!--      *ngIf="-->
+    <!--        (parameterStatus &&-->
+    <!--          proposalStatus &&-->
+    <!--          proposalStatus === 'S' &&-->
+    <!--          !runStatus &&-->
+    <!--          !runJobStatus &&-->
+    <!--          proposalTotalDocument > 0) ||-->
+    <!--        (runJobStatus === 'E' && proposalTotalDocument > 0)-->
+    <!--      "-->
+    <!--      class="fill-remaining-space"-->
+    <!--    >-->
+    <!--      <button (click)="createRunNew()" class="btn btn-info" mat-icon-button>-->
+    <!--        <mat-icon>play_arrow</mat-icon>-->
+    <!--        <span>ดำเนินการชำระเงินNew</span>-->
+    <!--      </button>-->
+    <!--      &nbsp;-->
+    <!--    </span>-->
+    <span
+      *ngIf="parameterStatus && proposalStatus && runStatus && runStatus == 'S' && runStatus != 'R'"
+      class="fill-remaining-space"
+    >
+      <button (click)="viewReportRun()" class="btn btn-info" mat-icon-button>
+        <mat-icon>pageview</mat-icon>
+        <span>รายการชำระเงิน</span>
+      </button>
+      &nbsp;
+    </span>
+    <span
+      *ngIf="parameterStatus && proposalStatus && runStatus && runStatus == 'S' && runStatus != 'R'"
+      class="fill-remaining-space"
+    >
+      <button (click)="viewLogRun()" class="btn btn-info" mat-icon-button>
+        <mat-icon>description</mat-icon>
+        <span>แสดงล็อกการดำเนินการชำระเงิน</span>
+      </button>
+      &nbsp;
+    </span>
+
+    <span
+      *ngIf="
+        parameterStatus &&
+        proposalStatus &&
+        runStatus &&
+        runStatus == 'S' &&
+        runStatus !== 'R' &&
+        hasAuthorizeReverse
+      "
+      class="fill-remaining-space"
+    >
+      <button (click)="reversePaymentAll()" class="btn btn-info" mat-icon-button>
+        <mat-icon>description</mat-icon>
+        <span>ยกเลิกการชำระเงินทั้งหมด</span>
+      </button>
+      &nbsp;
+    </span>
+  </div>
+  <div class="col-md-12">
+    <div class="panel panel-primary">
+      <div (click)="panelExpanded = !panelExpanded" class="panel-heading pointer">
+        <h3>
+          สถานะ
+          <span class="float-right"><i *ngIf="!panelExpanded" class="material-icons">add</i></span>
+          <span class="float-right"
+            ><i *ngIf="panelExpanded" class="material-icons">remove</i></span
+          >
+        </h3>
+      </div>
+      <div *ngIf="panelExpanded" class="panel-body">
+        <h3 *ngFor="let item of listShowMessage">{{ item }}</h3>
+      </div>
+    </div>
+  </div>
+</div>

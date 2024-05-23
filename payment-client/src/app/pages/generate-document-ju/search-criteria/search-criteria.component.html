@@ -1,0 +1,632 @@
+<div class="content-menu-top">
+  <app-head-content></app-head-content>
+  <div class="topic">
+    <h4>รายงานสรุปการโอนเงินจากบัญชี TR2 และสร้างประเภทเอกสาร JU</h4>
+  </div>
+</div>
+<div class="body">
+  <div class="container-fluid home-page">
+    <section [hidden]="isSearch">
+      <div class="d-flex">
+        <button (click)="openDialogVariantCriteria()" class="btn btn-info mb-0">
+          <mat-icon>description</mat-icon>
+          <span>ตัวเลือก</span>
+        </button>
+        <button (click)="clearSearchCriteria()" class="btn btn-info mb-0">
+          <mat-icon>refresh</mat-icon>
+          <span>เคลียร์ พารามิเตอร์</span>
+        </button>
+      </div>
+    </section>
+    <form
+      [hidden]="isSearch"
+      (keydown.enter)="$event.preventDefault()"
+      [formGroup]="generateJuForm"
+      [ngClass]="{ 'submited-form': isSubmitedForm }"
+    >
+      <br />
+      <div>
+        <div class="panel panel-primary">
+          <div class="panel-heading pointer">
+            <h3 class="panel-head">
+              Input - เงื่อนไขการเลือกข้อมูล
+            </h3>
+          </div>
+          <div class="panel-body">
+            <!-- วันที่สั่งโอน  -->
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-blue input-head"> วันที่สั่งโอน </label>
+              </div>
+              <div class="col-md-4">
+                <div class="input-group datetime-input">
+                  <input
+                    (dateChange)="onChangeDate('transferDate')"
+                    [ngClass]="{ active: generateJuForm.controls.transferDate.value }"
+                    [matDatepicker]="transferDatePicker"
+                    class="form-control"
+                    formControlName="transferDate"
+                    type="text"
+                    appDateInput
+                  />
+                  <div class="datetime-input-append">
+                    <button
+                      (click)="transferDatePicker.open()"
+                      class="btn-calendar-icon"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/calendar.svg" width="12px" />
+                      <mat-datepicker #transferDatePicker></mat-datepicker>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- วันที่ประมวลผล  -->
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> วันที่ประมวลผล </label>
+              </div>
+              <div class="col-md-4">
+                <div class="input-group datetime-input">
+                  <input
+                    (dateChange)="patchInputForm('paymentDateFrom', 'from', 'DATE')"
+                    [ngClass]="{ active: generateJuForm.controls.paymentDateFrom.value }"
+                    [matDatepicker]="paymentDateFromPicker"
+                    class="form-control"
+                    formControlName="paymentDateFrom"
+                    type="text"
+                    appDateInput
+                  />
+                  <div class="datetime-input-append">
+                    <button
+                      (click)="paymentDateFromPicker.open()"
+                      class="btn-calendar-icon"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/calendar.svg" width="12px" />
+                      <mat-datepicker #paymentDateFromPicker></mat-datepicker>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <label class="input-head pt-15">ถึง </label>
+              <div class="col-12 col-md-4">
+                <div class="input-group datetime-input">
+                  <input
+                    (dateChange)="patchInputForm('paymentDateTo', 'to', 'DATE')"
+                    [ngClass]="{ active: generateJuForm.controls.paymentDateTo.value }"
+                    [matDatepicker]="paymentDateToPicker"
+                    class="form-control"
+                    formControlName="paymentDateTo"
+                    type="text"
+                    appDateInput
+                  />
+                  <div class="datetime-input-append">
+                    <button
+                      (click)="paymentDateToPicker.open()"
+                      class="btn-calendar-icon"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/calendar.svg" width="12px" />
+                      <mat-datepicker #paymentDateToPicker></mat-datepicker>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- การกำหนด  -->
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> การกำหนด </label>
+              </div>
+              <div class="col-md-4">
+                <div class="input-group">
+                  <input
+                    appUpperCaseDirective
+                    [ngClass]="{ active: generateJuForm.controls.paymentNameFrom.value }"
+                    class="form-control"
+                    formControlName="paymentNameFrom"
+                    type="text"
+                    (blur)="setPaymentName('paymentNameFrom')"
+                  />
+                  <span (click)="openDialogParameterGenerateFileRange()" class="clear-input-icon">
+                    <img src="assets/images/icon/menu.svg" width="12px" />
+                  </span>
+                  <div class="input-group-append button-group-search">
+                    <button
+                      (click)="openDialogParameterGenerateFile('from')"
+                      class="btn btn-default"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/fa-search.svg" width="12px" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <label class="input-head pt-15">ถึง </label>
+              <div class="col-12 col-md-4">
+                <div class="input-group">
+                  <input
+                    appUpperCaseDirective
+                    [ngClass]="{ active: generateJuForm.controls.paymentNameTo.value }"
+                    class="form-control"
+                    formControlName="paymentNameTo"
+                    type="text"
+                    (blur)="setPaymentName('paymentNameTo')"
+                  />
+                  <div class="input-group-append button-group-search">
+                    <button
+                      (click)="openDialogParameterGenerateFile('to')"
+                      class="btn btn-default"
+                      type="button"
+                    >
+                      <img src="assets/images/icon/fa-search.svg" width="12px" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- ทดสอบ  -->
+            <div class="row">
+              <div class="col-md-10">
+                <mat-checkbox formControlName="isTestGenerate"> ทดสอบ</mat-checkbox>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading pointer">
+            <h3 class="panel-head">
+              Output - เงื่อนไขการสร้างเอกสาร
+            </h3>
+          </div>
+          <div class="panel-body">
+            <!-- รหัสหน่วยงาน  -->
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> รหัสหน่วยงาน </label>
+              </div>
+              <div class="col-md-3">
+                <input
+                  [ngClass]="{ active: generateJuForm.controls.compCode.value }"
+                  class="form-control text-right"
+                  formControlName="compCode"
+                  type="text"
+                  maxlength="5"
+                />
+              </div>
+            </div>
+            <!-- ประเภทเอกสาร  -->
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-black input-head"> ประเภทเอกสาร </label>
+              </div>
+              <div class="col-md-3">
+                <input
+                  [ngClass]="{ active: generateJuForm.controls.documentType.value }"
+                  class="form-control text-right"
+                  formControlName="documentType"
+                  type="text"
+                  maxlength="2"
+                />
+              </div>
+            </div>
+            <div class="panel panel-primary">
+              <div class="panel-heading pointer">
+                <h3 class="panel-head">Account Assignment</h3>
+              </div>
+              <div class="panel-body">
+                <ng-container *ngFor="let gl of listGlAccount">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label class="text-black input-head">
+                        บัญชี GL บัญชีจ่าย {{ gl.payType }}
+                      </label>
+                    </div>
+                    <div class="col-md-3">
+                      <input
+                        [ngClass]="{
+                          active: generateJuForm.controls['glAccount' + gl.payType].value
+                        }"
+                        class="form-control text-right"
+                        [formControlName]="'glAccount' + gl.payType"
+                        type="text"
+                        maxlength="10"
+                      />
+                    </div>
+                  </div>
+                </ng-container>
+                <!-- บัญชี GL บัญชีจ่าย D1  -->
+                <!--                <div class="row">-->
+                <!--                  <div class="col-md-2">-->
+                <!--                    <label class="text-black input-head"> บัญชี GL บัญชีจ่าย D1 </label>-->
+                <!--                  </div>-->
+                <!--                  <div class="col-md-3">-->
+                <!--                    <input-->
+                <!--                      [ngClass]="{ active: generateJuForm.controls.glAccountD1.value }"-->
+                <!--                      class="form-control text-right"-->
+                <!--                      formControlName="glAccountD1"-->
+                <!--                      type="text"-->
+                <!--                    />-->
+                <!--                  </div>-->
+                <!--                </div>-->
+                <!-- บัญชี GL บัญชีจ่าย D2  -->
+                <!--                <div class="row">-->
+                <!--                  <div class="col-md-2">-->
+                <!--                    <label class="text-black input-head"> บัญชี GL บัญชีจ่าย D2 </label>-->
+                <!--                  </div>-->
+                <!--                  <div class="col-md-3">-->
+                <!--                    <input-->
+                <!--                      [ngClass]="{ active: generateJuForm.controls.glAccountD2.value }"-->
+                <!--                      class="form-control text-right"-->
+                <!--                      formControlName="glAccountD2"-->
+                <!--                      type="text"-->
+                <!--                    />-->
+                <!--                  </div>-->
+                <!--                </div>-->
+                <!-- บัญชี GL บัญชีจ่าย D3  -->
+                <!--                <div class="row">-->
+                <!--                  <div class="col-md-2">-->
+                <!--                    <label class="text-black input-head"> บัญชี GL บัญชีจ่าย D3 </label>-->
+                <!--                  </div>-->
+                <!--                  <div class="col-md-3">-->
+                <!--                    <input-->
+                <!--                      [ngClass]="{ active: generateJuForm.controls.glAccountD3.value }"-->
+                <!--                      class="form-control text-right"-->
+                <!--                      formControlName="glAccountD3"-->
+                <!--                      type="text"-->
+                <!--                    />-->
+                <!--                  </div>-->
+                <!--                </div>-->
+                <!-- บัญชี GL บัญชีจ่าย D4  -->
+                <!--                <div class="row">-->
+                <!--                  <div class="col-md-2">-->
+                <!--                    <label class="text-black input-head"> บัญชี GL บัญชีจ่าย D4 </label>-->
+                <!--                  </div>-->
+                <!--                  <div class="col-md-3">-->
+                <!--                    <input-->
+                <!--                      [ngClass]="{ active: generateJuForm.controls.glAccountD4.value }"-->
+                <!--                      class="form-control text-right"-->
+                <!--                      formControlName="glAccountD4"-->
+                <!--                      type="text"-->
+                <!--                    />-->
+                <!--                  </div>-->
+                <!--                </div>-->
+                <!-- บัญชี GL บัญชีจ่าย D5  -->
+                <!--                <div class="row">-->
+                <!--                  <div class="col-md-2">-->
+                <!--                    <label class="text-black input-head"> บัญชี GL บัญชีจ่าย D5 </label>-->
+                <!--                  </div>-->
+                <!--                  <div class="col-md-3">-->
+                <!--                    <input-->
+                <!--                      [ngClass]="{ active: generateJuForm.controls.glAccountD5.value }"-->
+                <!--                      class="form-control text-right"-->
+                <!--                      formControlName="glAccountD5"-->
+                <!--                      type="text"-->
+                <!--                    />-->
+                <!--                  </div>-->
+                <!--                </div>-->
+                <!-- บัญชี GL Credit  -->
+                <div class="row mb-5">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> บัญชี GL Credit </label>
+                  </div>
+                  <div class="col-md-3">
+                    <input
+                      [ngClass]="{ active: generateJuForm.controls.glCredit.value }"
+                      class="form-control text-right"
+                      formControlName="glCredit"
+                      type="text"
+                      maxlength="10"
+                    />
+                  </div>
+                </div>
+
+                <!-- คีย์ผ่านรายการ Debit  -->
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> คีย์ผ่านรายการ Debit </label>
+                  </div>
+                  <div class="col-md-3">
+                    <input
+                      [ngClass]="{ active: generateJuForm.controls.keyDebit.value }"
+                      class="form-control text-right"
+                      formControlName="keyDebit"
+                      type="text"
+                      maxlength="2"
+                    />
+                  </div>
+                </div>
+                <!-- คีย์ผ่านรายการ Credit  -->
+                <div class="row mb-5">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> คีย์ผ่านรายการ Credit </label>
+                  </div>
+                  <div class="col-md-3">
+                    <input
+                      [ngClass]="{ active: generateJuForm.controls.keyCredit.value }"
+                      class="form-control text-right"
+                      formControlName="keyCredit"
+                      type="text"
+                      maxlength="2"
+                    />
+                  </div>
+                </div>
+
+                <!-- แหล่งของเงิน  -->
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> แหล่งของเงิน </label>
+                  </div>
+                  <div class="col-md-3">
+                    <input
+                      [ngClass]="{ active: generateJuForm.controls.fundSource.value }"
+                      class="form-control text-right"
+                      formControlName="fundSource"
+                      type="text"
+                      maxlength="7"
+                    />
+                  </div>
+                </div>
+                <!-- ศูนย์ต้นทุน  -->
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> ศูนย์ต้นทุน </label>
+                  </div>
+                  <div class="col-md-3">
+                    <input
+                      [ngClass]="{ active: generateJuForm.controls.costCenter.value }"
+                      class="form-control text-right"
+                      formControlName="costCenter"
+                      type="text"
+                      maxlength="10"
+                    />
+                  </div>
+                </div>
+                <!-- รหัสงบประมาณ  -->
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> รหัสงบประมาณ </label>
+                  </div>
+                  <div class="col-md-3">
+                    <input
+                      [ngClass]="{ active: generateJuForm.controls.budgetCode.value }"
+                      class="form-control text-right"
+                      formControlName="budgetCode"
+                      type="text"
+                      maxlength="20"
+                    />
+                  </div>
+                </div>
+                <!-- รหัสจังหวัด  -->
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> รหัสจังหวัด </label>
+                  </div>
+                  <div class="col-md-3">
+                    <input
+                      [ngClass]="{ active: generateJuForm.controls.fiArea.value }"
+                      class="form-control text-right"
+                      formControlName="fiArea"
+                      type="text"
+                      maxlength="5"
+                    />
+                  </div>
+                </div>
+                <!-- กิจกรรมหลัก  -->
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> กิจกรรมหลัก </label>
+                  </div>
+                  <div class="col-md-3">
+                    <input
+                      [ngClass]="{ active: generateJuForm.controls.mainActivity.value }"
+                      class="form-control text-right"
+                      formControlName="mainActivity"
+                      type="text"
+                      maxlength="20"
+                    />
+                  </div>
+                </div>
+                <!-- หน่วยเบิกจ่าย  -->
+                <div class="row">
+                  <div class="col-md-2">
+                    <label class="text-black input-head"> หน่วยเบิกจ่าย </label>
+                  </div>
+                  <div class="col-md-3">
+                    <input
+                      [ngClass]="{ active: generateJuForm.controls.paymentCenter.value }"
+                      class="form-control text-right"
+                      formControlName="paymentCenter"
+                      type="text"
+                      maxlength="10"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br />
+      <div class="row mx-auto mt-3 border-t-black mb-2">
+        <div class="mx-auto d-flex">
+          <button (click)="onSearch()" class="btn-light" type="button">ประมวลผลรายงาน</button>
+          <button (click)="openDialogSaveVariantCriteria('save')" class="btn-light" type="button">
+            สร้างเงื่อนไขการค้นหา
+          </button>
+          <button
+            *ngIf="dataCriteria"
+            (click)="openDialogSaveVariantCriteria('edit')"
+            class="btn-light"
+            type="button"
+          >
+            แก้ไขเงื่อนไขการค้นหา
+          </button>
+        </div>
+      </div>
+    </form>
+    <ul class="warning-box">
+      <li *ngFor="let c of listValidate">{{ c }}</li>
+    </ul>
+    <div [hidden]="!isSearch">
+      <button (click)="back()" type="button" class="btn-light">กลับ</button>
+      <app-export-excel-button
+        [searchCriteria]="tempSearchCriteriaExport"
+        [pathServiceExport]="pathServiceExportExcel"
+        [fileNameExport]="fileNameExportExcel"
+      ></app-export-excel-button>
+      <app-export-pdf-button
+        [searchCriteria]="tempSearchCriteriaExport"
+        [pathServiceExport]="pathServiceExportPDF"
+        [fileNameExport]="fileNameExportPDF"
+      ></app-export-pdf-button>
+      <button (click)="getDetailDocument()" type="button" class="btn-light">
+        เรียกดูรายละเอียด
+      </button>
+      <table [dataSource]="dataSources" class="table-ju mt-4" mat-table matSort>
+        <tr
+          *matHeaderRowDef="displayedColumnsGroup; sticky: true"
+          class="header-group"
+          mat-header-row
+        ></tr>
+        <tr
+          *matHeaderRowDef="displayedColumns; sticky: true"
+          class="header-item"
+          mat-header-row
+        ></tr>
+        <!-- BEGIN :  group top header -->
+        <ng-container matColumnDef="detailLine">
+          <th mat-header-cell *matHeaderCellDef colspan="8" style="text-align: center;">
+            รายละเอียดรายการ
+          </th>
+        </ng-container>
+        <ng-container matColumnDef="detailDocument">
+          <th mat-header-cell *matHeaderCellDef colspan="2" style="text-align: center;">
+            รายละเอียดเอกสาร
+          </th>
+        </ng-container>
+        <!-- END :  group top header -->
+        <!-- BEGIN :  group header -->
+        <ng-container matColumnDef="paymentName">
+          <td class="bg-content-search" colspan="8" *matCellDef="let group">
+            <p class="m-0">วันที่ประมวลผล : {{ group.paymentDate | datePattern: 'full' }}</p>
+            <p class="m-0">การกำหนด : {{ group.paymentName }}</p>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="compCode">
+          <td class="bg-content-search" colspan="2" *matCellDef="let group">
+            <p class="m-0">ประเภทเอกสาร : {{ group.docType }}</p>
+            <p class="m-0">รหัสหน่วยงาน : {{ group.compCode }}</p>
+            <p class="m-0">วันที่ผ่านรายการ : {{ group.dateAcct | datePattern: 'full' }}</p>
+          </td>
+        </ng-container>
+        <!-- END :  group header -->
+        <!-- BEGIN :  items -->
+        <ng-container matColumnDef="payAccount">
+          <th *matHeaderCellDef mat-header-cell class="group-row">บ/ช จ่าย</th>
+          <td *matCellDef="let element" mat-cell class="white-space-pre">
+            {{ element.payAccount }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="refRunning">
+          <th *matHeaderCellDef mat-header-cell class="group-row">เลขที่เอกสารอ้างอิง</th>
+          <td *matCellDef="let element" mat-cell class="white-space-pre">
+            {{ element.refRunning }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="refLine">
+          <th *matHeaderCellDef mat-header-cell class="group-row">บรรทัด</th>
+          <td *matCellDef="let element" mat-cell class="white-space-pre">
+            {{ element.refLine }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="accountNoFrom">
+          <th *matHeaderCellDef mat-header-cell class="group-row">บ/ช ต้นทาง</th>
+          <td *matCellDef="let element" mat-cell class="white-space-pre">
+            {{ element.accountNoFrom }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="accountNoTo">
+          <th *matHeaderCellDef mat-header-cell class="group-row">บ/ช ปลายทาง</th>
+          <td *matCellDef="let element" mat-cell class="white-space-pre">
+            {{ element.accountNoTo }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fileType">
+          <th *matHeaderCellDef mat-header-cell class="group-row">ปภ. ไฟล์</th>
+          <td *matCellDef="let element" mat-cell class="white-space-pre">
+            {{ element.fileType }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fileName">
+          <th *matHeaderCellDef mat-header-cell class="group-row">ชื่อไฟล์</th>
+          <td *matCellDef="let element" mat-cell class="white-space-pre">
+            {{ element.fileName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="amountDr">
+          <th *matHeaderCellDef mat-header-cell class="group-row text-right">จำนวนเงิน</th>
+          <td *matCellDef="let element" mat-cell class="white-space-pre text-right">
+            {{ element.amountDr | bigdecimal }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="drCr">
+          <th *matHeaderCellDef mat-header-cell class="group-row">Dr./Cr.</th>
+          <td *matCellDef="let element" mat-cell class="white-space-pre">
+            {{ element.drCr }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="glAccountDr">
+          <th *matHeaderCellDef mat-header-cell class="group-row">เลขที่บัญชี</th>
+          <td *matCellDef="let element" mat-cell class="white-space-pre">
+            {{ element.glAccountDr }}
+          </td>
+        </ng-container>
+        <!-- END :  items -->
+        <!-- BEGIN : summary -->
+        <ng-container matColumnDef="textSum">
+          <td *matCellDef="let element" colspan="7" mat-cell class="white-space-pre">
+            รวมรายการ
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="amountSum">
+          <td *matCellDef="let element" mat-cell class="white-space-pre text-right">
+            {{ element.amountSum | bigdecimal }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="drCrSum">
+          <td *matCellDef="let element" mat-cell class="white-space-pre">
+            {{ element.drCrSum }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="accountNoSum">
+          <td *matCellDef="let element" mat-cell class="white-space-pre">
+            {{ element.accountNoSum }}
+          </td>
+        </ng-container>
+        <!-- END :  summary -->
+        <tr
+          mat-row
+          class="tr-group-header"
+          *matRowDef="let row; columns: headerColumns; when: isHeaderRow"
+        ></tr>
+        <tr
+          (click)="row.highlighted = !row.highlighted"
+          (mouseout)="row.hovered = false"
+          (mouseover)="row.hovered = true"
+          *matRowDef="let row; columns: displayedColumns"
+          class="tr-group-item"
+          [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+          mat-row
+        ></tr>
+        <tr
+          mat-row
+          class="tr-group-summary"
+          *matRowDef="let row; columns: summaryColumns; when: isSummaryRow"
+        ></tr>
+      </table>
+    </div>
+  </div>
+</div>

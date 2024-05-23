@@ -1,0 +1,109 @@
+<div mat-dialog-title>
+  <button (click)="clickCancel()" class="close" mat-button>X</button>
+  <h1 cdkDrag cdkDragHandle cdkDragRootElement=".cdk-overlay-pane">
+    <b>ตารางกำหนดเงื่อนไขการรวมยอด</b>
+  </h1>
+</div>
+
+<div mat-dialog-content>
+  <form (keydown.enter)="$event.preventDefault()" [formGroup]="sumFileConditionConfigForm">
+    <div class="panel panel-primary">
+      <div class="panel-heading pointer">
+        <h4>ข้อมูลควบคุม</h4>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-2">
+            <label class="text-black input-head"> มีผลจาก</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group datetime-input">
+              <div class="box-instead-input">
+                <input
+                  [matDatepicker]="validFrom"
+                  class="form-control"
+                  formControlName="validFrom"
+                  type="text"
+                  appDateInput
+                />
+              </div>
+              <div class="datetime-input-append">
+                <button (click)="validFrom.open()" class="btn-calendar-icon" type="button">
+                  <img src="assets/images/icon/calendar.svg" width="12px" />
+                  <mat-datepicker #validFrom></mat-datepicker>
+                </button>
+              </div>
+            </div>
+          </div>
+          <label class="input-head pt-15">ถึง </label>
+          <div class="col-12 col-md-4">
+            <div class="input-group datetime-input">
+              <div class="box-instead-input">
+                <input
+                  [matDatepicker]="validTo"
+                  class="form-control"
+                  formControlName="validTo"
+                  type="text"
+                  appDateInput
+                />
+              </div>
+              <div class="datetime-input-append">
+                <button (click)="validTo.open()" class="btn-calendar-icon" type="button">
+                  <img src="assets/images/icon/calendar.svg" width="12px" />
+                  <mat-datepicker #validTo></mat-datepicker>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <label class="text-black input-head"><b>วิธีชำระเงิน</b></label>
+            <input class="form-control" formControlName="paymentMethod" type="text" maxlength="1" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="text-black input-head"><b>ผู้ขายจาก</b></label>
+            <input class="form-control" formControlName="vendorFrom" type="text" maxlength="10" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="text-black input-head"><b>ผู้ขายถึง</b></label>
+            <input class="form-control" formControlName="vendorTo" type="text" maxlength="10" />
+          </div>
+        </div>
+        <!--        <div class="row">-->
+        <!--          <div class="col-md-12">-->
+        <!--            <mat-checkbox  formControlName="active">Active</mat-checkbox>-->
+        <!--          </div>-->
+        <!--        </div>-->
+        <div class="row">
+          <div class="col-md-2">
+            <label class="text-black input-head"><b>สถานะการลบ</b></label>
+          </div>
+          <mat-radio-group formControlName="active">
+            <div class="col-md-10">
+              <mat-radio-button name="active" value="X">ลบ </mat-radio-button>&nbsp;
+              <mat-radio-button name="active" value=" ">ยกเลิกการลบ </mat-radio-button>&nbsp;
+            </div>
+          </mat-radio-group>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="d-flex justify-content-center mb-2">
+    <button
+      (click)="clickSave(sumFileConditionConfigForm.value)"
+      class="btn btn-success btn-w120"
+      type="button"
+    >
+      บันทึก
+    </button>
+    <button (click)="clickCancel()" class="btn btn-danger btn-w120" type="button">
+      ยกเลิก
+    </button>
+  </div>
+</div>

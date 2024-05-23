@@ -1,0 +1,784 @@
+<div class="content-box dialog-box">
+  <div class="content-detail mb-4">
+    <div class="row">
+      <div class="col-12 col-sm-4 col-md-2">
+        <label *ngIf="!documentReverse" class="text-black text-bold"> เลขที่เอกสาร </label>
+        <label *ngIf="documentReverse" class="text-black text-bold"> เลขที่เอกสารกลับรายการ </label>
+      </div>
+      <div class="col-12 col-sm-8 col-md-4 mb-2">
+        <p>
+          {{ accDocNo }} <span class="ml-3"> {{ fiscalYear ? (fiscalYear | thaiyear) : '' }} </span>
+        </p>
+      </div>
+      <div *ngIf="accDocNo && revAccDocNo" class="col-12 col-sm-4 col-md-2">
+        <label *ngIf="documentReverse" class="text-black text-bold"> เลขที่เอกสาร </label>
+        <label *ngIf="!documentReverse" class="text-black text-bold">
+          เลขที่เอกสารกลับรายการ
+        </label>
+      </div>
+      <div class="col-12 col-sm-8 col-md-4 mb-2">
+        <div class="input-group">
+          <p>
+            {{ revAccDocNo }}
+            <span class="ml-3"> {{ revFiscalYear ? (revFiscalYear | thaiyear) : '' }} </span>
+          </p>
+          <button
+            (click)="searchDocumentReverse()"
+            *ngIf="revAccDocNo"
+            type="button"
+            class="btn-light"
+          >
+            แสดงเอกสาร
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-2"><label class="text-black"> ผู้บันทึกรายการ </label></div>
+      <div class="col-12 col-md-4">
+        <p>{{ userWebOnline }}</p>
+      </div>
+      <div *ngIf="isDisabledButtonAutodocs" class="col-12 col-md-2">
+        <label class="text-black"> เอกสาร Auto </label>
+      </div>
+      <div *ngIf="isDisabledButtonAutodocs" class="col-12 col-md-4">
+        <p (click)="onDisplayDocAutoGenarate(listAutodoc)" class="text-underline-green pointer">
+          แสดงเอกสาร
+        </p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-2"></div>
+      <div class="col-12 col-md-4"></div>
+      <div *ngIf="isDisabledButtonInvoiceDoc" class="col-12 col-md-2">
+        <label class="text-black"> เอกสารอ้างอิง </label>
+      </div>
+      <div *ngIf="isDisabledButtonInvoiceDoc" class="col-12 col-md-4">
+        <p (click)="onDisplayDocAutoGenarate(listInvoiceDoc)" class="text-underline-green pointer">
+          แสดงเอกสาร
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <mat-tab-group #tabRef [(selectedIndex)]="tabSelectedIndex" class="row-border">
+    <mat-tab label="ข้อมูลทั่วไป">
+      <br />
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสหน่วยงาน </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 text-thin">
+          <div class="text-black">{{ companyCode }}</div>
+          <span class="text-green font-14">{{ companyName }}</span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> วันที่เอกสาร </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 text-thin">
+          {{ documentDate | thaidate }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสหน่วยเบิกจ่าย </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="text-black">{{ paymentCenter }}</div>
+          <span class="text-green font-14">{{ paymentCenterName }}</span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> วันที่ผ่านรายการ </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          {{ postDate | thaidate }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสพื้นที่ </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          {{ areaCode }} - {{ areaName }}
+          <!--                    1000 - ส่วนกลาง-->
+          <!--                    <p>ส่วนกลาง</p>-->
+          <div class="text-black"></div>
+          <span class="text-green font-14"></span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> งวด </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          {{ period }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> ประเภทเอกสาร </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">{{ docType }} - {{ docTypeName }}</div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> การอ้างอิง </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          {{ headerReference }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> เลขที่ใบสั่งซื้อสั่งจ้างระบบ GFMIS </label>
+        </div>
+        <div (click)="openDetailPo()" class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <label class="text-underline-green pointer">
+            <strong> {{ poDocNo }} </strong>
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> คำอธิบายเอกสาร </label>
+        </div>
+        <div
+          *ngIf="lineDesc"
+          (click)="openChangeDocument()"
+          class="col-12 col-sm-8 col-md-4 mb-2 text-thin text-underline-green pointer"
+        >
+          <div class="input-group">
+            <p style="word-break: break-word;">{{ lineDesc }}</p>
+          </div>
+        </div>
+        <div *ngIf="!lineDesc" class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            <button (click)="openChangeDocument()" type="button" class="btn-light">
+              แก้ไขข้อความเอกสาร
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-12 bg-secondcolor">
+          <label class="text-black"> <strong> ข้อมูลผู้รับเงิน </strong> </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black">
+            เลขประจำตัวบัตรประชาชน / <br />
+            เลขประจำตัวผู้เสียภาษี
+          </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">{{ vendorTaxId }}</div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> เลขที่บัญชีเงินฝากธนาคาร </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div (click)="bankAccountDetail()" class="text-underline-green pointer">
+            {{ bankAccountNo }}
+          </div>
+          <span class="text-green font-14">{{ bankAccNoName }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black">
+            ชื่อผู้ขาย
+          </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">{{ vendorName }}</div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black">
+            สถานะบัญชี
+          </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <span *ngIf="bankAccNoActive">ปกติ</span>
+          <span *ngIf="!bankAccNoActive">บล็อค</span>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-12 bg-secondcolor">
+          <label class="text-black"> <strong> ข้อมูลผู้รับโอนสิทธิ </strong> </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black">
+            เลขประจำตัวบัตรประชาชน / <br />
+            เลขประจำตัวผู้เสียภาษี (โอนสิทธิ)
+          </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">{{ payeeTaxId }}</div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสผู้ขาย (โอนสิทธิ) </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          {{ payeeCode }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black">
+            ชื่อผู้ขาย (โอนสิทธิ)
+          </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">{{ payeeName }}</div>
+      </div>
+    </mat-tab>
+    <mat-tab label="รายการบัญชี">
+      <br />
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label> ลำดับที่ {{ line }}</label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="d-flex">
+            <label class="text-black mr-2"> PK </label>
+            {{ postingKey | posting }}
+          </div>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> เอกสารสำรองเงิน</label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          {{ brDocNo }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสบัญชีแยกประเภท </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ glAccount }}
+          </div>
+          <span class="text-green font-14">{{ glAccountName }}</span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสศูนย์ต้นทุน </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ costCenter }}
+          </div>
+          <span class="text-green font-14">{{ costCenterName }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสแหล่งของเงิน </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ fundSource }}
+          </div>
+          <span class="text-green font-14">{{ fundSourceName }}</span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสงบประมาณ </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ bgCode }}
+          </div>
+          <span class="text-green font-14">{{ bgCodeName }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสกิจกรรมหลัก </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ bgActivity }}
+          </div>
+          <span class="text-green font-14">{{ bgActivityName }}</span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสกิจกรรมย่อย </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ costActivity }}
+          </div>
+          <span class="text-green font-14">{{ costActivityName }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสหน่วยงานคู่ค้า<br />(Trading Partner) </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ tradingPartner }}
+          </div>
+          <span class="text-green font-14">{{ trandingPartnerName }}</span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> เลขที่เอกสารสำรองเงิน </label>
+        </div>
+        <div (click)="openDetailBr()" class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <label class="text-underline-green pointer">
+            <strong> {{ brDocNo }} </strong>
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัส GPSC </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ gpsc }}
+          </div>
+          <span class="text-green font-14">{{ gpscName }}</span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสหมวดพัสดุ </label>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group text-thin">
+            {{ gpscGroup }}
+          </div>
+          <span class="text-green font-14">{{ gpscGroupName }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รายการผูกพันงบประมาณ </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ bgAccount }}
+          </div>
+          <span class="text-green font-14">{{ bgAccountName }}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสบัญชีเงินฝากคลัง</label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ depositAccount }}
+          </div>
+          <span class="text-green font-14">{{ depositAccountName }}</span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสเจ้าของบัญชีเงินฝากคลัง </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ depositAccountOwner }}
+          </div>
+          <span class="text-green font-14">{{ depositAccountOwnerName }}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสบัญชีย่อย </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ subAccount }}
+          </div>
+          <span class="text-green font-14">{{ subAccountName }}</span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black">
+            รหัสเจ้าของบัญชีย่อย
+          </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ subAccountOwner }}
+          </div>
+          <span class="text-green font-14">{{ subAccountOwnerName }}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> รหัสบัญชีธนาคารย่อย </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ bankBook }}
+          </div>
+          <span class="text-green font-14">{{ bankBookName }}</span>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black">
+            จำนวนเงิน
+          </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="d-flex input-with-unit-detail">
+            {{ amount | bigdecimal }}
+            บาท
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> คีย์อ้างอิง 1 </label>
+        </div>
+        <div
+          (click)="openChangeDocument()"
+          class="col-12 col-sm-8 col-md-4 mb-2 text-thin text-underline-green pointer"
+        >
+          <div class="input-group">
+            {{ ref1 }}
+          </div>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black">
+            ใบกำกับสินค้าอ้างอิง
+          </label>
+        </div>
+        <div *ngIf="invDocNo" class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div
+            (click)="viewDocument(companyCode, invDocNo, invFiscalYear)"
+            class="input-group text-underline-green pointer"
+          >
+            {{ invFiscalYear }} / {{ invDocNo }} / {{ invLine }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> คีย์อ้างอิง 2 </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ ref2 }}
+          </div>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label *ngIf="docType === 'K3' && specialGL !== '3'" class="text-black">
+            วันที่เป็นฐาน
+          </label>
+          <label *ngIf="docType !== 'K3'" class="text-black">
+            วันที่เป็นฐาน
+          </label>
+          <label *ngIf="docType === 'K3' && specialGL === '3'" class="text-black">
+            วันที่ครบกำหนด
+          </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ dateBaseLine | thaidate }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> คีย์อ้างอิง 3 </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ ref3 }}
+          </div>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black">
+            Pmnt block
+          </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ paymentBlock | detailPaymentBlock }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> การกำหนด </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ assignment }}
+          </div>
+        </div>
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black">
+            วันที่หักล้าง
+          </label>
+        </div>
+        <div *ngIf="clearingDocNo" class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            {{ clearingDateAcct | thaidate }} / {{ clearingDocNo }} / {{ clearingFiscalYear }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> แยกประเภทพิเศษ </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <div class="input-group">
+            <p *ngIf="docType === 'K3' && specialGL === '3'">{{ specialGL }} (60)</p>
+            <p *ngIf="docType === 'K3' && specialGL !== '3'">{{ specialGL }} (65)</p>
+            <p *ngIf="docType !== 'K3'">{{ specialGL }}</p>
+          </div>
+        </div>
+        <!--        <div class="col-12 col-sm-4 col-md-2">-->
+        <!--          <label class="text-black">-->
+        <!--            วันที่ครบกำหนด-->
+        <!--          </label>-->
+        <!--        </div>-->
+        <!--        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">-->
+        <!--          <div class="input-group">-->
+        <!--            {{ dueDate | thaidate }}-->
+        <!--          </div>-->
+        <!--        </div>-->
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-4 col-md-2">
+          <label class="text-black"> ข้อความ </label>
+        </div>
+        <div class="col-12 col-sm-8 col-md-4 mb-2 text-thin">
+          <p style="word-break: break-word;">{{ lineItemText }}</p>
+        </div>
+      </div>
+      <div class="mx-auto text-center">
+        <button
+          (click)="openDialogTaxFee()"
+          *ngIf="listDocument.length > 0"
+          class="btn btn-light position-relative mr-5"
+        >
+          ระบุภาษี หัก ณ ที่จ่าย/ค่าปรับ
+          <div *ngIf="isTaxInputApply" class="icon-status apply-icon-success"></div>
+          <div *ngIf="!isTaxInputApply" class="icon-status apply-icon-unsuccess"></div>
+        </button>
+      </div>
+    </mat-tab>
+    <mat-tab [disabled]="listChangeDocument.length === 0" label="การเปลี่ยนแปลงเอกสาร">
+      <br />
+      <p *ngIf="listBackupDocument.length > 0">รายการเอกสารกลับรายการ</p>
+      <table *ngIf="listBackupDocument.length > 0" class="table-normal">
+        <thead>
+          <tr>
+            <th>รหัสหน่วยงาน</th>
+            <th>เลขที่เอกสารกลับรายการ</th>
+            <th>ปีบัญชี</th>
+            <th>ผู้ขาย</th>
+            <!-- <th>เลขที่ใบกำกับสินค้า</th> -->
+            <th width="40%">คำอธิบาย</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listBackupDocument; let i = index">
+            <td class="text-center">{{ item.compCode }}</td>
+            <td class="text-center">{{ item.revAccountDocNo }}</td>
+            <td class="text-center">{{ item.fiscalYear | thaiyear }}</td>
+            <td class="text-center">{{ item.vendor }}</td>
+            <!-- <td></td> -->
+            <td class="text-center">
+              เอกสาร {{ item.revAccountDocNo }} ได้ผ่านรายการในรหัสบริษัท {{ item.compCode }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <span>รายการเปลี่ยนแปลงสถานะการจ่ายเงิน</span>
+      <table
+        *ngIf="listChangeDocument.length > 0 && listChangeDocument !== null"
+        class="table-normal"
+      >
+        <thead>
+          <tr>
+            <th rowspan="2">รหัสหน่วยงาน</th>
+            <th rowspan="2">เลขที่เอกสาร</th>
+            <th rowspan="2">ปีบัญชี</th>
+            <th rowspan="2">รายการ</th>
+            <th colspan="2">สถานะการชำระเงิน</th>
+            <th rowspan="2">วันที่</th>
+            <th rowspan="2">เวลา</th>
+          </tr>
+          <tr>
+            <th>ค่าเดิม</th>
+            <th>ค่าใหม่</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of listChangeDocument; let i = index">
+            <td class="text-center">{{ item.compCode }}</td>
+            <td class="text-center">{{ item.accountDocNo }}</td>
+            <td class="text-center">{{ item.fiscalYear | thaiyear }}</td>
+            <!-- <td class="text-center">{{ item.line | number: '3.0-0' }}</td> -->
+            <td class="text-center">{{ item.line }}</td>
+            <td class="text-center">{{ item.valueOldName }}</td>
+            <td class="text-center">{{ item.valueNewName }}</td>
+            <td class="text-center">{{ item.created | thaidate }}</td>
+            <td class="text-center">{{ item.created | date: 'HH:mm:ss' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-tab>
+  </mat-tab-group>
+  <br />
+  <div
+    class="long-data-table mb-2"
+    *ngIf="listDocument.length > 0 && listDocument !== null && tabSelectedIndex !== 2"
+  >
+    <table border="0" class="table-result">
+      <tr>
+        <th>เลือก</th>
+        <th class="text">ลำดับที่</th>
+        <th class="text">PK</th>
+        <th class="text">ชื่อบัญชี</th>
+        <th class="text">รหัสบัญชีแยกประเภท</th>
+        <th class="text">รหัสศูนย์ต้นทุน</th>
+        <th class="text">รหัสแหล่งของเงิน</th>
+        <th class="text">รหัสงบประมาณ</th>
+        <th class="text">รหัสกิจกรรมหลัก</th>
+        <th class="text">รหัสกิจกรรมย่อย</th>
+        <th class="text">จำนวนเงิน</th>
+      </tr>
+      <tbody>
+        <tr
+          *ngFor="
+            let document of listDocument
+              | paginate: { itemsPerPage: constant.PER_PAGINATION, currentPage: p };
+            let i = index
+          "
+          [ngClass]="{ selected: selectListOrder === (p - 1) * constant.PER_PAGINATION + (i + 1) }"
+        >
+          <td align="center">
+            <img
+              (click)="selectOrder(document, (p - 1) * constant.PER_PAGINATION + i)"
+              class="icon pointer"
+              src="assets/images/icon/record.gif"
+            />
+          </td>
+          <td>{{ document.line }}</td>
+          <td>{{ document.postingKey | posting }}</td>
+          <td *ngIf="accDocNo.startsWith('4') && document.accountType === 'K'" class="text-left">
+            {{ document.glAccount2Name }}
+          </td>
+          <td *ngIf="accDocNo.startsWith('4') && document.accountType === 'S'" class="text-left">
+            {{ document.glAccountName }}
+          </td>
+          <td *ngIf="!accDocNo.startsWith('4')" class="text-left">{{ document.glAccountName }}</td>
+          <td *ngIf="accDocNo.startsWith('4') && document.accountType === 'K'">
+            {{ document.glAccount2 }}
+          </td>
+          <td *ngIf="accDocNo.startsWith('4') && document.accountType === 'S'">
+            {{ document.glAccount }}
+          </td>
+          <td *ngIf="!accDocNo.startsWith('4')">{{ document.glAccount }}</td>
+          <td>{{ document.costCenter }}</td>
+          <td>{{ document.fundSource }}</td>
+          <td>{{ document.bgCode }}</td>
+          <td>{{ document.bgActivity }}</td>
+          <td>{{ document.costActivity }}</td>
+          <!--        <td-->
+          <!--          *ngIf="-->
+          <!--              document.postingKey === '11' ||-->
+          <!--              document.postingKey === '12' ||-->
+          <!--              document.postingKey === '13' ||-->
+          <!--              document.postingKey === '14' ||-->
+          <!--              document.postingKey === '15' ||-->
+          <!--              document.postingKey === '16' ||-->
+          <!--              document.postingKey === '17' ||-->
+          <!--              document.postingKey === '18' ||-->
+          <!--              document.postingKey === '19' ||-->
+          <!--              document.postingKey === '31' ||-->
+          <!--              document.postingKey === '32' ||-->
+          <!--              document.postingKey === '34' ||-->
+          <!--              document.postingKey === '35' ||-->
+          <!--              document.postingKey === '36' ||-->
+          <!--              document.postingKey === '37' ||-->
+          <!--              document.postingKey === '38' ||-->
+          <!--              document.postingKey === '39' ||-->
+          <!--              document.postingKey === '50' ||-->
+          <!--              document.postingKey === '75' ||-->
+          <!--              document.postingKey === '96'-->
+          <!--            "-->
+          <!--          class="text-right"-->
+          <!--        >-->
+          <!--          - {{ document.amount | bigdecimal }}-->
+          <!--        </td>-->
+          <!--        <td-->
+          <!--          *ngIf="-->
+          <!--              document.postingKey === '01' ||-->
+          <!--              document.postingKey === '02' ||-->
+          <!--              document.postingKey === '03' ||-->
+          <!--              document.postingKey === '04' ||-->
+          <!--              document.postingKey === '05' ||-->
+          <!--              document.postingKey === '06' ||-->
+          <!--              document.postingKey === '07' ||-->
+          <!--              document.postingKey === '08' ||-->
+          <!--              document.postingKey === '09' ||-->
+          <!--              document.postingKey === '21' ||-->
+          <!--              document.postingKey === '22' ||-->
+          <!--              document.postingKey === '24' ||-->
+          <!--              document.postingKey === '25' ||-->
+          <!--              document.postingKey === '26' ||-->
+          <!--              document.postingKey === '27' ||-->
+          <!--              document.postingKey === '28' ||-->
+          <!--              document.postingKey === '29' ||-->
+          <!--              document.postingKey === '40' ||-->
+          <!--              document.postingKey === '70' ||-->
+          <!--              document.postingKey === '81' ||-->
+          <!--              document.postingKey === '86'-->
+          <!--            "-->
+          <!--          class="text-right"-->
+          <!--        >-->
+          <!--          {{ document.amount | bigdecimal }}-->
+          <!--        </td>-->
+          <td class="text-right">
+            <span *ngIf="document.drCr === 'C'">-</span> {{ document.amount | bigdecimal }}
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="9"></td>
+          <td class="summary">จำนวนเงินขอเบิก</td>
+          <td class="summary-result text-right">{{ totalPrice | bigdecimal }}</td>
+        </tr>
+        <tr>
+          <td colspan="9"></td>
+          <td class="summary">จำนวนเงินภาษีหัก ณ ที่จ่าย</td>
+          <td class="summary-result text-right">{{ totalTax | bigdecimal }}</td>
+        </tr>
+        <tr>
+          <td colspan="9"></td>
+          <td class="summary">จำนวนเงินค่าปรับ</td>
+          <td class="summary-result text-right">{{ totalFee | bigdecimal }}</td>
+        </tr>
+        <tr>
+          <td colspan="9"></td>
+          <td class="summary">จำนวนเงินขอรับ</td>
+          <td class="summary-result text-right">{{ netPrice | bigdecimal }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div *ngIf="listDocument.length > 0 && listDocument !== null && tabSelectedIndex !== 2">
+    <div class="box-explain">
+      <div class="row row-fix">
+        <div class="col-12">
+          <div class="d-flex">
+            <strong>คำอธิบาย:</strong>
+            <div class="ml-2">
+              <!--                  <p>1. คลิกที่คอลัมน์ที่มีเส้นใต้เพื่อจัดเรียงลำดับ</p>-->
+              <p>
+                <span></span> <img src="assets/images/icon/record.gif" />
+                <span class="ml-2"> คลิกเพื่อแสดงเอกสาร </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <pagination-controls
+      (pageChange)="p = $event"
+      nextLabel=">"
+      previousLabel="<"
+    ></pagination-controls>
+  </div>
+</div>

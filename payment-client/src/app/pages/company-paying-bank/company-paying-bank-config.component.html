@@ -1,0 +1,134 @@
+<ol class="breadcrumb">
+  <li><a [routerLink]="['/companyPaying']"> รหัสบริษัทที่ชำระเงิน </a></li>
+  <!-- <li><a [routerLink]="['/companyPayeeHouseBankKeyConfig']" [queryParams]="{companyPayingId: companyPayingId}"> ธนาคารตัวแทน </a></li> -->
+  <li class="current"><em> การเลือกธนาคาร </em></li>
+</ol>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="container-fluid">
+      <div class="submenu">
+        <div class="row">
+          <div class="col-12">
+            <h2>การเลือกธนาคาร</h2>
+          </div>
+        </div>
+      </div>
+      <mat-card>
+        <form (keydown.enter)="$event.preventDefault()" [formGroup]="companyPayingBankConfigForm">
+          <div class="row">
+            <div class="col-md-4">
+              <label class="text-black input-head"><b>บริษัทชำระ : </b></label>
+              <input
+                class="form-control"
+                disabled
+                formControlName="companyPayingCode"
+                maxLength="5"
+                type="text"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <label class="text-black input-head"
+                ><b>ชื่อบริษัทชำระ : {{ companyPayingName }} </b></label
+              >
+            </div>
+          </div>
+
+          <!--      <div class="row">-->
+          <!--        <div class="col-md-2">-->
+          <!--          <label class="text-black input-head"><b>ธนาคารตัวแทน : </b></label>-->
+          <!--          <input type="text" class="form-control" formControlName="houseBankKey" maxLength="5">-->
+          <!--        </div>-->
+          <!--        <div class="col-md-2">-->
+          <!--          <label class="text-black input-head"><b>วิธีชำระ : </b></label>-->
+
+          <!--          <div class="input-group">-->
+          <!--            <input type="text" readonly class="form-control" formControlName="payMethod" maxLength="1">-->
+          <!--            <div class="input-group-append button-group-search">-->
+          <!--              <button class="btn btn-default" (click)="openDialogSearchMaster('paymentMethod')"-->
+          <!--                      type="button">-->
+          <!--                <img src="assets/images/icon/fa-search.svg" width="12px"/>-->
+          <!--              </button>-->
+          <!--            </div>-->
+          <!--          </div>-->
+          <!--        </div>-->
+          <!--        <div class="col-md-2">-->
+          <!--          <label class="text-black input-head"><b>สกุลเงิน : </b></label>-->
+          <!--          <div class="input-group">-->
+          <!--            <input type="text" readonly class="form-control" formControlName="currency" maxLength="5">-->
+          <!--            <div class="input-group-append button-group-search">-->
+          <!--              <button class="btn btn-default" (click)="openDialogSearchMaster('currency')"-->
+          <!--                      type="button">-->
+          <!--                <img src="assets/images/icon/fa-search.svg" width="12px"/>-->
+          <!--              </button>-->
+          <!--            </div>-->
+          <!--          </div>-->
+
+          <!--        </div>-->
+          <!--        <div class="col-md-2">-->
+          <!--          <label class="text-black input-head"><b>รหัสบัญชี : </b></label>-->
+          <!--          <input type="text" class="form-control" formControlName="accountCode" maxLength="5">-->
+          <!--        </div>-->
+          <!--        <div class="col-md-4">-->
+          <!--          <label class="text-black input-head"><b>เลขบัญชีย่อยธนาคาร : </b></label>-->
+          <!--          <input type="text" class="form-control" appNumberOnly formControlName="glAccount" maxLength="20">-->
+          <!--        </div>-->
+          <!--      </div>-->
+        </form>
+        <!--    <div class="row mt-2">-->
+        <!--      <div class="col-md-5"></div>-->
+        <!--      <div class="col-md-2">-->
+        <!--        <button type="button" class="btn btn-success" style="width: 100%;"-->
+        <!--                (click)="clickSave(companyPayingBankConfigForm.value)">-->
+        <!--          <i class="material-icons">&nbsp;บันทึก&nbsp;</i>-->
+        <!--        </button>-->
+        <!--      </div>-->
+        <!--      <div class="col-md-5"></div>-->
+        <!--    </div>-->
+        <hr />
+        <mat-card>
+          <div class="row">
+            <div class="col-12 col-md-12">
+              <div class="example-item">
+                <table [dataSource]="dataSource" class="mat-elevation-z8" mat-table>
+                  <ng-container matColumnDef="houseBank">
+                    <th *matHeaderCellDef class="info" mat-header-cell>ธนาคารตัวแทน</th>
+                    <td *matCellDef="let element" mat-cell>{{ element.houseBank }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="paymentMethod">
+                    <th *matHeaderCellDef class="info" mat-header-cell>วิธีชำระเงิน</th>
+                    <td *matCellDef="let element" mat-cell>{{ element.paymentMethod }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="currency">
+                    <th *matHeaderCellDef class="info" mat-header-cell>สกุลเงิน</th>
+                    <td *matCellDef="let element" mat-cell>{{ element.currency }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="accountCode">
+                    <th *matHeaderCellDef class="info" mat-header-cell>รหัสบัญชี</th>
+                    <td *matCellDef="let element" mat-cell>{{ element.accountCode }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="glAccount">
+                    <th *matHeaderCellDef class="info" mat-header-cell>เลขที่ GL</th>
+                    <td *matCellDef="let element" mat-cell>{{ element.glAccount }}</td>
+                  </ng-container>
+
+                  <tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+                  <tr
+                    (click)="row.highlighted = !row.highlighted"
+                    (mouseout)="row.hovered = false"
+                    (mouseover)="row.hovered = true"
+                    *matRowDef="let row; columns: displayedColumns"
+                    [ngClass]="{ hovered: row.hovered, highlighted: row.highlighted }"
+                    mat-row
+                  ></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </mat-card>
+    </div>
+  </div>
+</div>
